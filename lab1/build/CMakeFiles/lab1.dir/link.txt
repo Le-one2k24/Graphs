@@ -1,0 +1,1 @@
+/usr/bin/c++ -O3 -DNDEBUG CMakeFiles/lab1.dir/src/common_structures.cpp.o CMakeFiles/lab1.dir/src/generate_graphs.cpp.o CMakeFiles/lab1.dir/src/main.cpp.o CMakeFiles/lab1.dir/src/metrics.cpp.o CMakeFiles/lab1.dir/src/routes.cpp.o CMakeFiles/lab1.dir/src/shimbell.cpp.o -o bin/lab1 

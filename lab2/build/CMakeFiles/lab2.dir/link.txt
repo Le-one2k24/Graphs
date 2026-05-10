@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/lab2.dir/src/articulation.cpp.o CMakeFiles/lab2.dir/src/common_structures.cpp.o CMakeFiles/lab2.dir/src/generate_graphs.cpp.o CMakeFiles/lab2.dir/src/main.cpp.o CMakeFiles/lab2.dir/src/metrics.cpp.o CMakeFiles/lab2.dir/src/routes.cpp.o CMakeFiles/lab2.dir/src/shimbell.cpp.o CMakeFiles/lab2.dir/src/shortest_paths.cpp.o -o bin/lab2 
