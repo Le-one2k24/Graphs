@@ -1,0 +1,3 @@
+/mnt/c/study/Graphs/lab4/build/CMakeFiles/lab4.dir
+/mnt/c/study/Graphs/lab4/build/CMakeFiles/edit_cache.dir
+/mnt/c/study/Graphs/lab4/build/CMakeFiles/rebuild_cache.dir
