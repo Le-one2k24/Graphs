@@ -3,11 +3,11 @@
 
 #include "common_structures.h"
 
-// генерация степеней по распределению Чампернауна
-int generate_random_degree_champernaun();
+double generate_champernaun_continuous(double mu, double alpha);
+int generate_random_degree_champernaun(double mu = 2.0, double alpha = 1.57);
 int generate_random_degree();
 
-// генерация ориентированного связного ациклического графа по степеням
+
 int** generate_directed_by_degrees(int N);
 
 #endif

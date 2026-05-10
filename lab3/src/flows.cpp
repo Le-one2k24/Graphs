@@ -5,8 +5,11 @@
 #include <queue>
 #include <vector>
 #include <cstring>
+#include <algorithm>
+#include <climits>
 using namespace std;
 
+static const int INF_LOCAL = 1000000000;
 
 void generate_capacity_and_cost_for_current_graph() {
     int N; bool oriented;
@@ -35,12 +38,19 @@ void generate_capacity_and_cost_for_current_graph() {
         }
     }
 
+    // Используем отличные параметры mu/alpha для пропускных способностей и стоимостей
+    // (отличные от параметров степеней)
+    double cap_mu = 3.0;
+    double cap_alpha = 1.2;
+    double cost_mu = 5.0;
+    double cost_alpha = 1.8;
+
     for (int i = 0; i < N; ++i) {
         for (int j = 0; j < N; ++j) {
             if (adj[i][j] == 1) {
 
-                int c = generate_random_degree_champernaun();
-                int w = generate_random_degree_champernaun();
+                int c = generate_random_degree_champernaun(cap_mu, cap_alpha);
+                int w = generate_random_degree_champernaun(cost_mu, cost_alpha);
 
                 cap[i][j] = c;
                 cost[i][j] = w;
@@ -54,7 +64,7 @@ void generate_capacity_and_cost_for_current_graph() {
     delete_matrix(cap, N);
     delete_matrix(cost, N);
 
-    cout << "Матрицы пропускных способностей и стоимостей сгенерированы по распределению Чампернауна.\n";
+    cout << "Матрицы пропускных способностей и стоимостей сгенерированы по распределению Чампернауна (с разными параметрами).\n";
 }
 
 
@@ -62,7 +72,7 @@ static int bfs_for_flow(int** residual, int N, int s, int t, int* parent) {
     for (int i = 0; i < N; ++i) parent[i] = -1;
     parent[s] = -2; // источник
     queue<pair<int,int>> q;
-    q.push({s, INF});
+    q.push({s, INF_LOCAL});
 
     while (!q.empty()) {
         int v = q.front().first;
@@ -127,7 +137,7 @@ static void dijkstra_reduced(
     vector<int>& dist,
     vector<int>& parent
 ) {
-    dist.assign(N, INF);
+    dist.assign(N, INF_LOCAL);
     parent.assign(N, -1);
     vector<bool> used(N, false);
 
@@ -140,7 +150,7 @@ static void dijkstra_reduced(
                 v = i;
             }
         }
-        if (v == -1 || dist[v] == INF) break;
+        if (v == -1 || dist[v] == INF_LOCAL) break;
         used[v] = true;
 
         for (int u = 0; u < N; ++u) {
@@ -163,13 +173,15 @@ long long min_cost_flow_with_dijkstra(
     int s,
     int t,
     int required_flow,
-    int& achieved_flow
+    int& achieved_flow,
+    int** flow
 ) {
     achieved_flow = 0;
     if (!capacity || !cost || N <= 0) return 0;
     if (s < 0 || s >= N || t < 0 || t >= N) return 0;
     if (required_flow <= 0) return 0;
 
+    // Копии матриц
     int** cap = new int*[N];
     for (int i = 0; i < N; ++i) {
         cap[i] = new int[N];
@@ -186,6 +198,13 @@ long long min_cost_flow_with_dijkstra(
         }
     }
 
+    // Инициализируем матрицу потоков нулями
+    for (int i = 0; i < N; ++i) {
+        for (int j = 0; j < N; ++j) {
+            flow[i][j] = 0;
+        }
+    }
+
     vector<int> potential(N, 0);
     vector<int> dist(N);
     vector<int> parent(N);
@@ -194,10 +213,10 @@ long long min_cost_flow_with_dijkstra(
 
     while (achieved_flow < required_flow) {
         dijkstra_reduced(cap, c, N, s, potential, dist, parent);
-        if (dist[t] == INF) break;
+        if (dist[t] == INF_LOCAL) break;
 
         for (int i = 0; i < N; ++i) {
-            if (dist[i] < INF) {
+            if (dist[i] < INF_LOCAL) {
                 potential[i] += dist[i];
             }
         }
@@ -215,15 +234,17 @@ long long min_cost_flow_with_dijkstra(
         v = t;
         while (v != s) {
             int u = parent[v];
-            if (capacity[u][v] > 0 && c[u][v] == cost[u][v]) {
-                cap[u][v] -= add_flow;
-                cap[v][u] += add_flow;
-                total_cost += 1LL * add_flow * cost[u][v];
-            } else {
-                cap[u][v] -= add_flow;
-                cap[v][u] += add_flow;
-                total_cost -= 1LL * add_flow * cost[v][u];
-            }
+            // Обновляем остаточную сеть
+            cap[u][v] -= add_flow;
+            cap[v][u] += add_flow;
+
+            // Обновляем матрицу потоков (net flow u->v)
+            flow[u][v] += add_flow;
+            flow[v][u] -= add_flow;
+
+            // Обновляем стоимость
+            total_cost += 1LL * add_flow * cost[u][v];
+
             v = u;
         }
 
@@ -238,4 +259,85 @@ long long min_cost_flow_with_dijkstra(
     delete[] c;
 
     return total_cost;
+}
+
+// Декомпозиция потока в пути s->t.
+// Ищем простые пути в ориентированном графе, где flow[u][v] > 0.
+// Для каждого найденного пути вычитаем минимальный поток по пути и записываем путь, поток и суммарную стоимость.
+void decompose_flow_into_paths(int** flow, int N, int s, int t,
+                               vector<vector<int>>& paths,
+                               vector<int>& path_flow,
+                               vector<long long>& path_cost,
+                               int** cost_matrix) {
+    paths.clear();
+    path_flow.clear();
+    path_cost.clear();
+
+    // Временная матрица потоков, чтобы изменять при декомпозиции
+    int** fcopy = new int*[N];
+    for (int i = 0; i < N; ++i) {
+        fcopy[i] = new int[N];
+        for (int j = 0; j < N; ++j) fcopy[i][j] = flow[i][j];
+    }
+
+    // Поиск пути пока существует путь s->t с положительным потоком
+    while (true) {
+        // DFS stack
+        vector<int> parent(N, -1);
+        vector<int> stack;
+        stack.push_back(s);
+        parent[s] = -2; // маркер источника
+        bool found = false;
+
+        while (!stack.empty() && !found) {
+            int v = stack.back();
+            stack.pop_back();
+            for (int u = 0; u < N; ++u) {
+                if (fcopy[v][u] > 0 && parent[u] == -1) {
+                    parent[u] = v;
+                    if (u == t) { found = true; break; }
+                    stack.push_back(u);
+                }
+            }
+        }
+
+        if (!found) break;
+
+        // Восстановим путь
+        vector<int> path;
+        int cur = t;
+        int minf = INT_MAX;
+        while (cur != -2) {
+            int p = parent[cur];
+            path.push_back(cur);
+            if (p == -2) break;
+            if (p == -1) break;
+            if (fcopy[p][cur] < minf) minf = fcopy[p][cur];
+            cur = p;
+        }
+        // path сейчас в обратном порядке (t ... s)
+        if (path.empty()) break;
+        // Проверка корректности
+        if (path.back() != s) break;
+
+        // Перевернём путь в нормальный порядок s -> ... -> t
+        std::reverse(path.begin(), path.end());
+
+        // Вычитаем поток minf по пути и считаем стоимость
+        long long total_path_cost = 0;
+        for (size_t i = 0; i + 1 < path.size(); ++i) {
+            int a = path[i];
+            int b = path[i+1];
+            fcopy[a][b] -= minf;
+            // Стоимость единицы потока по ребру
+            if (cost_matrix != nullptr) total_path_cost += 1LL * minf * cost_matrix[a][b];
+        }
+
+        paths.push_back(path);
+        path_flow.push_back(minf);
+        path_cost.push_back(total_path_cost);
+    }
+
+    for (int i = 0; i < N; ++i) delete[] fcopy[i];
+    delete[] fcopy;
 }

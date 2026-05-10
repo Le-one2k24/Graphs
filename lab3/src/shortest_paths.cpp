@@ -10,17 +10,18 @@ static bool has_negative_weights(int** W, int N) {
     return false;
 }
 
-void dijkstra_shortest(int** W, int N, int start, int* dist, int* parent, long long& iters)
+bool dijkstra_shortest(int** W, int N, int start, int* dist, int* parent, long long& iters)
 {
     iters = 0;
 
     if (has_negative_weights(W, N)) {
-        cout << "Ошибка: алгоритм Дейкстры не работает с отрицательными весами.\n";
+        // Заполняем выходные массивы "безопасными" значениями и возвращаем false
         for (int i = 0; i < N; ++i) {
             dist[i] = INF;
             parent[i] = -1;
         }
-        return;
+        cout << "Ошибка: алгоритм Дейкстры не работает с отрицательными весами.\n";
+        return false;
     }
 
     bool* used = new bool[N];
@@ -55,6 +56,7 @@ void dijkstra_shortest(int** W, int N, int start, int* dist, int* parent, long l
     }
 
     delete[] used;
+    return true;
 }
 
 void print_path_from_parents(int start, int end, int* parent)
@@ -74,7 +76,7 @@ void print_path_from_parents(int start, int end, int* parent)
         cur = parent[cur];
     }
 
-    if (stack[stackSize - 1] != start) {
+    if (stackSize == 0 || stack[stackSize - 1] != start) {
         cout << "пути нет";
         delete[] stack;
         return;

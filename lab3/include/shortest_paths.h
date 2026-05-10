@@ -6,7 +6,7 @@
 
 const int INF = INT_MAX / 2;
 
-void dijkstra_shortest(int** W, int N, int start, int* dist, int* parent, long long& iters);
+bool dijkstra_shortest(int** W, int N, int start, int* dist, int* parent, long long& iters);
 
 void print_path_from_parents(int start, int end, int* parent);
 

@@ -9,28 +9,29 @@
 #include <ctime>
 using namespace std;
 
-// Параметры распределения Чампернауна
-static const double CHAMP_MU = 2.0;      // μ (математическое ожидание)
-static const double CHAMP_ALPHA = 1.57;  // α > 0 (параметр масштаба)
+// По умолчанию параметры для степеней (оставлены прежними)
+static const double DEFAULT_CHAMP_MU = 2.0;
+static const double DEFAULT_CHAMP_ALPHA = 1.57;
 
-// Генерация случайного числа по распределению Чампернауна
-static double generate_champernaun_continuous() {
+// Генерация случайного числа по распределению Чампернауна с параметрами mu, alpha
+double generate_champernaun_continuous(double mu, double alpha) {
     double r;
     do {
         r = (rand() + 0.5) / (RAND_MAX + 1.0);
     } while (r <= 0.0 || r >= 1.0);
-    return CHAMP_MU + (1.0 / CHAMP_ALPHA) * log(tan(M_PI * r / 2.0));
+    return mu + (1.0 / alpha) * log(tan(M_PI * r / 2.0));
 }
 
-int generate_random_degree_champernaun() {
-    double x = generate_champernaun_continuous();
+int generate_random_degree_champernaun(double mu, double alpha) {
+    double x = generate_champernaun_continuous(mu, alpha);
     int deg = (int)round(x);
     if (deg < 0) deg = 0;
     return deg;
 }
 
 int generate_random_degree() {
-    return generate_random_degree_champernaun();
+    // Используем прежние параметры по умолчанию для степеней
+    return generate_random_degree_champernaun(DEFAULT_CHAMP_MU, DEFAULT_CHAMP_ALPHA);
 }
 
 int** generate_directed_by_degrees(int N) {

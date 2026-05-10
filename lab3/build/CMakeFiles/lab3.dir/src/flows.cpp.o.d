@@ -145,7 +145,11 @@ CMakeFiles/lab3.dir/src/flows.cpp.o: \
  /usr/include/c++/13/bits/locale_facets.tcc \
  /usr/include/c++/13/bits/basic_ios.tcc \
  /usr/include/c++/13/bits/ostream.tcc /usr/include/c++/13/istream \
- /usr/include/c++/13/bits/istream.tcc \
+ /usr/include/c++/13/bits/istream.tcc /usr/include/c++/13/vector \
+ /usr/include/c++/13/bits/stl_uninitialized.h \
+ /usr/include/c++/13/bits/stl_vector.h \
+ /usr/include/c++/13/bits/stl_bvector.h \
+ /usr/include/c++/13/bits/vector.tcc \
  /mnt/c/study/Graphs/lab3/include/shortest_paths.h \
  /usr/include/c++/13/climits \
  /usr/lib/gcc/x86_64-linux-gnu/13/include/limits.h \
@@ -158,11 +162,11 @@ CMakeFiles/lab3.dir/src/flows.cpp.o: \
  /usr/include/x86_64-linux-gnu/bits/uio_lim.h \
  /mnt/c/study/Graphs/lab3/include/generate_graphs.h \
  /usr/include/c++/13/queue /usr/include/c++/13/deque \
- /usr/include/c++/13/bits/stl_uninitialized.h \
  /usr/include/c++/13/bits/stl_deque.h /usr/include/c++/13/bits/deque.tcc \
- /usr/include/c++/13/vector /usr/include/c++/13/bits/stl_vector.h \
- /usr/include/c++/13/bits/stl_bvector.h \
- /usr/include/c++/13/bits/vector.tcc /usr/include/c++/13/bits/stl_heap.h \
- /usr/include/c++/13/bits/stl_queue.h \
+ /usr/include/c++/13/bits/stl_heap.h /usr/include/c++/13/bits/stl_queue.h \
  /usr/include/c++/13/bits/uses_allocator.h /usr/include/c++/13/cstring \
- /usr/include/string.h /usr/include/strings.h
+ /usr/include/string.h /usr/include/strings.h \
+ /usr/include/c++/13/algorithm /usr/include/c++/13/bits/stl_algo.h \
+ /usr/include/c++/13/bits/algorithmfwd.h \
+ /usr/include/c++/13/bits/uniform_int_dist.h \
+ /usr/include/c++/13/bits/stl_tempbuf.h

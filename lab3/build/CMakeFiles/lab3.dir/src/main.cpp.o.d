@@ -161,4 +161,8 @@ CMakeFiles/lab3.dir/src/main.cpp.o: /mnt/c/study/Graphs/lab3/src/main.cpp \
  /usr/include/x86_64-linux-gnu/bits/posix2_lim.h \
  /usr/include/x86_64-linux-gnu/bits/xopen_lim.h \
  /usr/include/x86_64-linux-gnu/bits/uio_lim.h \
- /mnt/c/study/Graphs/lab3/include/flows.h
+ /mnt/c/study/Graphs/lab3/include/flows.h /usr/include/c++/13/vector \
+ /usr/include/c++/13/bits/stl_uninitialized.h \
+ /usr/include/c++/13/bits/stl_vector.h \
+ /usr/include/c++/13/bits/stl_bvector.h \
+ /usr/include/c++/13/bits/vector.tcc

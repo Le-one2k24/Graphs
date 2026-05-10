@@ -9,7 +9,7 @@
 #include "articulation.h"
 #include "shortest_paths.h"
 #include "flows.h"
-
+#include <vector>
 using namespace std;
 
 void print_menu(){
@@ -43,9 +43,9 @@ int main(){
             case 1: {
                 cout << "Введите количество вершин: ";
                 cin >> N;
-                if (N <= 0){ 
-                    cout << "Неверное N\n"; 
-                    break; 
+                if (N <= 0){
+                    cout << "Неверное N\n";
+                    break;
                 }
 
                 clear_weight_matrix();
@@ -153,12 +153,15 @@ int main(){
                     for (int j = 0; j < curN; ++j) W[i][j] = 0;
                 }
 
+                double weight_mu = 4.0;
+                double weight_alpha = 1.3;
+
                 for (int i = 0; i < curN; ++i){
                     for (int j = 0; j < curN; ++j){
                         bool has = oriented ? (cur[i][j]==1) : (i<j && (cur[i][j]==1 || cur[j][i]==1));
                         if (!has) continue;
                         int w = 0;
-                        while (w == 0) w = generate_random_degree_champernaun();
+                        while (w == 0) w = generate_random_degree_champernaun(weight_mu, weight_alpha);
                         if (sign == 2) w = -w;
                         else if (sign == 3 && rand()%2==0) w = -w;
                         W[i][j] = w;
@@ -167,7 +170,7 @@ int main(){
                 }
 
                 set_weight_matrix(W, curN);
-                cout << "Весовая матрица сгенерирована и сохранена.\n";
+                cout << "Весовая матрица сгенерирована и сохранена (с индивидуальными параметрами распределения).\n";
                 delete_matrix(W, curN);
                 break;
             }
@@ -236,17 +239,17 @@ int main(){
             case 7: {
                 int curN; bool oriented;
                 int** cur = get_current_matrix(curN, oriented);
-                if (!cur){ 
-                    cout << "Нет текущего графа\n"; 
-                    break; 
+                if (!cur){
+                    cout << "Нет текущего графа\n";
+                    break;
                 }
-            
-                int s, e; 
-                cout << "Старт: "; cin >> s; 
+
+                int s, e;
+                cout << "Старт: "; cin >> s;
                 cout << "Финиш: "; cin >> e;
-            
+
                 int cnt = count_routes_matrix(cur, curN, oriented, s, e);
-            
+
                 if (cnt < 0) {
                     cout << "Ошибка: некорректные номера вершин\n";
                 } else if (cnt == 0) {
@@ -297,7 +300,13 @@ int main(){
                 int* parent = new int[Nw];
                 long long iters = 0;
 
-                dijkstra_shortest(W, Nw, s, dist, parent, iters);
+                bool ok = dijkstra_shortest(W, Nw, s, dist, parent, iters);
+
+                if (!ok) {
+                    delete[] dist;
+                    delete[] parent;
+                    break;
+                }
 
                 cout << "Вектор расстояний (Дейкстра):\n";
                 for (int i = 0; i < Nw; ++i) {
@@ -400,13 +409,51 @@ int main(){
                 cout << "Требуемый объём потока для минимальной стоимости: " << required_flow << " ( [2/3 * max] )\n";
 
                 int achieved_flow = 0;
-                long long cost = min_cost_flow_with_dijkstra(C, Wc, Ncap, s, t, required_flow, achieved_flow);
+
+                int** flow = new int*[Ncap];
+                for (int i = 0; i < Ncap; ++i) {
+                    flow[i] = new int[Ncap];
+                    for (int j = 0; j < Ncap; ++j) flow[i][j] = 0;
+                }
+
+                long long cost = min_cost_flow_with_dijkstra(C, Wc, Ncap, s, t, required_flow, achieved_flow, flow);
 
                 cout << "Достигнутый поток: " << achieved_flow << "\n";
-                if (achieved_flow < required_flow) {
-                    cout << "Предупреждение: не удалось провести требуемый поток, достигнут максимум по пропускным способностям.\n";
-                }
                 cout << "Минимальная стоимость этого потока: " << cost << "\n";
+
+                vector<vector<int>> paths;
+                vector<int> path_flow;
+                vector<long long> path_cost;
+                decompose_flow_into_paths(flow, Ncap, s, t, paths, path_flow, path_cost, Wc);
+
+                cout << "\nНайдено маршрутов: " << paths.size() << "\n";
+                int sumFlows = 0;
+                long long sumCosts = 0;
+                for (size_t i = 0; i < paths.size(); ++i) {
+                    sumFlows += path_flow[i];
+                    sumCosts += path_cost[i];
+                }
+                cout << "Суммарный поток по маршрутам: " << sumFlows << "\n";
+                cout << "Суммарная стоимость по маршрутам: " << sumCosts << "\n";
+
+                cout << "\nИспользованные маршруты:\n";
+                if (paths.empty()) {
+                    cout << "(нет использованных маршрутов)\n";
+                } else {
+                    for (size_t i = 0; i < paths.size(); ++i) {
+                        for (size_t j = 0; j < paths[i].size(); ++j) {
+                            cout << paths[i][j];
+                            if (j + 1 < paths[i].size()) cout << " -> ";
+                        }
+                        long long flow_val = path_flow[i];
+                        long long unit_cost = (flow_val == 0 ? 0 : path_cost[i] / flow_val);
+                        cout << " : " << flow_val << " * " << unit_cost << " = " << path_cost[i] << "\n";
+                    }
+                }
+
+                for (int i = 0; i < Ncap; ++i) delete[] flow[i];
+                delete[] flow;
+
                 break;
             }
             case 0: {

@@ -371,9 +371,13 @@ CMakeFiles/lab3.dir/src/common_structures.cpp.o: /mnt/c/study/Graphs/lab3/src/co
   /usr/lib/gcc/x86_64-linux-gnu/13/include/stddef.h
 
 CMakeFiles/lab3.dir/src/flows.cpp.o: /mnt/c/study/Graphs/lab3/src/flows.cpp \
+  /mnt/c/study/Graphs/lab3/include/articulation.h \
   /mnt/c/study/Graphs/lab3/include/common_structures.h \
   /mnt/c/study/Graphs/lab3/include/flows.h \
   /mnt/c/study/Graphs/lab3/include/generate_graphs.h \
+  /mnt/c/study/Graphs/lab3/include/metrics.h \
+  /mnt/c/study/Graphs/lab3/include/routes.h \
+  /mnt/c/study/Graphs/lab3/include/shimbell.h \
   /mnt/c/study/Graphs/lab3/include/shortest_paths.h \
   /usr/include/alloca.h \
   /usr/include/asm-generic/errno-base.h \
@@ -391,7 +395,6 @@ CMakeFiles/lab3.dir/src/flows.cpp.o: /mnt/c/study/Graphs/lab3/src/flows.cpp \
   /usr/include/c++/13/bits/cpp_type_traits.h \
   /usr/include/c++/13/bits/cxxabi_forced.h \
   /usr/include/c++/13/bits/cxxabi_init_exception.h \
-  /usr/include/c++/13/bits/deque.tcc \
   /usr/include/c++/13/bits/exception.h \
   /usr/include/c++/13/bits/exception_defines.h \
   /usr/include/c++/13/bits/exception_ptr.h \
@@ -422,20 +425,16 @@ CMakeFiles/lab3.dir/src/flows.cpp.o: /mnt/c/study/Graphs/lab3/src/flows.cpp \
   /usr/include/c++/13/bits/stl_algobase.h \
   /usr/include/c++/13/bits/stl_bvector.h \
   /usr/include/c++/13/bits/stl_construct.h \
-  /usr/include/c++/13/bits/stl_deque.h \
   /usr/include/c++/13/bits/stl_function.h \
-  /usr/include/c++/13/bits/stl_heap.h \
   /usr/include/c++/13/bits/stl_iterator.h \
   /usr/include/c++/13/bits/stl_iterator_base_funcs.h \
   /usr/include/c++/13/bits/stl_iterator_base_types.h \
   /usr/include/c++/13/bits/stl_pair.h \
-  /usr/include/c++/13/bits/stl_queue.h \
   /usr/include/c++/13/bits/stl_uninitialized.h \
   /usr/include/c++/13/bits/stl_vector.h \
   /usr/include/c++/13/bits/streambuf.tcc \
   /usr/include/c++/13/bits/streambuf_iterator.h \
   /usr/include/c++/13/bits/stringfwd.h \
-  /usr/include/c++/13/bits/uses_allocator.h \
   /usr/include/c++/13/bits/utility.h \
   /usr/include/c++/13/bits/vector.tcc \
   /usr/include/c++/13/cctype \
@@ -444,12 +443,11 @@ CMakeFiles/lab3.dir/src/flows.cpp.o: /mnt/c/study/Graphs/lab3/src/flows.cpp \
   /usr/include/c++/13/clocale \
   /usr/include/c++/13/cstdio \
   /usr/include/c++/13/cstdlib \
-  /usr/include/c++/13/cstring \
+  /usr/include/c++/13/ctime \
   /usr/include/c++/13/cwchar \
   /usr/include/c++/13/cwctype \
   /usr/include/c++/13/debug/assertions.h \
   /usr/include/c++/13/debug/debug.h \
-  /usr/include/c++/13/deque \
   /usr/include/c++/13/exception \
   /usr/include/c++/13/ext/alloc_traits.h \
   /usr/include/c++/13/ext/atomicity.h \
@@ -463,7 +461,6 @@ CMakeFiles/lab3.dir/src/flows.cpp.o: /mnt/c/study/Graphs/lab3/src/flows.cpp \
   /usr/include/c++/13/istream \
   /usr/include/c++/13/new \
   /usr/include/c++/13/ostream \
-  /usr/include/c++/13/queue \
   /usr/include/c++/13/stdexcept \
   /usr/include/c++/13/streambuf \
   /usr/include/c++/13/string \
@@ -485,8 +482,6 @@ CMakeFiles/lab3.dir/src/flows.cpp.o: /mnt/c/study/Graphs/lab3/src/flows.cpp \
   /usr/include/stdc-predef.h \
   /usr/include/stdio.h \
   /usr/include/stdlib.h \
-  /usr/include/string.h \
-  /usr/include/strings.h \
   /usr/include/time.h \
   /usr/include/wchar.h \
   /usr/include/wctype.h \
@@ -834,16 +829,20 @@ CMakeFiles/lab3.dir/src/main.cpp.o: /mnt/c/study/Graphs/lab3/src/main.cpp \
   /usr/include/c++/13/bits/requires_hosted.h \
   /usr/include/c++/13/bits/std_abs.h \
   /usr/include/c++/13/bits/stl_algobase.h \
+  /usr/include/c++/13/bits/stl_bvector.h \
   /usr/include/c++/13/bits/stl_construct.h \
   /usr/include/c++/13/bits/stl_function.h \
   /usr/include/c++/13/bits/stl_iterator.h \
   /usr/include/c++/13/bits/stl_iterator_base_funcs.h \
   /usr/include/c++/13/bits/stl_iterator_base_types.h \
   /usr/include/c++/13/bits/stl_pair.h \
+  /usr/include/c++/13/bits/stl_uninitialized.h \
+  /usr/include/c++/13/bits/stl_vector.h \
   /usr/include/c++/13/bits/streambuf.tcc \
   /usr/include/c++/13/bits/streambuf_iterator.h \
   /usr/include/c++/13/bits/stringfwd.h \
   /usr/include/c++/13/bits/utility.h \
+  /usr/include/c++/13/bits/vector.tcc \
   /usr/include/c++/13/cctype \
   /usr/include/c++/13/cerrno \
   /usr/include/c++/13/climits \
@@ -874,6 +873,7 @@ CMakeFiles/lab3.dir/src/main.cpp.o: /mnt/c/study/Graphs/lab3/src/main.cpp \
   /usr/include/c++/13/system_error \
   /usr/include/c++/13/type_traits \
   /usr/include/c++/13/typeinfo \
+  /usr/include/c++/13/vector \
   /usr/include/ctype.h \
   /usr/include/endian.h \
   /usr/include/errno.h \
@@ -1732,11 +1732,13 @@ CMakeFiles/lab3.dir/src/shortest_paths.cpp.o: /mnt/c/study/Graphs/lab3/src/short
 
 /mnt/c/study/Graphs/lab3/src/routes.cpp:
 
-/mnt/c/study/Graphs/lab3/include/routes.h:
+/mnt/c/study/Graphs/lab3/src/main.cpp:
 
 /usr/include/x86_64-linux-gnu/bits/iscanonical.h:
 
 /usr/include/x86_64-linux-gnu/bits/fp-fast.h:
+
+/usr/include/c++/13/bits/stl_heap.h:
 
 /usr/include/x86_64-linux-gnu/bits/fp-logb.h:
 
@@ -1750,19 +1752,13 @@ CMakeFiles/lab3.dir/src/shortest_paths.cpp.o: /mnt/c/study/Graphs/lab3/src/short
 
 /usr/include/x86_64-linux-gnu/bits/uio_lim.h:
 
-/usr/include/string.h:
-
-/usr/include/limits.h:
-
-/usr/include/c++/13/vector:
-
 /usr/include/x86_64-linux-gnu/bits/posix2_lim.h:
 
 /usr/include/linux/limits.h:
 
-/usr/include/c++/13/queue:
+/usr/include/limits.h:
 
-/usr/include/c++/13/cstring:
+/usr/include/c++/13/vector:
 
 /usr/include/c++/13/climits:
 
@@ -1770,19 +1766,13 @@ CMakeFiles/lab3.dir/src/shortest_paths.cpp.o: /mnt/c/study/Graphs/lab3/src/short
 
 /usr/include/c++/13/bits/stl_vector.h:
 
-/usr/include/c++/13/bits/stl_heap.h:
-
-/mnt/c/study/Graphs/lab3/src/main.cpp:
-
-/usr/include/c++/13/bits/stl_deque.h:
-
 /mnt/c/study/Graphs/lab3/include/shortest_paths.h:
+
+/mnt/c/study/Graphs/lab3/include/routes.h:
 
 /usr/include/c++/13/bits/stl_uninitialized.h:
 
 /usr/include/c++/13/locale:
-
-/usr/include/c++/13/deque:
 
 /usr/include/c++/13/ctime:
 
@@ -1900,8 +1890,6 @@ CMakeFiles/lab3.dir/src/shortest_paths.cpp.o: /mnt/c/study/Graphs/lab3/src/short
 
 /usr/include/x86_64-linux-gnu/bits/mathcalls-narrow.h:
 
-/usr/include/c++/13/bits/uses_allocator.h:
-
 /usr/include/c++/13/iomanip:
 
 /usr/include/c++/13/bits/std_abs.h:
@@ -1975,8 +1963,6 @@ CMakeFiles/lab3.dir/src/shortest_paths.cpp.o: /mnt/c/study/Graphs/lab3/src/short
 /usr/include/asm-generic/errno.h:
 
 /usr/include/c++/13/cwchar:
-
-/usr/include/strings.h:
 
 /usr/include/x86_64-linux-gnu/bits/struct_rwlock.h:
 
@@ -2160,8 +2146,6 @@ CMakeFiles/lab3.dir/src/shortest_paths.cpp.o: /mnt/c/study/Graphs/lab3/src/short
 
 /usr/include/x86_64-linux-gnu/bits/long-double.h:
 
-/usr/include/c++/13/bits/deque.tcc:
-
 /usr/include/x86_64-linux-gnu/gnu/stubs.h:
 
 /usr/include/x86_64-linux-gnu/bits/endian.h:
@@ -2177,8 +2161,6 @@ CMakeFiles/lab3.dir/src/shortest_paths.cpp.o: /mnt/c/study/Graphs/lab3/src/short
 /usr/include/wctype.h:
 
 /usr/include/x86_64-linux-gnu/bits/errno.h:
-
-/usr/include/c++/13/bits/stl_queue.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/wint_t.h:
 
