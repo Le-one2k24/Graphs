@@ -12,11 +12,12 @@ bool encode_prufer_with_weights(
     int N,
     vector<int>& code_nodes,
     vector<int>& code_weights,
-    pair<pair<int,int>,int>& last_edge
+    int& last_u,
+    int& last_v
 ) {
     if (!adj || !weight || N <= 0) return false;
 
-    int** tmp_adj = new int*[N];
+    int** tmp_adj = new int* [N];
     for (int i = 0; i < N; ++i) {
         tmp_adj[i] = new int[N];
         for (int j = 0; j < N; ++j) {
@@ -39,10 +40,9 @@ bool encode_prufer_with_weights(
     code_nodes.clear();
     code_weights.clear();
     code_nodes.reserve((N > 2) ? (N - 2) : 0);
-    code_weights.reserve((N > 2) ? (N - 2) : 0);
+    code_weights.reserve((N > 1) ? (N - 1) : 0);
 
     for (int step = 0; step < N - 2; ++step) {
-
         int v = -1;
         while (!leaves.empty()) {
             int x = leaves.top();
@@ -80,46 +80,45 @@ bool encode_prufer_with_weights(
         }
     }
 
-    int a = -1, b = -1;
+    last_u = -1;
+    last_v = -1;
     for (int i = 0; i < N; ++i) {
         if (deg[i] == 1) {
-            if (a == -1) a = i;
-            else b = i;
+            if (last_u == -1) last_u = i;
+            else last_v = i;
         }
     }
-    if (a != -1 && b != -1) {
-        last_edge = {{a, b}, weight[a][b]};
-    } else {
-        last_edge = {{-1, -1}, 0};
+    if (last_u == -1 || last_v == -1) {
+        for (int i = 0; i < N; ++i) delete[] tmp_adj[i];
+        delete[] tmp_adj;
+        return false;
     }
 
-    for (int i = 0; i < N; ++i) {
-        delete[] tmp_adj[i];
-    }
+    code_weights.push_back(weight[last_u][last_v]);
+
+    for (int i = 0; i < N; ++i) delete[] tmp_adj[i];
     delete[] tmp_adj;
-
     return true;
 }
 
 int** decode_prufer_with_weights(
     const vector<int>& code_nodes,
     const vector<int>& code_weights,
-    const pair<pair<int,int>,int>& last_edge,
     int N,
     int**& decoded_weights
 ) {
     decoded_weights = nullptr;
     if (N <= 0) return nullptr;
     if ((int)code_nodes.size() != N - 2) return nullptr;
-    if ((int)code_weights.size() != N - 2) return nullptr;
+    if ((int)code_weights.size() != N - 1) return nullptr;
 
-    int** adj = new int*[N];
+    int** adj = new int* [N];
     for (int i = 0; i < N; ++i) {
         adj[i] = new int[N];
         for (int j = 0; j < N; ++j) adj[i][j] = 0;
     }
 
-    decoded_weights = new int*[N];
+    decoded_weights = new int* [N];
     for (int i = 0; i < N; ++i) {
         decoded_weights[i] = new int[N];
         for (int j = 0; j < N; ++j) decoded_weights[i][j] = 0;
@@ -173,8 +172,9 @@ int** decode_prufer_with_weights(
         }
     }
     if (a != -1 && b != -1) {
+        int last_weight = code_weights.back();
         adj[a][b] = adj[b][a] = 1;
-        decoded_weights[a][b] = decoded_weights[b][a] = last_edge.second;
+        decoded_weights[a][b] = decoded_weights[b][a] = last_weight;
     } else {
         for (int r = 0; r < N; ++r) delete[] adj[r];
         delete[] adj;

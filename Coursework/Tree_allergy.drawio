@@ -1,6 +1,6 @@
 <mxfile host="Electron" agent="Mozilla/5.0">
   <diagram id="allergy-tree" name="AllergyTree">
-    <mxGraphModel dx="1813" dy="894" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+    <mxGraphModel dx="1103" dy="544" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -8,10 +8,15 @@
           <mxGeometry height="60" width="120" x="500" y="40" as="geometry" />
         </mxCell>
         <mxCell id="n_syp" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=center;" value="Сыпь?" vertex="1">
-          <mxGeometry height="60" width="120" x="260" y="140" as="geometry" />
+          <mxGeometry height="60" width="120" x="290" y="140" as="geometry" />
         </mxCell>
         <mxCell id="e_root_syp" edge="1" parent="1" source="n_root" style="endArrow=block;html=1;" target="n_syp">
           <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="gyNl-IbTWXkh3tPvdUpb-18" connectable="0" parent="e_root_syp" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Да" vertex="1">
+          <mxGeometry relative="1" x="-0.119" y="-3" as="geometry">
+            <mxPoint x="-11" y="-11" as="offset" />
+          </mxGeometry>
         </mxCell>
         <mxCell id="n_respir" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=center;" value="Респираторные&#xa;симптомы?" vertex="1">
           <mxGeometry height="60" width="140" x="740" y="140" as="geometry" />
@@ -19,11 +24,21 @@
         <mxCell id="e_root_respir" edge="1" parent="1" source="n_root" style="endArrow=block;html=1;" target="n_respir">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
+        <mxCell id="gyNl-IbTWXkh3tPvdUpb-19" connectable="0" parent="e_root_respir" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Нет" vertex="1">
+          <mxGeometry relative="1" x="-0.1466" y="-2" as="geometry">
+            <mxPoint x="7" y="-15" as="offset" />
+          </mxGeometry>
+        </mxCell>
         <mxCell id="n_contact" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=center;" value="Контакт&#xa;с веществом?" vertex="1">
           <mxGeometry height="60" width="140" x="100" y="240" as="geometry" />
         </mxCell>
         <mxCell id="e_syp_contact" edge="1" parent="1" source="n_syp" style="endArrow=block;html=1;" target="n_contact">
           <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="gyNl-IbTWXkh3tPvdUpb-6" connectable="0" parent="e_syp_contact" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Да" vertex="1">
+          <mxGeometry relative="1" x="-0.1798" y="-3" as="geometry">
+            <mxPoint x="-10" y="-8" as="offset" />
+          </mxGeometry>
         </mxCell>
         <mxCell id="n_edema" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=center;" value="Отёки?" vertex="1">
           <mxGeometry height="60" width="120" x="490" y="240" as="geometry" />
@@ -31,11 +46,21 @@
         <mxCell id="e_syp_edema" edge="1" parent="1" source="n_syp" style="endArrow=block;html=1;" target="n_edema">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
+        <mxCell id="gyNl-IbTWXkh3tPvdUpb-7" connectable="0" parent="e_syp_edema" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Нет" vertex="1">
+          <mxGeometry relative="1" x="0.1125" y="1" as="geometry">
+            <mxPoint x="2" y="-15" as="offset" />
+          </mxGeometry>
+        </mxCell>
         <mxCell id="n_contact_derm" parent="1" style="shape=rectangle;rounded=0;whiteSpace=wrap;html=1;align=center;" value="Контактный&#xa;дерматит" vertex="1">
           <mxGeometry height="50" width="140" x="10" y="340" as="geometry" />
         </mxCell>
         <mxCell id="e_contact_derm" edge="1" parent="1" source="n_contact" style="endArrow=block;html=1;" target="n_contact_derm">
           <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="gyNl-IbTWXkh3tPvdUpb-2" connectable="0" parent="e_contact_derm" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Да" vertex="1">
+          <mxGeometry relative="1" x="-0.0016" y="1" as="geometry">
+            <mxPoint x="-18" y="-6" as="offset" />
+          </mxGeometry>
         </mxCell>
         <mxCell id="n_clothes" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=center;" value="Сыпь после&#xa;одежды/металла?" vertex="1">
           <mxGeometry height="60" width="160" x="170" y="340" as="geometry" />
@@ -43,11 +68,21 @@
         <mxCell id="e_contact_clothes" edge="1" parent="1" source="n_contact" style="endArrow=block;html=1;" target="n_clothes">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
+        <mxCell id="gyNl-IbTWXkh3tPvdUpb-3" connectable="0" parent="e_contact_clothes" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Нет" vertex="1">
+          <mxGeometry relative="1" x="-0.4649" y="2" as="geometry">
+            <mxPoint x="20" y="5" as="offset" />
+          </mxGeometry>
+        </mxCell>
         <mxCell id="n_contact_allergy" parent="1" style="shape=rectangle;rounded=0;whiteSpace=wrap;html=1;align=center;" value="Контактная&#xa;аллергия&#xa;(никель/ткань)" vertex="1">
           <mxGeometry height="60" width="160" x="90" y="440" as="geometry" />
         </mxCell>
         <mxCell id="e_clothes_allergy" edge="1" parent="1" source="n_clothes" style="endArrow=block;html=1;" target="n_contact_allergy">
           <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="gyNl-IbTWXkh3tPvdUpb-4" connectable="0" parent="e_clothes_allergy" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Да" vertex="1">
+          <mxGeometry relative="1" x="-0.3811" y="2" as="geometry">
+            <mxPoint x="-24" as="offset" />
+          </mxGeometry>
         </mxCell>
         <mxCell id="n_itch" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=center;" value="Сильный&#xa;зуд?" vertex="1">
           <mxGeometry height="60" width="120" x="270" y="440" as="geometry" />
@@ -55,11 +90,21 @@
         <mxCell id="e_clothes_itch" edge="1" parent="1" source="n_clothes" style="endArrow=block;html=1;" target="n_itch">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
+        <mxCell id="gyNl-IbTWXkh3tPvdUpb-5" connectable="0" parent="e_clothes_itch" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Нет" vertex="1">
+          <mxGeometry relative="1" x="-0.4344" y="2" as="geometry">
+            <mxPoint x="18" y="4" as="offset" />
+          </mxGeometry>
+        </mxCell>
         <mxCell id="n_after_food" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=center;" value="После еды?" vertex="1">
           <mxGeometry height="60" width="120" x="170" y="540" as="geometry" />
         </mxCell>
         <mxCell id="e_itch_food" edge="1" parent="1" source="n_itch" style="endArrow=block;html=1;" target="n_after_food">
           <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="gyNl-IbTWXkh3tPvdUpb-8" connectable="0" parent="e_itch_food" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Да" vertex="1">
+          <mxGeometry relative="1" x="-0.1293" y="-3" as="geometry">
+            <mxPoint x="-14" y="-2" as="offset" />
+          </mxGeometry>
         </mxCell>
         <mxCell id="n_food_skin" parent="1" style="shape=rectangle;rounded=0;whiteSpace=wrap;html=1;align=center;" value="Пищевая&#xa;аллергия&#xa;(кожная)" vertex="1">
           <mxGeometry height="60" width="140" x="70" y="640" as="geometry" />
@@ -67,17 +112,32 @@
         <mxCell id="e_food_skin" edge="1" parent="1" source="n_after_food" style="endArrow=block;html=1;" target="n_food_skin">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
+        <mxCell id="gyNl-IbTWXkh3tPvdUpb-11" connectable="0" parent="e_food_skin" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Да" vertex="1">
+          <mxGeometry relative="1" x="-0.0014" y="-1" as="geometry">
+            <mxPoint x="-14" y="-5" as="offset" />
+          </mxGeometry>
+        </mxCell>
         <mxCell id="n_after_drug_skin" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=center;" value="После&#xa;лекарств?" vertex="1">
           <mxGeometry height="60" width="120" x="300" y="640" as="geometry" />
         </mxCell>
         <mxCell id="e_food_drug_skin" edge="1" parent="1" source="n_after_food" style="endArrow=block;html=1;" target="n_after_drug_skin">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
+        <mxCell id="gyNl-IbTWXkh3tPvdUpb-12" connectable="0" parent="e_food_drug_skin" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Нет" vertex="1">
+          <mxGeometry relative="1" x="0.1951" as="geometry">
+            <mxPoint x="6" y="-11" as="offset" />
+          </mxGeometry>
+        </mxCell>
         <mxCell id="n_drug_skin" parent="1" style="shape=rectangle;rounded=0;whiteSpace=wrap;html=1;align=center;" value="Медикаментозная&#xa;аллергия&#xa;(кожная)" vertex="1">
-          <mxGeometry height="60" width="160" x="260" y="740" as="geometry" />
+          <mxGeometry height="60" width="160" x="280" y="740" as="geometry" />
         </mxCell>
         <mxCell id="e_drug_skin" edge="1" parent="1" source="n_after_drug_skin" style="endArrow=block;html=1;" target="n_drug_skin">
           <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="gyNl-IbTWXkh3tPvdUpb-13" connectable="0" parent="e_drug_skin" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Да" vertex="1">
+          <mxGeometry relative="1" x="-0.4609" y="3" as="geometry">
+            <mxPoint x="-23" y="6" as="offset" />
+          </mxGeometry>
         </mxCell>
         <mxCell id="n_light_skin" parent="1" style="shape=rectangle;rounded=0;whiteSpace=wrap;html=1;align=center;" value="Лёгкая&#xa;кожная реакция" vertex="1">
           <mxGeometry height="50" width="150" x="330" y="540" as="geometry" />
@@ -85,35 +145,43 @@
         <mxCell id="e_itch_light" edge="1" parent="1" source="n_itch" style="endArrow=block;html=1;" target="n_light_skin">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="n_edema_drug" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=center;" value="После&#xa;лекарств?" vertex="1">
-          <mxGeometry height="60" width="120" x="430" y="340" as="geometry" />
-        </mxCell>
-        <mxCell id="e_edema_drug" edge="1" parent="1" source="n_edema" style="endArrow=block;html=1;" target="n_edema_drug">
-          <mxGeometry relative="1" as="geometry" />
+        <mxCell id="gyNl-IbTWXkh3tPvdUpb-10" connectable="0" parent="e_itch_light" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Нет" vertex="1">
+          <mxGeometry relative="1" x="-0.2726" y="4" as="geometry">
+            <mxPoint x="15" y="3" as="offset" />
+          </mxGeometry>
         </mxCell>
         <mxCell id="n_edema_food_q" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=center;" value="После еды?" vertex="1">
-          <mxGeometry height="60" width="120" x="580" y="340" as="geometry" />
+          <mxGeometry height="60" width="120" x="490" y="340" as="geometry" />
         </mxCell>
         <mxCell id="e_edema_food_q" edge="1" parent="1" source="n_edema" style="endArrow=block;html=1;" target="n_edema_food_q">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="n_edema_drug_leaf" parent="1" style="shape=rectangle;rounded=0;whiteSpace=wrap;html=1;align=center;" value="Медикаментозная&#xa;аллергия&#xa;(отёк)" vertex="1">
-          <mxGeometry height="60" width="150" x="410" y="440" as="geometry" />
-        </mxCell>
-        <mxCell id="e_edema_drug_leaf" edge="1" parent="1" source="n_edema_drug" style="endArrow=block;html=1;" target="n_edema_drug_leaf">
-          <mxGeometry relative="1" as="geometry" />
+        <mxCell id="gyNl-IbTWXkh3tPvdUpb-20" connectable="0" parent="e_edema_food_q" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Да" vertex="1">
+          <mxGeometry relative="1" x="-0.2957" y="3" as="geometry">
+            <mxPoint x="7" as="offset" />
+          </mxGeometry>
         </mxCell>
         <mxCell id="n_edema_food_leaf" parent="1" style="shape=rectangle;rounded=0;whiteSpace=wrap;html=1;align=center;" value="Пищевая&#xa;аллергия&#xa;(отёк)" vertex="1">
-          <mxGeometry height="60" width="140" x="580" y="440" as="geometry" />
+          <mxGeometry height="60" width="140" x="480" y="440" as="geometry" />
         </mxCell>
         <mxCell id="e_edema_food_leaf" edge="1" parent="1" source="n_edema_food_q" style="endArrow=block;html=1;" target="n_edema_food_leaf">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
+        <mxCell id="gyNl-IbTWXkh3tPvdUpb-21" connectable="0" parent="e_edema_food_leaf" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Да" vertex="1">
+          <mxGeometry relative="1" x="-0.2522" y="-1" as="geometry">
+            <mxPoint x="11" y="-1" as="offset" />
+          </mxGeometry>
+        </mxCell>
         <mxCell id="n_sneeze" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=center;" value="Чихание&#xa;и насморк?" vertex="1">
-          <mxGeometry height="60" width="140" x="920" y="240" as="geometry" />
+          <mxGeometry height="60" width="140" x="740" y="240" as="geometry" />
         </mxCell>
         <mxCell id="e_respir_sneeze" edge="1" parent="1" source="n_respir" style="endArrow=block;html=1;" target="n_sneeze">
           <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="gyNl-IbTWXkh3tPvdUpb-31" connectable="0" parent="e_respir_sneeze" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Да" vertex="1">
+          <mxGeometry relative="1" x="0.1586" y="-3" as="geometry">
+            <mxPoint x="-14" y="4" as="offset" />
+          </mxGeometry>
         </mxCell>
         <mxCell id="n_cough" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=center;" value="Кашель&#xa;и одышка?" vertex="1">
           <mxGeometry height="60" width="140" x="1230" y="240" as="geometry" />
@@ -121,47 +189,81 @@
         <mxCell id="e_respir_cough" edge="1" parent="1" source="n_respir" style="endArrow=block;html=1;" target="n_cough">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
+        <mxCell id="gyNl-IbTWXkh3tPvdUpb-32" connectable="0" parent="e_respir_cough" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Нет" vertex="1">
+          <mxGeometry relative="1" x="-0.2219" y="2" as="geometry">
+            <mxPoint x="23" y="-10" as="offset" />
+          </mxGeometry>
+        </mxCell>
         <mxCell id="n_eyes" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=center;" value="Слезотечение&#xa;и зуд глаз?" vertex="1">
-          <mxGeometry height="60" width="160" x="780" y="340" as="geometry" />
+          <mxGeometry height="60" width="160" x="940" y="340" as="geometry" />
         </mxCell>
         <mxCell id="e_sneeze_eyes" edge="1" parent="1" source="n_sneeze" style="endArrow=block;html=1;" target="n_eyes">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
+        <mxCell id="gyNl-IbTWXkh3tPvdUpb-30" connectable="0" parent="e_sneeze_eyes" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Нет" vertex="1">
+          <mxGeometry relative="1" x="0.0988" y="-3" as="geometry">
+            <mxPoint x="18" y="-9" as="offset" />
+          </mxGeometry>
+        </mxCell>
         <mxCell id="n_dust_places" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=center;" value="Симптомы в&#xa;старых/пыльных&#xa;местах?" vertex="1">
-          <mxGeometry height="70" width="160" x="1040" y="340" as="geometry" />
+          <mxGeometry height="70" width="160" x="650" y="340" as="geometry" />
         </mxCell>
         <mxCell id="e_sneeze_dust_places" edge="1" parent="1" source="n_sneeze" style="endArrow=block;html=1;" target="n_dust_places">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="n_season" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=center;" value="Весна/лето&#xa;на улице?" vertex="1">
-          <mxGeometry height="60" width="140" x="740" y="440" as="geometry" />
+        <mxCell id="gyNl-IbTWXkh3tPvdUpb-29" connectable="0" parent="e_sneeze_dust_places" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Да" vertex="1">
+          <mxGeometry relative="1" x="0.0066" y="2" as="geometry">
+            <mxPoint x="-16" y="-6" as="offset" />
+          </mxGeometry>
         </mxCell>
-        <mxCell id="e_eyes_season" edge="1" parent="1" source="n_eyes" style="endArrow=block;html=1;" target="n_season">
+        <mxCell id="n_season" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=center;" value="Весна/лето&#xa;на улице?" vertex="1">
+          <mxGeometry height="60" width="140" x="1060" y="540" as="geometry" />
+        </mxCell>
+        <mxCell id="e_eyes_season" edge="1" parent="1" source="n_animals_q" style="endArrow=block;html=1;" target="n_season">
           <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="gyNl-IbTWXkh3tPvdUpb-38" connectable="0" parent="e_eyes_season" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Нет" vertex="1">
+          <mxGeometry relative="1" x="0.0309" as="geometry">
+            <mxPoint x="14" y="-10" as="offset" />
+          </mxGeometry>
         </mxCell>
         <mxCell id="n_animals_q" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=center;" value="Контакт с&#xa;животными?" vertex="1">
-          <mxGeometry height="60" width="140" x="880" y="440" as="geometry" />
-        </mxCell>
-        <mxCell id="e_eyes_animals" edge="1" parent="1" source="n_eyes" style="endArrow=block;html=1;" target="n_animals_q">
-          <mxGeometry relative="1" as="geometry" />
+          <mxGeometry height="60" width="140" x="950" y="440" as="geometry" />
         </mxCell>
         <mxCell id="n_pollen" parent="1" style="shape=rectangle;rounded=0;whiteSpace=wrap;html=1;align=center;" value="Аллергия&#xa;на пыльцу" vertex="1">
-          <mxGeometry height="50" width="140" x="690" y="540" as="geometry" />
+          <mxGeometry height="50" width="140" x="1060" y="640" as="geometry" />
         </mxCell>
         <mxCell id="e_season_pollen" edge="1" parent="1" source="n_season" style="endArrow=block;html=1;" target="n_pollen">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
+        <mxCell id="gyNl-IbTWXkh3tPvdUpb-39" connectable="0" parent="e_season_pollen" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Да" vertex="1">
+          <mxGeometry relative="1" x="-0.1826" y="-4" as="geometry">
+            <mxPoint x="24" as="offset" />
+          </mxGeometry>
+        </mxCell>
         <mxCell id="n_animals_allergy" parent="1" style="shape=rectangle;rounded=0;whiteSpace=wrap;html=1;align=center;" value="Аллергия&#xa;на животных" vertex="1">
-          <mxGeometry height="50" width="140" x="860" y="540" as="geometry" />
+          <mxGeometry height="50" width="140" x="810" y="540" as="geometry" />
         </mxCell>
         <mxCell id="e_animals_allergy" edge="1" parent="1" source="n_animals_q" style="endArrow=block;html=1;" target="n_animals_allergy">
-          <mxGeometry relative="1" as="geometry" />
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="gyNl-IbTWXkh3tPvdUpb-37" connectable="0" parent="e_animals_allergy" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Да" vertex="1">
+          <mxGeometry relative="1" x="0.0173" as="geometry">
+            <mxPoint x="-6" y="-11" as="offset" />
+          </mxGeometry>
         </mxCell>
         <mxCell id="n_dust_allergy" parent="1" style="shape=rectangle;rounded=0;whiteSpace=wrap;html=1;align=center;" value="Аллергия&#xa;на пыль/клещей" vertex="1">
-          <mxGeometry height="50" width="160" x="1040" y="440" as="geometry" />
+          <mxGeometry height="50" width="160" x="650" y="440" as="geometry" />
         </mxCell>
         <mxCell id="e_dust_allergy" edge="1" parent="1" source="n_dust_places" style="endArrow=block;html=1;" target="n_dust_allergy">
           <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="gyNl-IbTWXkh3tPvdUpb-33" connectable="0" parent="e_dust_allergy" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Да" vertex="1">
+          <mxGeometry relative="1" x="-0.4145" as="geometry">
+            <mxPoint x="-19" y="2" as="offset" />
+          </mxGeometry>
         </mxCell>
         <mxCell id="n_night_ex" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=center;" value="Ночью или&#xa;при нагрузке?" vertex="1">
           <mxGeometry height="60" width="150" x="1225" y="340" as="geometry" />
@@ -169,11 +271,21 @@
         <mxCell id="e_cough_night" edge="1" parent="1" source="n_cough" style="endArrow=block;html=1;" target="n_night_ex">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
+        <mxCell id="gyNl-IbTWXkh3tPvdUpb-22" connectable="0" parent="e_cough_night" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Да" vertex="1">
+          <mxGeometry relative="1" x="-0.3043" y="-2" as="geometry">
+            <mxPoint x="-8" as="offset" />
+          </mxGeometry>
+        </mxCell>
         <mxCell id="n_nasal" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=center;" value="Заложенность&#xa;носа без&#xa;чихания?" vertex="1">
-          <mxGeometry height="70" width="160" x="1390" y="340" as="geometry" />
+          <mxGeometry height="60" width="160" x="1390" y="340" as="geometry" />
         </mxCell>
         <mxCell id="e_cough_nasal" edge="1" parent="1" source="n_cough" style="endArrow=block;html=1;" target="n_nasal">
           <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="gyNl-IbTWXkh3tPvdUpb-23" connectable="0" parent="e_cough_nasal" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Нет" vertex="1">
+          <mxGeometry relative="1" x="0.0491" y="-3" as="geometry">
+            <mxPoint x="9" y="-14" as="offset" />
+          </mxGeometry>
         </mxCell>
         <mxCell id="n_asthma" parent="1" style="shape=rectangle;rounded=0;whiteSpace=wrap;html=1;align=center;" value="Возможная&#xa;бронхиальная&#xa;астма" vertex="1">
           <mxGeometry height="60" width="160" x="1220" y="440" as="geometry" />
@@ -181,17 +293,43 @@
         <mxCell id="e_night_asthma" edge="1" parent="1" source="n_night_ex" style="endArrow=block;html=1;" target="n_asthma">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
+        <mxCell id="gyNl-IbTWXkh3tPvdUpb-24" connectable="0" parent="e_night_asthma" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Да" vertex="1">
+          <mxGeometry relative="1" x="-0.1739" as="geometry">
+            <mxPoint x="-13" y="-1" as="offset" />
+          </mxGeometry>
+        </mxCell>
         <mxCell id="n_nasal_year" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=center;" value="Круглый год?" vertex="1">
-          <mxGeometry height="60" width="120" x="1410" y="435" as="geometry" />
+          <mxGeometry height="60" width="120" x="1410" y="440" as="geometry" />
         </mxCell>
         <mxCell id="e_nasal_year" edge="1" parent="1" source="n_nasal" style="endArrow=block;html=1;" target="n_nasal_year">
           <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="gyNl-IbTWXkh3tPvdUpb-25" connectable="0" parent="e_nasal_year" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Да" vertex="1">
+          <mxGeometry relative="1" x="-0.0435" y="-1" as="geometry">
+            <mxPoint x="-10" y="-4" as="offset" />
+          </mxGeometry>
         </mxCell>
         <mxCell id="n_chronic_rh" parent="1" style="shape=rectangle;rounded=0;whiteSpace=wrap;html=1;align=center;" value="Хронический&#xa;ринит&#xa;(в т. ч. аллерг.)" vertex="1">
           <mxGeometry height="60" width="160" x="1390" y="540" as="geometry" />
         </mxCell>
         <mxCell id="e_year_chronic" edge="1" parent="1" source="n_nasal_year" style="endArrow=block;html=1;" target="n_chronic_rh">
           <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="gyNl-IbTWXkh3tPvdUpb-26" connectable="0" parent="e_year_chronic" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Да" vertex="1">
+          <mxGeometry relative="1" x="-0.2609" y="-1" as="geometry">
+            <mxPoint x="-12" y="1" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="gyNl-IbTWXkh3tPvdUpb-35" edge="1" parent="1" source="n_eyes" style="endArrow=classic;html=1;rounded=0;" target="n_animals_q" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="900" y="430" as="sourcePoint" />
+            <mxPoint x="950" y="380" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="gyNl-IbTWXkh3tPvdUpb-36" connectable="0" parent="gyNl-IbTWXkh3tPvdUpb-35" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Да" vertex="1">
+          <mxGeometry relative="1" x="0.208" y="-1" as="geometry">
+            <mxPoint x="-19" y="-4" as="offset" />
+          </mxGeometry>
         </mxCell>
       </root>
     </mxGraphModel>

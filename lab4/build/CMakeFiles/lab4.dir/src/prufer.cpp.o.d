@@ -45,8 +45,7 @@ CMakeFiles/lab4.dir/src/prufer.cpp.o: \
  /usr/include/c++/13/bits/stl_function.h \
  /usr/include/c++/13/backward/binders.h \
  /usr/include/c++/13/bits/range_access.h \
- /usr/include/c++/13/bits/vector.tcc /usr/include/c++/13/utility \
- /usr/include/c++/13/bits/stl_relops.h /usr/include/c++/13/iostream \
+ /usr/include/c++/13/bits/vector.tcc /usr/include/c++/13/iostream \
  /usr/include/c++/13/ostream /usr/include/c++/13/ios \
  /usr/include/c++/13/iosfwd /usr/include/c++/13/bits/stringfwd.h \
  /usr/include/c++/13/bits/postypes.h /usr/include/c++/13/cwchar \

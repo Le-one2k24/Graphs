@@ -1442,7 +1442,6 @@ CMakeFiles/lab4.dir/src/main.cpp.o
  /usr/include/c++/13/bits/stl_iterator_base_funcs.h
  /usr/include/c++/13/bits/stl_iterator_base_types.h
  /usr/include/c++/13/bits/stl_pair.h
- /usr/include/c++/13/bits/stl_relops.h
  /usr/include/c++/13/bits/stl_uninitialized.h
  /usr/include/c++/13/bits/stl_vector.h
  /usr/include/c++/13/bits/streambuf.tcc
@@ -1480,7 +1479,6 @@ CMakeFiles/lab4.dir/src/main.cpp.o
  /usr/include/c++/13/system_error
  /usr/include/c++/13/type_traits
  /usr/include/c++/13/typeinfo
- /usr/include/c++/13/utility
  /usr/include/c++/13/vector
  /usr/include/ctype.h
  /usr/include/endian.h
@@ -1828,7 +1826,6 @@ CMakeFiles/lab4.dir/src/prufer.cpp.o
  /usr/include/c++/13/bits/stl_iterator_base_types.h
  /usr/include/c++/13/bits/stl_pair.h
  /usr/include/c++/13/bits/stl_queue.h
- /usr/include/c++/13/bits/stl_relops.h
  /usr/include/c++/13/bits/stl_tempbuf.h
  /usr/include/c++/13/bits/stl_uninitialized.h
  /usr/include/c++/13/bits/stl_vector.h
@@ -1869,7 +1866,6 @@ CMakeFiles/lab4.dir/src/prufer.cpp.o
  /usr/include/c++/13/system_error
  /usr/include/c++/13/type_traits
  /usr/include/c++/13/typeinfo
- /usr/include/c++/13/utility
  /usr/include/c++/13/vector
  /usr/include/ctype.h
  /usr/include/endian.h

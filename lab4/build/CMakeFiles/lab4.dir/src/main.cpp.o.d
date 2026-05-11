@@ -144,15 +144,10 @@ CMakeFiles/lab4.dir/src/main.cpp.o: /mnt/c/study/Graphs/lab4/src/main.cpp \
  /usr/include/c++/13/bits/basic_ios.tcc \
  /usr/include/c++/13/bits/ostream.tcc /usr/include/c++/13/istream \
  /usr/include/c++/13/bits/istream.tcc /usr/include/c++/13/ctime \
- /mnt/c/study/Graphs/lab4/include/common_structures.h \
- /mnt/c/study/Graphs/lab4/include/generate_graphs.h \
- /mnt/c/study/Graphs/lab4/include/common_structures.h \
- /mnt/c/study/Graphs/lab4/include/metrics.h \
- /mnt/c/study/Graphs/lab4/include/shimbell.h \
- /mnt/c/study/Graphs/lab4/include/routes.h \
- /mnt/c/study/Graphs/lab4/include/articulation.h \
- /mnt/c/study/Graphs/lab4/include/shortest_paths.h \
- /usr/include/c++/13/climits \
+ /usr/include/c++/13/vector /usr/include/c++/13/bits/stl_uninitialized.h \
+ /usr/include/c++/13/bits/stl_vector.h \
+ /usr/include/c++/13/bits/stl_bvector.h \
+ /usr/include/c++/13/bits/vector.tcc /usr/include/c++/13/climits \
  /usr/lib/gcc/x86_64-linux-gnu/13/include/limits.h \
  /usr/lib/gcc/x86_64-linux-gnu/13/include/syslimits.h \
  /usr/include/limits.h /usr/include/x86_64-linux-gnu/bits/posix1_lim.h \
@@ -161,13 +156,16 @@ CMakeFiles/lab4.dir/src/main.cpp.o: /mnt/c/study/Graphs/lab4/src/main.cpp \
  /usr/include/x86_64-linux-gnu/bits/posix2_lim.h \
  /usr/include/x86_64-linux-gnu/bits/xopen_lim.h \
  /usr/include/x86_64-linux-gnu/bits/uio_lim.h \
- /mnt/c/study/Graphs/lab4/include/flows.h /usr/include/c++/13/vector \
- /usr/include/c++/13/bits/stl_uninitialized.h \
- /usr/include/c++/13/bits/stl_vector.h \
- /usr/include/c++/13/bits/stl_bvector.h \
- /usr/include/c++/13/bits/vector.tcc \
+ /mnt/c/study/Graphs/lab4/include/common_structures.h \
+ /mnt/c/study/Graphs/lab4/include/generate_graphs.h \
+ /mnt/c/study/Graphs/lab4/include/common_structures.h \
+ /mnt/c/study/Graphs/lab4/include/metrics.h \
+ /mnt/c/study/Graphs/lab4/include/shimbell.h \
+ /mnt/c/study/Graphs/lab4/include/routes.h \
+ /mnt/c/study/Graphs/lab4/include/articulation.h \
+ /mnt/c/study/Graphs/lab4/include/shortest_paths.h \
+ /mnt/c/study/Graphs/lab4/include/flows.h \
  /mnt/c/study/Graphs/lab4/include/boruvka.h \
  /mnt/c/study/Graphs/lab4/include/coloring.h \
  /mnt/c/study/Graphs/lab4/include/kirchhoff.h \
- /mnt/c/study/Graphs/lab4/include/prufer.h /usr/include/c++/13/utility \
- /usr/include/c++/13/bits/stl_relops.h
+ /mnt/c/study/Graphs/lab4/include/prufer.h
