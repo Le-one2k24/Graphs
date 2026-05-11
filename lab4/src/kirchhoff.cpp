@@ -4,12 +4,9 @@
 #include <iostream>
 using namespace std;
 
-// Вычисление детерминанта матрицы размера n x n (double) методом Гаусса с частичным выбором главного элемента.
-// Возвращает детерминант как long double.
 static long double determinant_ld(vector<vector<long double>>& A, int n) {
     long double det = 1.0L;
     for (int i = 0; i < n; ++i) {
-        // Поиск максимального по модулю элемента в столбце i (частичный выбор)
         int pivot = i;
         long double maxv = fabsl(A[i][i]);
         for (int r = i+1; r < n; ++r) {
@@ -25,7 +22,6 @@ static long double determinant_ld(vector<vector<long double>>& A, int n) {
         }
         long double diag = A[i][i];
         det *= diag;
-        // Нормализация строки и вычитание
         for (int r = i+1; r < n; ++r) {
             long double factor = A[r][i] / diag;
             if (fabsl(factor) < 1e-18L) continue;
@@ -40,7 +36,6 @@ static long double determinant_ld(vector<vector<long double>>& A, int n) {
 long long count_spanning_trees(int** adj, int N) {
     if (!adj || N <= 0) return -1;
 
-    // Построим матрицу Лапласа L (N x N)
     vector<vector<long double>> L(N, vector<long double>(N, 0.0L));
     for (int i = 0; i < N; ++i) {
         int deg = 0;
@@ -55,7 +50,6 @@ long long count_spanning_trees(int** adj, int N) {
         }
     }
 
-    // Удалим последнюю строку и столбец (получим (N-1)x(N-1))
     int n = N - 1;
     vector<vector<long double>> M(n, vector<long double>(n, 0.0L));
     for (int i = 0; i < n; ++i)
@@ -64,7 +58,6 @@ long long count_spanning_trees(int** adj, int N) {
 
     long double det = determinant_ld(M, n);
     if (det < 0) det = -det;
-    // Округлим до ближайшего целого
     long long result = (long long) llround(det);
     return result;
 }

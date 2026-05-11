@@ -29,7 +29,6 @@ int** boruvka_mst(int** adj, int** weight, int N, int& total_weight) {
     total_weight = 0;
     if (!adj || !weight || N <= 0) return nullptr;
 
-    // Инициализация MST-матрицы
     int** mst = new int*[N];
     for (int i=0;i<N;++i){
         mst[i] = new int[N];
@@ -66,7 +65,7 @@ int** boruvka_mst(int** adj, int** weight, int N, int& total_weight) {
             }
         }
 
-        // Добавляем найденные ребра
+
         for (int i = 0; i < N; ++i) {
             if (best_u[i] == -1) continue;
             int u = best_u[i];
@@ -74,7 +73,7 @@ int** boruvka_mst(int** adj, int** weight, int N, int& total_weight) {
             int cu = dsu.find(u);
             int cv = dsu.find(v);
             if (cu == cv) continue;
-            // Добавляем ребро в MST
+
             if (dsu.unite(cu, cv)) {
                 mst[u][v] = 1;
                 mst[v][u] = 1;

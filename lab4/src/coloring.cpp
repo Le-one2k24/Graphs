@@ -10,7 +10,7 @@ int* dsatur_coloring(int** adj, int N, int& colors_used) {
     colors_used = 0;
     if (!adj || N <= 0) return nullptr;
 
-    vector<int> color(N, 0); // 0 = uncolored
+    vector<int> color(N, 0);
     vector<int> degree(N, 0);
     for (int i = 0; i < N; ++i) {
         int d = 0;

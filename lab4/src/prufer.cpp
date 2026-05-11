@@ -50,7 +50,6 @@ bool encode_prufer_with_weights(
             if (deg[x] == 1) { v = x; break; }
         }
         if (v == -1) {
-            // некорректный вход (не дерево)
             for (int i = 0; i < N; ++i) delete[] tmp_adj[i];
             delete[] tmp_adj;
             return false;
@@ -72,7 +71,6 @@ bool encode_prufer_with_weights(
         code_nodes.push_back(u);
         code_weights.push_back(weight[v][u]);
 
-        // "Удаляем" вершину v и ребро (v,u)
         tmp_adj[v][u] = tmp_adj[u][v] = 0;
         deg[v]--;
         deg[u]--;
