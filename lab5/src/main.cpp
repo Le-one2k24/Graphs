@@ -661,24 +661,16 @@ int main() {
             case 18: {
                 int curN; bool oriented;
                 int** cur = get_current_matrix(curN, oriented);
-                if (!cur) {
-                    cout << "Нет текущего графа. Сначала сгенерируйте граф (пункт 1 и, при необходимости, пункт 2).\n";
-                    break;
-                }
-                if (oriented) {
-                    cout << "Эйлеров цикл строится для неориентированного графа. Преобразуйте граф в неориентированный (пункт 2).\n";
-                    break;
-                }
-                // Проверка связности (должна быть обеспечена)
-                // Проверка на эйлеровость
+                if (!cur) { cout << "Нет текущего графа...\n"; break; }
+                if (oriented) { cout << "Эйлеров цикл для неориентированного графа...\n"; break; }
+
                 if (is_eulerian(cur, curN)) {
-                    cout << "Граф уже является эйлеровым (все степени чётные).\n";
+                    cout << "Граф уже эйлеров.\n";
                     vector<vector<int>> mult;
-                    make_eulerian(cur, curN, mult); // просто скопирует, изменений не будет
+                    make_eulerian(cur, curN, mult); // просто скопирует
                     vector<int> cycle = find_eulerian_cycle(mult, curN);
-                    if (cycle.empty()) {
-                        cout << "Не удалось построить эйлеров цикл (возможно граф несвязен).\n";
-                    } else {
+                    if (cycle.empty()) cout << "Не удалось построить эйлеров цикл.\n";
+                    else {
                         cout << "Эйлеров цикл: ";
                         for (size_t i = 0; i < cycle.size(); ++i) {
                             cout << cycle[i];
@@ -687,26 +679,27 @@ int main() {
                         cout << endl;
                     }
                 } else {
-                    cout << "Граф не является эйлеровым. Будет модифицирован добавлением рёбер.\n";
+                    cout << "Граф не эйлеров. Попытка модификации...\n";
                     vector<vector<int>> mult;
                     vector<pair<int,int>> added = make_eulerian(cur, curN, mult);
-                    cout << "Модифицированный граф (матрица кратностей):\n";
-                    for (int i = 0; i < curN; ++i) {
-                        for (int j = 0; j < curN; ++j) {
-                            cout << mult[i][j] << " ";
-                        }
-                        cout << endl;
-                    }
-                    vector<int> cycle = find_eulerian_cycle(mult, curN);
-                    if (cycle.empty()) {
-                        cout << "Не удалось построить эйлеров цикл.\n";
+                    if (added.empty()) {
+                        cout << "Модификация невозможна.\n";
                     } else {
-                        cout << "Эйлеров цикл в модифицированном графе: ";
-                        for (size_t i = 0; i < cycle.size(); ++i) {
-                            cout << cycle[i];
-                            if (i+1 < cycle.size()) cout << " -> ";
+                        cout << "Модифицированный граф:\n";
+                        for (int i = 0; i < curN; ++i) {
+                            for (int j = 0; j < curN; ++j) cout << mult[i][j] << " ";
+                            cout << endl;
                         }
-                        cout << endl;
+                        vector<int> cycle = find_eulerian_cycle(mult, curN);
+                        if (cycle.empty()) cout << "Не удалось построить эйлеров цикл.\n";
+                        else {
+                            cout << "Эйлеров цикл в модифицированном графе: ";
+                            for (size_t i = 0; i < cycle.size(); ++i) {
+                                cout << cycle[i];
+                                if (i+1 < cycle.size()) cout << " -> ";
+                            }
+                            cout << endl;
+                        }
                     }
                 }
                 break;
