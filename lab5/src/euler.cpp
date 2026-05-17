@@ -18,7 +18,6 @@ bool is_eulerian(int** adj, int N) {
     return true;
 }
 
-// Построить матрицу дополнительного графа (1 если ребра нет и i!=j)
 static vector<vector<int>> build_auxiliary(int** adj, int N) {
     vector<vector<int>> aux(N, vector<int>(N, 0));
     for (int i = 0; i < N; ++i)
@@ -28,7 +27,6 @@ static vector<vector<int>> build_auxiliary(int** adj, int N) {
     return aux;
 }
 
-// Найти все простые пути между s и t в графе aux (BFS с запоминанием путей)
 static vector<vector<int>> find_all_paths(const vector<vector<int>>& aux, int s, int t) {
     vector<vector<int>> paths;
     queue<vector<int>> q;
@@ -52,13 +50,6 @@ static vector<vector<int>> find_all_paths(const vector<vector<int>>& aux, int s,
     return paths;
 }
 
-// Рекурсивный перебор пар нечётных вершин
-// odd_vertices: список вершин с нечётной степенью
-// used: какие вершины уже обработаны
-// current_edges: множество добавленных рёбер (для проверки конфликтов)
-// adj_original: исходная матрица (0/1, без кратностей)
-// best_edges: выходной вектор добавленных рёбер (если найдено решение)
-// Возвращает true, если удалось разбить все пары
 static bool backtrack_pairing(const vector<int>& odd_vertices,
                               vector<bool>& used,
                               set<pair<int,int>>& current_edges,
@@ -66,30 +57,24 @@ static bool backtrack_pairing(const vector<int>& odd_vertices,
                               int N,
                               vector<pair<int,int>>& best_edges) {
     int n = odd_vertices.size();
-    // Найти первую неиспользованную вершину
+
     int first = -1;
     for (int i = 0; i < n; ++i) {
         if (!used[i]) { first = i; break; }
     }
     if (first == -1) {
-        // Все вершины разбиты на пары
         best_edges.assign(current_edges.begin(), current_edges.end());
         return true;
     }
 
-    // Перебираем вторую вершину
     for (int j = first + 1; j < n; ++j) {
         if (used[j]) continue;
         int u = odd_vertices[first];
         int v = odd_vertices[j];
 
-        // Если уже есть прямое ребро в исходном графе, то ищем обходной путь
-        // В противном случае, можно добавить прямое ребро, если его нет в current_edges
         if (adj_original[u][v] == 0) {
-            // Проверяем, не добавлено ли уже это ребро
             if (current_edges.find({u, v}) == current_edges.end() &&
                 current_edges.find({v, u}) == current_edges.end()) {
-                // Добавляем прямое ребро
                 current_edges.insert({u, v});
                 used[first] = used[j] = true;
                 if (backtrack_pairing(odd_vertices, used, current_edges, adj_original, N, best_edges))
@@ -99,18 +84,14 @@ static bool backtrack_pairing(const vector<int>& odd_vertices,
             }
         }
 
-        // Ищем все пути в дополнительном графе между u и v
         vector<vector<int>> aux = build_auxiliary(adj_original, N);
-        // Удаляем из aux рёбра, которые уже добавлены в current_edges (чтобы не создавать кратных)
         for (auto& e : current_edges) {
             aux[e.first][e.second] = 0;
             aux[e.second][e.first] = 0;
         }
         vector<vector<int>> paths = find_all_paths(aux, u, v);
-        // Перебираем пути (ограничим длину пути, например, не более N)
         for (const auto& path : paths) {
             if (path.size() < 2) continue;
-            // Проверим, что все рёбра пути не конфликтуют с уже добавленными
             bool conflict = false;
             for (size_t k = 0; k + 1 < path.size(); ++k) {
                 int a = path[k], b = path[k+1];
@@ -121,7 +102,6 @@ static bool backtrack_pairing(const vector<int>& odd_vertices,
                 }
             }
             if (conflict) continue;
-            // Добавляем все рёбра пути
             vector<pair<int,int>> added;
             for (size_t k = 0; k + 1 < path.size(); ++k) {
                 int a = path[k], b = path[k+1];
@@ -139,14 +119,12 @@ static bool backtrack_pairing(const vector<int>& odd_vertices,
 }
 
 vector<pair<int,int>> make_eulerian(int** adj, int N, vector<vector<int>>& mult) {
-    // Копируем исходный граф в mult (матрица кратностей)
     mult.assign(N, vector<int>(N, 0));
     for (int i = 0; i < N; ++i)
         for (int j = 0; j < N; ++j)
             if (adj[i][j] != 0)
-                mult[i][j] = adj[i][j]; // обычно 1, но поддерживаем кратные
+                mult[i][j] = adj[i][j];
 
-    // Подсчёт степеней в исходном графе
     vector<int> deg(N, 0);
     for (int i = 0; i < N; ++i)
         for (int j = 0; j < N; ++j)
@@ -182,7 +160,6 @@ vector<pair<int,int>> make_eulerian(int** adj, int N, vector<vector<int>>& mult)
     for (size_t i = 0; i < best_edges.size(); ++i) {
         int u = best_edges[i].first, v = best_edges[i].second;
         cout << "  " << u << " - " << v << endl;
-        // Увеличиваем кратность в mult
         mult[u][v]++;
         mult[v][u]++;
     }
@@ -215,7 +192,5 @@ vector<int> find_eulerian_cycle(const vector<vector<int>>& mult, int N, int star
     }
 
     reverse(cycle.begin(), cycle.end());
-    // Проверка: если цикл не содержит все рёбра, вернём пустой
-    // Но для эйлерова графа это корректно
     return cycle;
 }
