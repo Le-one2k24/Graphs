@@ -1,0 +1,616 @@
+<mxfile host="Electron" agent="Mozilla/5.0">
+  <diagram id="allergy-tree" name="AllergyTree">
+    <mxGraphModel dx="1609" dy="2163" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1200" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="q1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=center;" value="Реакция возникает в течение 1–6 часов после контакта с аллергеном?" vertex="1">
+          <mxGeometry height="90" width="180" x="2510" y="-1160" as="geometry" />
+        </mxCell>
+        <mxCell id="q2_yes" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=center;" value="В анамнезе есть указания на перенесённую тяжёлую системную реакцию (анафилаксию)?" vertex="1">
+          <mxGeometry height="90" width="180" x="1230" y="-1040" as="geometry" />
+        </mxCell>
+        <mxCell id="e_q1_q2y" edge="1" parent="1" source="q1" style="endArrow=block;html=1;" target="q2_yes">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="l_q1_q2y" connectable="0" parent="e_q1_q2y" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Да" vertex="1">
+          <mxGeometry relative="1" x="-0.1" y="-2" as="geometry">
+            <mxPoint x="-10" y="-12" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="q2_no" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=center;" value="Реакция возникает не менее чем через 1 день (более 12–24 часов) после контакта с аллергеном?" vertex="1">
+          <mxGeometry height="90" width="180" x="3800" y="-1040" as="geometry" />
+        </mxCell>
+        <mxCell id="e_q1_q2n" edge="1" parent="1" source="q1" style="endArrow=block;html=1;" target="q2_no">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="l_q1_q2n" connectable="0" parent="e_q1_q2n" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Нет" vertex="1">
+          <mxGeometry relative="1" x="-0.1" y="-2" as="geometry">
+            <mxPoint x="8" y="-12" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="q3_anaph" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=center;" value="Реакцию вызвало жалящее насекомое?" vertex="1">
+          <mxGeometry height="90" width="180" x="730" y="-920" as="geometry" />
+        </mxCell>
+        <mxCell id="e_q2y_q3" edge="1" parent="1" source="q2_yes" style="endArrow=block;html=1;" target="q3_anaph">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="340" y="-860.0023529411765" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="l_q2y_q3" connectable="0" parent="e_q2y_q3" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Да" vertex="1">
+          <mxGeometry relative="1" x="-0.1" y="-2" as="geometry">
+            <mxPoint x="-10" y="-12" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="q4_anaph_no" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=center;" value="Реакция возникла во время или после внутривенного введения лекарства?" vertex="1">
+          <mxGeometry height="90" width="180" x="830" y="-800" as="geometry" />
+        </mxCell>
+        <mxCell id="e_q2y_q4" edge="1" parent="1" source="q3_anaph" style="endArrow=block;html=1;" target="q4_anaph_no">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="l_q2y_q4" connectable="0" parent="e_q2y_q4" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Нет" vertex="1">
+          <mxGeometry relative="1" x="-0.1" y="-2" as="geometry">
+            <mxPoint x="17" y="-6" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="leaf_bee" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=center;" value="Аллергия на яд перепончатокрылых (ос, пчёл)" vertex="1">
+          <mxGeometry height="90" width="180" x="620" y="-800" as="geometry" />
+        </mxCell>
+        <mxCell id="e_q3_leaf1" edge="1" parent="1" source="q3_anaph" style="endArrow=block;html=1;" target="leaf_bee">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="l_q3_leaf1" connectable="0" parent="e_q3_leaf1" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Да" vertex="1">
+          <mxGeometry relative="1" x="-0.1" y="-2" as="geometry">
+            <mxPoint x="-20" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="q5_anaph_food" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=center;" value="Симптомы начались в течение 30 минут после употребления арахиса/орехов/моллюсков?" vertex="1">
+          <mxGeometry height="90" width="180" x="940" y="-680" as="geometry" />
+        </mxCell>
+        <mxCell id="e_q4_q5" edge="1" parent="1" source="q4_anaph_no" style="endArrow=block;html=1;" target="q5_anaph_food">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="l_q4_q5" connectable="0" parent="e_q4_q5" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Нет" vertex="1">
+          <mxGeometry relative="1" x="-0.1" y="-2" as="geometry">
+            <mxPoint x="33" y="-5" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="leaf_anaph_drug" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=center;" value="Анафилаксия на ЛС (например, НПВП/антибиотики)" vertex="1">
+          <mxGeometry height="90" width="180" x="730" y="-680" as="geometry" />
+        </mxCell>
+        <mxCell id="e_q4_leaf2" edge="1" parent="1" source="q4_anaph_no" style="endArrow=block;html=1;" target="leaf_anaph_drug">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="l_q4_leaf2" connectable="0" parent="e_q4_leaf2" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Да" vertex="1">
+          <mxGeometry relative="1" x="-0.1" y="-2" as="geometry">
+            <mxPoint x="-25" y="-3" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="leaf_anaph_food" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=center;" value="Анафилаксия пищевая (тяжёлая IgE-опосредованная)" vertex="1">
+          <mxGeometry height="90" width="180" x="840" y="-560" as="geometry" />
+        </mxCell>
+        <mxCell id="e_q5_leaf_food" edge="1" parent="1" source="q5_anaph_food" style="endArrow=block;html=1;" target="leaf_anaph_food">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="l_q5_food" connectable="0" parent="e_q5_leaf_food" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Да" vertex="1">
+          <mxGeometry relative="1" x="-0.1" y="-2" as="geometry">
+            <mxPoint x="-18" y="-1" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="leaf_anaph_unknown" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=center;" value="Анафилаксия неясной этиологии" vertex="1">
+          <mxGeometry height="90" width="180" x="1050" y="-560" as="geometry" />
+        </mxCell>
+        <mxCell id="e_q5_leaf_unknown" edge="1" parent="1" source="q5_anaph_food" style="endArrow=block;html=1;" target="leaf_anaph_unknown">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="l_q5_unknown" connectable="0" parent="e_q5_leaf_unknown" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Нет" vertex="1">
+          <mxGeometry relative="1" x="-0.1" y="-2" as="geometry">
+            <mxPoint x="23" y="-5" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="q3_resp" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=center;" value="Реакция связана с дыхательной системой?" vertex="1">
+          <mxGeometry height="90" width="180" x="1760" y="-920" as="geometry" />
+        </mxCell>
+        <mxCell id="e_q2y_q3resp" edge="1" parent="1" source="q2_yes" style="endArrow=block;html=1;" target="q3_resp">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="l_q2y_q3resp" connectable="0" parent="e_q2y_q3resp" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Нет" vertex="1">
+          <mxGeometry relative="1" x="-0.1" y="-2" as="geometry">
+            <mxPoint x="10" y="-12" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="q4_season" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=center;" value="Симптомы (чихание, зуд, ринорея) появляются сезонно во время цветения?" vertex="1">
+          <mxGeometry height="90" width="180" x="1300" y="-800" as="geometry" />
+        </mxCell>
+        <mxCell id="e_q3resp_q4" edge="1" parent="1" source="q3_resp" style="endArrow=block;html=1;" target="q4_season">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="l_q3resp_q4" connectable="0" parent="e_q3resp_q4" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Да" vertex="1">
+          <mxGeometry relative="1" x="-0.1" y="-2" as="geometry">
+            <mxPoint x="-10" y="-12" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="q5_perennial" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=center;" value="Симптомы сохраняются круглый год и усиливаются дома или на работе?" vertex="1">
+          <mxGeometry height="90" width="180" x="1400" y="-680" as="geometry" />
+        </mxCell>
+        <mxCell id="e_q3resp_q5" edge="1" parent="1" source="q4_season" style="endArrow=block;html=1;" target="q5_perennial">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1450" y="-680" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="l_q3resp_q5" connectable="0" parent="e_q3resp_q5" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Нет" vertex="1">
+          <mxGeometry relative="1" x="-0.1" y="-2" as="geometry">
+            <mxPoint x="20" y="-4" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="leaf_seasonal" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=center;" value="Сезонный аллергический ринит (поллиноз)" vertex="1">
+          <mxGeometry height="90" width="180" x="1180" y="-680" as="geometry" />
+        </mxCell>
+        <mxCell id="e_q4_seasonal" edge="1" parent="1" source="q4_season" style="endArrow=block;html=1;" target="leaf_seasonal">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="l_season" connectable="0" parent="e_q4_seasonal" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Да" vertex="1">
+          <mxGeometry relative="1" x="-0.1" y="-2" as="geometry">
+            <mxPoint x="-18" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="q6_asthma" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=center;" value="Основной симптом — приступы удушья, свистящее дыхание?" vertex="1">
+          <mxGeometry height="90" width="180" x="1510" y="-560" as="geometry" />
+        </mxCell>
+        <mxCell id="e_q5_q6" edge="1" parent="1" source="q5_perennial" style="endArrow=block;html=1;" target="q6_asthma">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="l_q5_q6" connectable="0" parent="e_q5_q6" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Нет" vertex="1">
+          <mxGeometry relative="1" x="-0.1" y="-2" as="geometry">
+            <mxPoint x="19" y="-4" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="leaf_perennial" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=center;" value="Круглогодичный аллергический ринит (на бытовые аллергены)" vertex="1">
+          <mxGeometry height="90" width="180" x="1300" y="-560" as="geometry" />
+        </mxCell>
+        <mxCell id="e_q5_leaf_per" edge="1" parent="1" source="q5_perennial" style="endArrow=block;html=1;" target="leaf_perennial">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1718.333333333333" y="-515" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="l_per" connectable="0" parent="e_q5_leaf_per" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Да" vertex="1">
+          <mxGeometry relative="1" x="-0.1" y="-2" as="geometry">
+            <mxPoint x="-17" y="-1" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="leaf_asthma" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=center;" value="Аллергическая бронхиальная астма" vertex="1">
+          <mxGeometry height="90" width="180" x="1400" y="-440" as="geometry" />
+        </mxCell>
+        <mxCell id="e_q6_asthma" edge="1" parent="1" source="q6_asthma" style="endArrow=block;html=1;" target="leaf_asthma">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1360" y="-340" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="l_asthma" connectable="0" parent="e_q6_asthma" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Да" vertex="1">
+          <mxGeometry relative="1" x="-0.1" y="-2" as="geometry">
+            <mxPoint x="-17" y="-1" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="leaf_nonallergic" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=center;" value="Неаллергический ринит" vertex="1">
+          <mxGeometry height="90" width="180" x="1610" y="-440" as="geometry" />
+        </mxCell>
+        <mxCell id="e_q6_nonall" edge="1" parent="1" source="q6_asthma" style="endArrow=block;html=1;" target="leaf_nonallergic">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="l_nonall" connectable="0" parent="e_q6_nonall" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Нет" vertex="1">
+          <mxGeometry relative="1" x="-0.1" y="-2" as="geometry">
+            <mxPoint x="10" y="-12" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="q4_skin" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=center;" value="Реакция проявляется на коже?" vertex="1">
+          <mxGeometry height="90" width="181" x="2220" y="-800" as="geometry" />
+        </mxCell>
+        <mxCell id="e_q3resp_q4skin" edge="1" parent="1" source="q3_resp" style="endArrow=block;html=1;" target="q4_skin">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="l_q3resp_skin" connectable="0" parent="e_q3resp_q4skin" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Нет" vertex="1">
+          <mxGeometry relative="1" x="-0.1" y="-2" as="geometry">
+            <mxPoint x="15" y="-12" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="q5_contact_imm" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=center;" value="При контакте с аллергеном возникают зуд, волдыри, покраснение?" vertex="1">
+          <mxGeometry height="90" width="180" x="1860" y="-680" as="geometry" />
+        </mxCell>
+        <mxCell id="e_q4skin_q5imm" edge="1" parent="1" source="q4_skin" style="endArrow=block;html=1;" target="q5_contact_imm">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="2090" y="-690.4545454545454" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="l_skin_yes" connectable="0" parent="e_q4skin_q5imm" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Да" vertex="1">
+          <mxGeometry relative="1" x="-0.1" y="-2" as="geometry">
+            <mxPoint x="-10" y="-12" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="q6_delayed" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=center;" value="Сыпь появилась через 12–48 часов после контакта с металлом/косметикой, похожа на экзему?" vertex="1">
+          <mxGeometry height="90" width="180" x="1970" y="-560" as="geometry" />
+        </mxCell>
+        <mxCell id="e_q4skin_q6del" edge="1" parent="1" source="q5_contact_imm" style="endArrow=block;html=1;" target="q6_delayed">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1950" y="-558" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="l_skin_no" connectable="0" parent="e_q4skin_q6del" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Нет" vertex="1">
+          <mxGeometry relative="1" x="-0.1" y="-2" as="geometry">
+            <mxPoint x="18" y="-6" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="leaf_contact_urticaria" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=center;" value="Контактная крапивница (IgE-опосредованная)" vertex="1">
+          <mxGeometry height="90" width="180" x="1750" y="-560" as="geometry" />
+        </mxCell>
+        <mxCell id="e_q5imm_leaf" edge="1" parent="1" source="q5_contact_imm" style="endArrow=block;html=1;" target="leaf_contact_urticaria">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="l_imm_yes" connectable="0" parent="e_q5imm_leaf" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Да" vertex="1">
+          <mxGeometry relative="1" x="-0.1" y="-2" as="geometry">
+            <mxPoint x="-16" y="-2" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="q7_wheals" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=center;" value="Беспокоят спонтанно возникающие зудящие волдыри («крапивница»), длятся менее 24 часов?" vertex="1">
+          <mxGeometry height="90" width="180" x="2050" y="-440" as="geometry" />
+        </mxCell>
+        <mxCell id="e_q5imm_q7" edge="1" parent="1" source="q6_delayed" style="endArrow=block;html=1;" target="q7_wheals">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="l_imm_no" connectable="0" parent="e_q5imm_q7" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Нет" vertex="1">
+          <mxGeometry relative="1" x="-0.1" y="-2" as="geometry">
+            <mxPoint x="17" y="-5" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="leaf_delayed_contact" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=center;" value="Аллергический контактный дерматит (IV тип)" vertex="1">
+          <mxGeometry height="90" width="180" x="1840" y="-440" as="geometry" />
+        </mxCell>
+        <mxCell id="e_q6del_leaf" edge="1" parent="1" source="q6_delayed" style="endArrow=block;html=1;" target="leaf_delayed_contact">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="l_del_yes" connectable="0" parent="e_q6del_leaf" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Да" vertex="1">
+          <mxGeometry relative="1" x="-0.1" y="-2" as="geometry">
+            <mxPoint x="-15" y="-3" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="leaf_chronic_urticaria" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=center;" value="Хроническая спонтанная крапивница" vertex="1">
+          <mxGeometry height="90" width="180" x="1950" y="-320" as="geometry" />
+        </mxCell>
+        <mxCell id="e_q7_leaf_chron" edge="1" parent="1" source="q7_wheals" style="endArrow=block;html=1;" target="leaf_chronic_urticaria">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="l_chron" connectable="0" parent="e_q7_leaf_chron" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Да" vertex="1">
+          <mxGeometry relative="1" x="-0.1" y="-2" as="geometry">
+            <mxPoint x="-13" y="-2" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="leaf_atopic" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=center;" value="Атопический дерматит (экзема)" vertex="1">
+          <mxGeometry height="90" width="180" x="2150" y="-320" as="geometry" />
+        </mxCell>
+        <mxCell id="e_q7_leaf_atopic" edge="1" parent="1" source="q7_wheals" style="endArrow=block;html=1;" target="leaf_atopic">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="l_atopic" connectable="0" parent="e_q7_leaf_atopic" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Нет" vertex="1">
+          <mxGeometry relative="1" x="-0.1" y="-2" as="geometry">
+            <mxPoint x="15" y="-7" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="q5_gut" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=center;" value="Реакция связана с желудочно-кишечным трактом (ЖКТ)?" vertex="1">
+          <mxGeometry height="90" width="180" x="2650" y="-680" as="geometry" />
+        </mxCell>
+        <mxCell id="e_q4skin_q5gut" edge="1" parent="1" source="q4_skin" style="endArrow=block;html=1;" target="q5_gut">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="l_skin_no2" connectable="0" parent="e_q4skin_q5gut" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Нет" vertex="1">
+          <mxGeometry relative="1" x="-0.1" y="-2" as="geometry">
+            <mxPoint x="15" y="-12" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="leaf_food_milk" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=center;" value="Пищевая аллергия (молоко/яйцо) у детей до 2 лет" vertex="1">
+          <mxGeometry height="90" width="180" x="2250" y="-440" as="geometry" />
+        </mxCell>
+        <mxCell id="e_q5gut_milk" edge="1" parent="1" source="q5_gut" style="endArrow=block;html=1;" target="kZs-V0rC8jbCb6TRzGv2-7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="l_gut_yes" connectable="0" parent="e_q5gut_milk" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Да" vertex="1">
+          <mxGeometry relative="1" x="-0.1" y="-2" as="geometry">
+            <mxPoint x="-10" y="-12" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="leaf_oral_syndrome" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=center;" value="Синдром оральной аллергии (на свежие фрукты/овощи)" vertex="1">
+          <mxGeometry height="90" width="180" x="2570" y="-320" as="geometry" />
+        </mxCell>
+        <mxCell id="e_q5gut_oral" edge="1" parent="1" source="q5_gut" style="endArrow=block;html=1;" target="kZs-V0rC8jbCb6TRzGv2-25" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="2308.181818181818" y="-580" as="sourcePoint" />
+            <mxPoint x="3040" y="-610" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="l_gut_no" connectable="0" parent="e_q5gut_oral" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Нет" vertex="1">
+          <mxGeometry relative="1" x="-0.1" y="-2" as="geometry">
+            <mxPoint x="10" y="-12" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="q3_skin_delayed" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=center;" value="Реакция связана с кожей (например, сыпь, зуд)?" vertex="1">
+          <mxGeometry height="90" width="180" x="3410" y="-920" as="geometry" />
+        </mxCell>
+        <mxCell id="e_q2n_q3skin" edge="1" parent="1" source="q2_no" style="endArrow=block;html=1;" target="q3_skin_delayed">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="l_q2n_yes" connectable="0" parent="e_q2n_q3skin" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Да" vertex="1">
+          <mxGeometry relative="1" x="-0.1" y="-2" as="geometry">
+            <mxPoint x="-10" y="-12" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="q4_local" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=center;" value="Сыпь появилась в месте нанесения мази/пластыря или контакта с одеждой с металлическими деталями?" vertex="1">
+          <mxGeometry height="90" width="180" x="3200" y="-800" as="geometry" />
+        </mxCell>
+        <mxCell id="e_q3skin_q4local" edge="1" parent="1" source="q3_skin_delayed" style="endArrow=block;html=1;" target="q4_local">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="l_local" connectable="0" parent="e_q3skin_q4local" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Да" vertex="1">
+          <mxGeometry relative="1" x="-0.1" y="-2" as="geometry">
+            <mxPoint x="-10" y="-12" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="leaf_contact_delayed" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=center;" value="Аллергический контактный дерматит (IV тип, замедленный)" vertex="1">
+          <mxGeometry height="90" width="180" x="3090" y="-680" as="geometry" />
+        </mxCell>
+        <mxCell id="e_q4local_leaf" edge="1" parent="1" source="q4_local" style="endArrow=block;html=1;" target="leaf_contact_delayed">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="l_local_yes" connectable="0" parent="e_q4local_leaf" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Да" vertex="1">
+          <mxGeometry relative="1" x="-0.1" y="-2" as="geometry">
+            <mxPoint x="-15" y="-2" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="q5_drug_rash" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=center;" value="Сыпь генерализованная, появилась через несколько дней после приёма внутрь антибиотиков, например пенициллина?" vertex="1">
+          <mxGeometry height="90" width="180" x="3310" y="-680" as="geometry" />
+        </mxCell>
+        <mxCell id="e_q3skin_q5drug" edge="1" parent="1" source="q4_local" style="endArrow=block;html=1;" target="q5_drug_rash">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="l_drug" connectable="0" parent="e_q3skin_q5drug" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Нет" vertex="1">
+          <mxGeometry relative="1" x="-0.1" y="-2" as="geometry">
+            <mxPoint x="18" y="-5" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="leaf_drug_rash" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=center;" value="Лекарственная сыпь (IV тип, замедленная)" vertex="1">
+          <mxGeometry height="90" width="180" x="3200" y="-560" as="geometry" />
+        </mxCell>
+        <mxCell id="e_q5drug_leaf" edge="1" parent="1" source="q5_drug_rash" style="endArrow=block;html=1;" target="leaf_drug_rash">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="l_drug_yes" connectable="0" parent="e_q5drug_leaf" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Да" vertex="1">
+          <mxGeometry relative="1" x="-0.1" y="-2" as="geometry">
+            <mxPoint x="-15" y="-2" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="leaf_nonallergic_urticaria" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=center;" value="Неаллергическая крапивница" vertex="1">
+          <mxGeometry height="90" width="180" x="3410" y="-560" as="geometry" />
+        </mxCell>
+        <mxCell id="e_q5drug_nonall" edge="1" parent="1" source="q5_drug_rash" style="endArrow=block;html=1;" target="leaf_nonallergic_urticaria">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="l_drug_no" connectable="0" parent="e_q5drug_nonall" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Нет" vertex="1">
+          <mxGeometry relative="1" x="-0.1" y="-2" as="geometry">
+            <mxPoint x="17" y="-5" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="q3_physical" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=center;" value="Реакция всегда возникает на холод/тепло/солнце?" vertex="1">
+          <mxGeometry height="90" width="180" x="4140" y="-920" as="geometry" />
+        </mxCell>
+        <mxCell id="e_q2n_q3phys" edge="1" parent="1" source="q2_no" style="endArrow=block;html=1;" target="q3_physical">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="l_q2n_phys" connectable="0" parent="e_q2n_q3phys" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Нет" vertex="1">
+          <mxGeometry relative="1" x="-0.1" y="-2" as="geometry">
+            <mxPoint x="15" y="-12" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="leaf_physical_urticaria" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=center;" value="Физическая крапивница (холодовая/солнечная/вибрационная)" vertex="1">
+          <mxGeometry height="90" width="180" x="3940" y="-680" as="geometry" />
+        </mxCell>
+        <mxCell id="e_q3phys_leaf" edge="1" parent="1" source="kZs-V0rC8jbCb6TRzGv2-43" style="endArrow=block;html=1;" target="leaf_physical_urticaria">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="3666.2962962962956" y="-720" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="l_phys_yes" connectable="0" parent="e_q3phys_leaf" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Да" vertex="1">
+          <mxGeometry relative="1" x="-0.1" y="-2" as="geometry">
+            <mxPoint x="-16" y="-3" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="leaf_idiopathic" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=center;" value="Идиопатическая крапивница" vertex="1">
+          <mxGeometry height="90" width="180" x="4140" y="-680" as="geometry" />
+        </mxCell>
+        <mxCell id="e_q3phys_idio" edge="1" parent="1" source="kZs-V0rC8jbCb6TRzGv2-43" style="endArrow=block;html=1;" target="leaf_idiopathic">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="l_phys_no" connectable="0" parent="e_q3phys_idio" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Нет" vertex="1">
+          <mxGeometry relative="1" x="-0.1" y="-2" as="geometry">
+            <mxPoint x="17" y="-6" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="leaf_undefined" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=center;" value="Неопределённый тип (требуется обследование)" vertex="1">
+          <mxGeometry height="90" width="180" x="4240" y="-800" as="geometry" />
+        </mxCell>
+        <mxCell id="e_q3phys_undef" edge="1" parent="1" source="q3_physical" style="endArrow=block;html=1;" target="leaf_undefined">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="l_undef" connectable="0" parent="e_q3phys_undef" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Нет" vertex="1">
+          <mxGeometry relative="1" x="-0.1" y="-2" as="geometry">
+            <mxPoint x="23" y="-5" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="kZs-V0rC8jbCb6TRzGv2-7" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=center;" value="Симптомы (боль в животе, тошнота, рвота, диарея) возникают у ребёнка до 2 лет при употреблении коровьего молока/яиц/сои?" vertex="1">
+          <mxGeometry height="90" width="180" x="2360" y="-560" as="geometry" />
+        </mxCell>
+        <mxCell id="kZs-V0rC8jbCb6TRzGv2-8" edge="1" parent="1" source="kZs-V0rC8jbCb6TRzGv2-7" style="endArrow=block;html=1;" target="leaf_food_milk">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="2240" y="-420" as="sourcePoint" />
+            <mxPoint x="2220" y="-415" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="kZs-V0rC8jbCb6TRzGv2-9" connectable="0" parent="kZs-V0rC8jbCb6TRzGv2-8" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Да" vertex="1">
+          <mxGeometry relative="1" x="-0.1" y="-2" as="geometry">
+            <mxPoint x="-16" y="-2" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="kZs-V0rC8jbCb6TRzGv2-10" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=center;" value="Симптомы ЖКТ появляются через несколько часов после употребления пшеницы/морепродуктов?" vertex="1">
+          <mxGeometry height="90" width="180" x="2460" y="-440" as="geometry" />
+        </mxCell>
+        <mxCell id="kZs-V0rC8jbCb6TRzGv2-11" edge="1" parent="1" source="kZs-V0rC8jbCb6TRzGv2-7" style="endArrow=block;html=1;" target="kZs-V0rC8jbCb6TRzGv2-10" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="2420" y="-420" as="sourcePoint" />
+            <mxPoint x="2550" y="-320" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="kZs-V0rC8jbCb6TRzGv2-12" connectable="0" parent="kZs-V0rC8jbCb6TRzGv2-11" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Нет" vertex="1">
+          <mxGeometry relative="1" x="-0.1" y="-2" as="geometry">
+            <mxPoint x="18" y="-5" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="kZs-V0rC8jbCb6TRzGv2-13" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=center;" value="Пищевая аллергия (IgE-опосредованная, злаки/рыба)" vertex="1">
+          <mxGeometry height="90" width="180" x="2360" y="-320" as="geometry" />
+        </mxCell>
+        <mxCell id="kZs-V0rC8jbCb6TRzGv2-14" edge="1" parent="1" source="kZs-V0rC8jbCb6TRzGv2-10" style="endArrow=block;html=1;" target="kZs-V0rC8jbCb6TRzGv2-13">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="2683" y="-270" as="sourcePoint" />
+            <mxPoint x="2670" y="-266" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="kZs-V0rC8jbCb6TRzGv2-15" connectable="0" parent="kZs-V0rC8jbCb6TRzGv2-14" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Да" vertex="1">
+          <mxGeometry relative="1" x="-0.1" y="-2" as="geometry">
+            <mxPoint x="-15" y="-3" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="kZs-V0rC8jbCb6TRzGv2-16" edge="1" parent="1" source="kZs-V0rC8jbCb6TRzGv2-10" style="endArrow=block;html=1;" target="leaf_oral_syndrome" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="2950" y="-370" as="sourcePoint" />
+            <mxPoint x="2993" y="-361" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="kZs-V0rC8jbCb6TRzGv2-17" connectable="0" parent="kZs-V0rC8jbCb6TRzGv2-16" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Нет" vertex="1">
+          <mxGeometry relative="1" x="-0.1" y="-2" as="geometry">
+            <mxPoint x="18" y="-5" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="kZs-V0rC8jbCb6TRzGv2-18" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=center;" value="Симптомы появляются только после еды перед физической нагрузкой?" vertex="1">
+          <mxGeometry height="90" width="180" x="2870.15" y="-442" as="geometry" />
+        </mxCell>
+        <mxCell id="kZs-V0rC8jbCb6TRzGv2-19" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=center;" value="Холинергическая крапивница/анафилаксия, вызванная физической нагрузкой" vertex="1">
+          <mxGeometry height="90" width="180" x="2770.15" y="-322" as="geometry" />
+        </mxCell>
+        <mxCell id="kZs-V0rC8jbCb6TRzGv2-20" edge="1" parent="1" source="kZs-V0rC8jbCb6TRzGv2-18" style="endArrow=block;html=1;" target="kZs-V0rC8jbCb6TRzGv2-19">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="2700.15" y="-247.88" as="sourcePoint" />
+            <mxPoint x="2690.15" y="-244.88" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="kZs-V0rC8jbCb6TRzGv2-21" connectable="0" parent="kZs-V0rC8jbCb6TRzGv2-20" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Да" vertex="1">
+          <mxGeometry relative="1" x="-0.1" y="-2" as="geometry">
+            <mxPoint x="-21" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="kZs-V0rC8jbCb6TRzGv2-22" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=center;" value="&amp;nbsp;Крапивница от физической нагрузки (не связана с едой)" vertex="1">
+          <mxGeometry height="90" width="180" x="2980.15" y="-322" as="geometry" />
+        </mxCell>
+        <mxCell id="kZs-V0rC8jbCb6TRzGv2-23" edge="1" parent="1" source="kZs-V0rC8jbCb6TRzGv2-18" style="endArrow=block;html=1;" target="kZs-V0rC8jbCb6TRzGv2-22" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="2960.15" y="-327.88" as="sourcePoint" />
+            <mxPoint x="2970.15" y="-324.88" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="kZs-V0rC8jbCb6TRzGv2-24" connectable="0" parent="kZs-V0rC8jbCb6TRzGv2-23" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Нет" vertex="1">
+          <mxGeometry relative="1" x="-0.1" y="-2" as="geometry">
+            <mxPoint x="19" y="-5" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="kZs-V0rC8jbCb6TRzGv2-25" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=center;" value="Реакция возникает при физической нагрузке?" vertex="1">
+          <mxGeometry height="90" width="180" x="2970.15" y="-560" as="geometry" />
+        </mxCell>
+        <mxCell id="kZs-V0rC8jbCb6TRzGv2-26" edge="1" parent="1" source="kZs-V0rC8jbCb6TRzGv2-25" style="endArrow=block;html=1;" target="kZs-V0rC8jbCb6TRzGv2-18">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="3039.749499374218" y="-447.88" as="sourcePoint" />
+            <mxPoint x="2580.15" y="-427.88" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="kZs-V0rC8jbCb6TRzGv2-27" connectable="0" parent="kZs-V0rC8jbCb6TRzGv2-26" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Да" vertex="1">
+          <mxGeometry relative="1" x="-0.1" y="-2" as="geometry">
+            <mxPoint x="-14" y="-3" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="kZs-V0rC8jbCb6TRzGv2-28" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=center;" value="Неопределённый тип (требуется обследование у аллерголога)" vertex="1">
+          <mxGeometry height="90" width="180" x="3070.15" y="-442" as="geometry" />
+        </mxCell>
+        <mxCell id="kZs-V0rC8jbCb6TRzGv2-29" edge="1" parent="1" source="kZs-V0rC8jbCb6TRzGv2-25" style="endArrow=block;html=1;" target="kZs-V0rC8jbCb6TRzGv2-28" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="3130.15" y="-310" as="sourcePoint" />
+            <mxPoint x="3292.15" y="-279" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="kZs-V0rC8jbCb6TRzGv2-30" connectable="0" parent="kZs-V0rC8jbCb6TRzGv2-29" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Нет" vertex="1">
+          <mxGeometry relative="1" x="-0.1" y="-2" as="geometry">
+            <mxPoint x="18" y="-6" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="kZs-V0rC8jbCb6TRzGv2-34" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=center;" value="Реакция проявилась в виде лихорадки, болей в суставах после укуса насекомого?" vertex="1">
+          <mxGeometry height="90" width="180" x="3620" y="-800" as="geometry" />
+        </mxCell>
+        <mxCell id="kZs-V0rC8jbCb6TRzGv2-35" edge="1" parent="1" source="q3_skin_delayed" style="endArrow=block;html=1;" target="kZs-V0rC8jbCb6TRzGv2-34">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="3614" y="-690" as="sourcePoint" />
+            <mxPoint x="3570" y="-600" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="kZs-V0rC8jbCb6TRzGv2-36" connectable="0" parent="kZs-V0rC8jbCb6TRzGv2-35" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Нет" vertex="1">
+          <mxGeometry relative="1" x="-0.1" y="-2" as="geometry">
+            <mxPoint x="12" y="-11" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="kZs-V0rC8jbCb6TRzGv2-37" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=center;" value="Системная реакция замедленного типа на укус насекомого" vertex="1">
+          <mxGeometry height="90" width="180" x="3510" y="-680" as="geometry" />
+        </mxCell>
+        <mxCell id="kZs-V0rC8jbCb6TRzGv2-38" edge="1" parent="1" source="kZs-V0rC8jbCb6TRzGv2-34" style="endArrow=block;html=1;" target="kZs-V0rC8jbCb6TRzGv2-37">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="3730" y="-650" as="sourcePoint" />
+            <mxPoint x="3640" y="-632" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="kZs-V0rC8jbCb6TRzGv2-39" connectable="0" parent="kZs-V0rC8jbCb6TRzGv2-38" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Да" vertex="1">
+          <mxGeometry relative="1" x="-0.1" y="-2" as="geometry">
+            <mxPoint x="-20" y="-2" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="kZs-V0rC8jbCb6TRzGv2-40" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=center;" value="Неопределённый тип (требуется обследование у аллерголога)" vertex="1">
+          <mxGeometry height="90" width="180" x="3720" y="-680" as="geometry" />
+        </mxCell>
+        <mxCell id="kZs-V0rC8jbCb6TRzGv2-41" edge="1" parent="1" source="kZs-V0rC8jbCb6TRzGv2-34" style="endArrow=block;html=1;" target="kZs-V0rC8jbCb6TRzGv2-40">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="3994" y="-670" as="sourcePoint" />
+            <mxPoint x="3950" y="-580" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="kZs-V0rC8jbCb6TRzGv2-42" connectable="0" parent="kZs-V0rC8jbCb6TRzGv2-41" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Нет" vertex="1">
+          <mxGeometry relative="1" x="-0.1" y="-2" as="geometry">
+            <mxPoint x="17" y="-5" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="kZs-V0rC8jbCb6TRzGv2-43" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=center;" value="Симптомы (волдыри, зуд, покраснение) появляются под воздействием провоцирующего фактора?" vertex="1">
+          <mxGeometry height="90" width="180" x="4040" y="-800" as="geometry" />
+        </mxCell>
+        <mxCell id="kZs-V0rC8jbCb6TRzGv2-44" edge="1" parent="1" source="q3_physical" style="endArrow=block;html=1;" target="kZs-V0rC8jbCb6TRzGv2-43">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="4484" y="-490" as="sourcePoint" />
+            <mxPoint x="4280" y="-350" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="kZs-V0rC8jbCb6TRzGv2-45" connectable="0" parent="kZs-V0rC8jbCb6TRzGv2-44" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Да" vertex="1">
+          <mxGeometry relative="1" x="-0.1" y="-2" as="geometry">
+            <mxPoint x="-19" y="-3" as="offset" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

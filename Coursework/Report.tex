@@ -1,0 +1,769 @@
+% report.tex
+\documentclass[a4paper, final]{extarticle}
+\usepackage[russian]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T2A]{fontenc}
+\usepackage[14pt]{extsizes}
+\usepackage[left=20mm, top=20mm, right=20mm, bottom=20mm, footskip=10mm]{geometry}
+\usepackage{ragged2e}
+\usepackage{indentfirst}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{float}
+\usepackage{pifont}
+\usepackage{cmap}
+\usetikzlibrary{positioning,arrows.meta}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+	%backgroundcolor=\color{backcolour},
+	commentstyle=\color{codegreen},
+	keywordstyle=\color{magenta},
+	numberstyle=\tiny\color{codegray},
+	stringstyle=\color{codepurple},
+	basicstyle=\ttfamily\footnotesize,
+	breakatwhitespace=false,         
+	breaklines=true,                 
+	captionpos=b,                    
+	keepspaces=true,                 
+	numbers=left,                    
+	numbersep=5pt,                  
+	showspaces=false,                
+	showstringspaces=false,
+	showtabs=false,                  
+	tabsize=2,
+	inputencoding=utf8,
+	extendedchars=true,
+	literate={а}{{\selectfont\char224}}1
+	{б}{{\selectfont\char225}}1
+	{в}{{\selectfont\char226}}1
+	{г}{{\selectfont\char227}}1
+	{д}{{\selectfont\char228}}1
+	{е}{{\selectfont\char229}}1
+	{ё}{{\"e}}1
+	{ж}{{\selectfont\char230}}1
+	{з}{{\selectfont\char231}}1
+	{и}{{\selectfont\char232}}1
+	{й}{{\selectfont\char233}}1
+	{к}{{\selectfont\char234}}1
+	{л}{{\selectfont\char235}}1
+	{м}{{\selectfont\char236}}1
+	{н}{{\selectfont\char237}}1
+	{о}{{\selectfont\char238}}1
+	{п}{{\selectfont\char239}}1
+	{р}{{\selectfont\char240}}1
+	{с}{{\selectfont\char241}}1
+	{т}{{\selectfont\char242}}1
+	{у}{{\selectfont\char243}}1
+	{ф}{{\selectfont\char244}}1
+	{х}{{\selectfont\char245}}1
+	{ц}{{\selectfont\char246}}1
+	{ч}{{\selectfont\char247}}1
+	{ш}{{\selectfont\char248}}1
+	{щ}{{\selectfont\char249}}1
+	{ъ}{{\selectfont\char250}}1
+	{ы}{{\selectfont\char251}}1
+	{ь}{{\selectfont\char252}}1
+	{э}{{\selectfont\char253}}1
+	{ю}{{\selectfont\char254}}1
+	{я}{{\selectfont\char255}}1
+	{А}{{\selectfont\char192}}1
+	{Б}{{\selectfont\char193}}1
+	{В}{{\selectfont\char194}}1
+	{Г}{{\selectfont\char195}}1
+	{Д}{{\selectfont\char196}}1
+	{Е}{{\selectfont\char197}}1
+	{Ё}{{\"E}}1
+	{Ж}{{\selectfont\char198}}1
+	{З}{{\selectfont\char199}}1
+	{И}{{\selectfont\char200}}1
+	{Й}{{\selectfont\char201}}1
+	{К}{{\selectfont\char202}}1
+	{Л}{{\selectfont\char203}}1
+	{М}{{\selectfont\char204}}1
+	{Н}{{\selectfont\char205}}1
+	{О}{{\selectfont\char206}}1
+	{П}{{\selectfont\char207}}1
+	{Р}{{\selectfont\char208}}1
+	{С}{{\selectfont\char209}}1
+	{Т}{{\selectfont\char210}}1
+	{У}{{\selectfont\char211}}1
+	{Ф}{{\selectfont\char212}}1
+	{Х}{{\selectfont\char213}}1
+	{Ц}{{\selectfont\char214}}1
+	{Ч}{{\selectfont\char215}}1
+	{Ш}{{\selectfont\char216}}1
+	{Щ}{{\selectfont\char217}}1
+	{Ъ}{{\selectfont\char218}}1
+	{Ы}{{\selectfont\char219}}1
+	{Ь}{{\selectfont\char220}}1
+	{Э}{{\selectfont\char221}}1
+	{Ю}{{\selectfont\char222}}1
+	{Я}{{\selectfont\char223}}1
+	{/}{{\selectfont\char224}}1
+	{—}{{\selectfont\char225}}1
+	{«}{{\selectfont\char226}}1
+	{»}{{\selectfont\char227}}1
+	{№}{{\selectfont\char228}}1
+	{–}{{\selectfont\char229}}1,
+}
+
+
+\lstset{style=mystyle}
+
+\begin{document}
+	
+	{\thispagestyle{empty}
+		\begin{center}
+			\hfill \break
+			\hfill \break
+			Министерство образования и науки Российской Федерации\\[3pt]
+			Санкт-Петербургский политехнический университет Петра Великого\\[10pt]
+			Институт компьютерных наук и кибербезопасности\\[3pt]
+			Высшая школа технологий искусственного интеллекта\\[3pt]
+			Направление: 02.03.01 «Математика и компьютерные науки»\\
+			[110pt]
+			
+			\large Отчёт о выполнении курсовой работы\\[5pt]			
+			\large по дисциплине \flqq Теория графов\frqq \\[5pt]
+			\large на тему:\\[5pt] 		
+			\large \flqq Экспертная система определения типа аллергии\frqq \\[5pt]
+		\end{center}
+		
+		\vspace{90 pt}
+		
+		\begin{tabular*}{460pt}{@{\extracolsep{\fill}} l r l}
+			Выполнил студент\tabularnewline группы 5130201/40002 & \hspace{55pt} \line(1,0){100} \hspace{-35pt} & Алексеев Л. К.\\
+			& \\
+			Проверил \tabularnewline преподаватель & \hspace{55pt} \line(1,0){100} \hspace{-35pt} & \hfill Востров А. В. \\
+			& \\
+			& \\
+			& \\
+			& \multicolumn{2}{r}{\guillemotleft \line(1,0){30} \guillemotright \line(1,0){100} \, 2026г.}
+			
+		\end{tabular*} \\
+		
+		\vfill
+		
+		
+		\centering Санкт-Петербург
+		
+		\centering 2026
+		
+		\newpage
+	}
+	
+	\tableofcontents
+	\newpage
+	
+	\section*{Введение}
+	\addcontentsline{toc}{section}{Введение}
+	
+	Целью курсовой работы является разработка экспертной системы, основанной на продукционной модели представления знаний, для определения типа аллергии по симптомам пользователя. Система реализована в среде CLIPS и использует бинарное дерево решений для интерактивного опроса пользователя и вывода наиболее вероятного типа аллергии.
+	
+	\section{Общие сведения}
+	Аллергия — патологическая реакция иммунной системы на внешние или внутренние раздражители (аллергены). Тип аллергии определяется по совокупности симптомов: кожные проявления, респираторные симптомы, желудочно-кишечные реакции, связь с контактами и сезонностью.
+	
+	\subsection{Перечень диагностируемых типов}
+	Перечень типов аллергических реакций включает следующие варианты:
+	\begin{itemize}
+		\item \textbf{Аллергия на яд перепончатокрылых (ос, пчёл)}
+		\item \textbf{Анафилаксия на лекарственные средства}
+		\item \textbf{Пищевая анафилаксия (тяжёлая IgE-опосредованная)}
+		\item \textbf{Анафилаксия неясной этиологии}
+		\item \textbf{Сезонный аллергический ринит (поллиноз)}
+		\item \textbf{Круглогодичный аллергический ринит (на бытовые аллергены: клещи, плесень)}
+		\item \textbf{Аллергическая бронхиальная астма}
+		\item \textbf{Неаллергический ринит}
+		\item \textbf{Контактная крапивница (IgE-опосредованная)}
+		\item \textbf{Аллергический контактный дерматит (IV тип, замедленный)}
+		\item \textbf{Хроническая спонтанная крапивница}
+		\item \textbf{Атопический дерматит (экзема)}
+		\item \textbf{Пищевая аллергия (молоко/яйцо у детей до 2 лет)}
+		\item \textbf{Пищевая аллергия (злаки/рыба и др.)}
+		\item \textbf{Синдром оральной аллергии (на свежие фрукты/овощи)}
+		\item \textbf{Холинергическая крапивница / анафилаксия, связанная с физической нагрузкой}
+		\item \textbf{Крапивница от физической нагрузки (не связана с едой)}
+		\item \textbf{Аллергический контактный дерматит (замедленная реакция при локальном контакте)}
+		\item \textbf{Лекарственная сыпь (IV тип, замедленная)}
+		\item \textbf{Системная реакция замедленного типа на укус насекомого}
+		\item \textbf{Физическая крапивница (холодовая/солнечная/вибрационная)}
+		\item \textbf{Идиопатическая крапивница}
+		\item \textbf{Неопределённый тип (требуется обследование у аллерголога)}
+	\end{itemize}
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=1.0\textwidth]{Tree_allergy.png}
+		\caption{Структура диагностического дерева}
+		\label{fig:Tree_png}
+	\end{figure}
+	
+	\section{Требования к системе}
+	
+	\subsection{Функциональные требования}
+	\begin{enumerate}
+		\item Интерактивный опрос пользователя по набору симптомов и условий.
+		\item Переход по бинарному дереву решений на основе ответов.
+		\item Применение продукционных правил для вывода промежуточных фактов и финального диагноза.
+		\item Вывод диагноза и краткого объяснения, какие симптомы и правила привели к выводу.
+	\end{enumerate}
+	
+	\subsection{Нефункциональные требования}
+	\begin{itemize}
+		\item Реализация в среде CLIPS (версия 6.30 или совместимая).
+		\item Использование продукционной модели представления знаний.
+		\item Наличие бинарного дерева решений с не менее чем четырьмя ярусами и тридцатью узлами.
+		\item Возможность расширения базы знаний без изменения механизма вывода.
+	\end{itemize}
+	
+	\section{Модель представления знаний}
+	
+	\subsection{Продукционная модель}
+	В системе используется продукционная модель: факты в рабочей памяти и правила вида \texttt{IF ... THEN ...}. Правила формируют промежуточные факты и финальный факт диагноза. Механизм вывода — прямой (forward chaining), реализуемый средствами CLIPS.
+	
+	\subsection{Шаблоны фактов}
+	
+	В данной экспертной системе не используются структурированные шаблоны
+	(\texttt{deftemplate}). Вместо них применяются простые маркерные факты,
+	которые управляют переходами по бинарному дереву решений и фиксируют
+	достижение конечного диагноза.
+	
+	Ниже приведены реальные типы фактов, используемые системой:
+	
+	\begin{lstlisting}
+		; Факт, указывающий текущий активный узел дерева
+		(next-node q1)
+		
+		; Факт перехода к следующему узлу (создаётся функцией ask-question)
+		(assert (next-node q2_yes))
+		
+		; Факт финального диагноза (выводится в листьях)
+		; В коде диагноз печатается через printout, но логически он эквивалентен факту:
+		(diagnosis "Аллергия на яд перепончатокрылых (ос, пчёл)")
+		
+		; Ответ пользователя хранится во временной переменной
+		(bind ?answer (read))
+	\end{lstlisting}
+	
+	\subsection{Рабочая память}
+	
+	Рабочая память содержит следующие виды данных:
+	
+	\begin{itemize}
+		\item факты вида \texttt{(next-node ...)}, определяющие текущий узел дерева решений;
+		\item факты, создаваемые функцией \texttt{ask-question}, которые направляют систему по ветвям дерева;
+		\item временные значения ответов пользователя, полученные через \texttt{(read)};
+		\item финальный вывод, формируемый в листьях дерева и выводимый через \texttt{printout}.
+	\end{itemize}
+	
+	\section{Бинарное дерево решений}
+	
+	\subsection{Описание структуры дерева}
+	В отличие от простого семантического дерева, используемая в системе структура — это диагностическое бинарное дерево, корнем которого является вопрос о временном профиле реакции: \emph{«Реакция возникает в течение 1–6 часов после контакта с аллергеном?»}. Это ключевой вопрос, который разделяет немедленные (включая анафилаксию и большинство IgE‑опосредованных реакций) и отсроченные/специфические реакции.
+	
+	Далее дерево разворачивается по следующим логическим ветвям (кратко):
+	\begin{itemize}
+		\item \textbf{Если да (немедленная реакция)}: уточняется наличие анафилаксии; при анафилаксии проверяются возможные триггеры (укусы перепончатокрылых, внутривенные лекарства, пищевые продукты) и формируются соответствующие листья (яд насекомых, лекарственная анафилаксия, пищевая анафилаксия, анафилаксия неясной этиологии). Если анафилаксия отсутствует, далее проверяется вовлечение дыхательной системы, кожа или ЖКТ, с ветвлением на поллиноз, круглогодичный ринит, астму, контактные реакции, пищевые реакции, физические триггеры и т.д.
+		\item \textbf{Если нет (не немедленная)}: проверяется, возникает ли реакция через 12–24 часа и более; при положительном ответе — ветвление на замедленные кожные реакции (локальный контактный дерматит, лекарственная сыпь) и системные замедленные реакции после укуса насекомого. Если реакция не соответствует ни немедленному, ни типичному замедленному профилю, проверяются физические триггеры (холод/тепло/солнце) и возможные физические крапивницы или идиопатическая крапивница.
+	\end{itemize}
+	
+	\subsection{Пояснение выбора корневого вопроса и порядка проверок}
+	Корневой вопрос о временном профиле реакции обеспечивает быстрое разделение множества клинических сценариев: немедленные реакции требуют немедленного внимания и имеют характерные наборы симптомов и триггеров, тогда как отсроченные реакции чаще связаны с контактами, лекарствами или иммунными механизмами замедленного типа. Такой порядок уменьшает среднюю глубину поиска и делает дерево более информативным для врача‑эксперта и пользователя.
+
+	\section{Реализация в CLIPS}
+	
+	\subsection{Общий подход}
+	Интерфейс — консольный. Система задаёт вопросы, формирует факты и перемещается по узлам дерева с помощью факта \texttt{(next-node ...)}. Для удобства реализована функция-обёртка \texttt{ask-question}, которая запрашивает ответ \texttt{yes} или \texttt{no} и добавляет соответствующий факт в рабочую память. Правила соответствуют ветвям диагностического дерева.
+	
+	\subsection{Примеры правил, соответствующие реальному дереву (фрагменты)}
+	
+	Ниже приведены примеры продукционных правил, которые действительно
+	используются в системе и соответствуют структуре дерева из файла
+	\texttt{Tree.txt}. Каждое правило реагирует на факт \texttt{(next-node ...)}
+	и либо задаёт следующий вопрос, либо завершает диагностику.
+	
+	\paragraph{Анафилаксия после укуса перепончатокрылых}
+	
+	Если пользователь находится в узле \texttt{q3\_anaph} и отвечает «да» на вопрос о том, что реакцию вызвало жалящее насекомое, система переходит в лист \texttt{leaf\_bee} и выводит диагноз.
+	
+	CLIPS‑фрагмент:
+	\begin{lstlisting}
+		(defrule q3_anaph
+		(next-node q3_anaph)
+		=>
+		(ask-question 
+		"Реакцию вызвало жалящее насекомое?"
+		leaf_bee
+		q4_anaph_no))
+		
+		(defrule leaf_bee
+		(next-node leaf_bee)
+		=>
+		(printout t 
+		"Диагноз: Аллергия на яд перепончатокрылых (ос, пчёл)" crlf)
+		(printout t "--- Диагностика завершена ---" crlf)
+		(halt))
+	\end{lstlisting}
+	
+	\paragraph{Пищевая анафилаксия}
+	
+	Если анафилаксия не вызвана укусом насекомого и не связана с лекарствами, система уточняет, возникли ли симптомы в течение 30 минут после употребления орехов/моллюсков. При ответе «да» — диагноз пищевая анафилаксия.
+	
+	CLIPS‑фрагмент:
+	\begin{lstlisting}
+		(defrule q5_anaph_food
+		(next-node q5_anaph_food)
+		=>
+		(ask-question 
+		"Симптомы начались в течение 30 минут после употребления арахиса/орехов/моллюсков?"
+		leaf_anaph_food
+		leaf_anaph_unknown))
+		
+		(defrule leaf_anaph_food
+		(next-node leaf_anaph_food)
+		=>
+		(printout t 
+		"Диагноз: Анафилаксия пищевая (тяжёлая IgE-опосредованная)" crlf)
+		(halt))
+	\end{lstlisting}
+	
+	\paragraph{Сезонный аллергический ринит (поллиноз)}
+	
+	Если реакция связана с дыхательной системой и симптомы появляются сезонно во время цветения, система делает вывод о поллинозе.
+	
+	CLIPS‑фрагмент:
+	\begin{lstlisting}
+		(defrule q4_season
+		(next-node q4_season)
+		=>
+		(ask-question 
+		"Симптомы (чихание, зуд в носу, ринорея) появляются сезонно во время цветения?"
+		leaf_seasonal
+		q5_perennial))
+		
+		(defrule leaf_seasonal
+		(next-node leaf_seasonal)
+		=>
+		(printout t 
+		"Диагноз: Сезонный аллергический ринит (поллиноз)" crlf)
+		(halt))
+	\end{lstlisting}
+	
+	\paragraph{Аллергический контактный дерматит (замедленная реакция)}
+	
+	Если реакция возникает через 12–48 часов после контакта с металлом/косметикой и похожа на экзему, система делает вывод о контактном дерматите IV типа.
+	
+	CLIPS‑фрагмент:
+	\begin{lstlisting}
+		(defrule q6_delayed
+		(next-node q6_delayed)
+		=>
+		(ask-question 
+		"Сыпь появилась через 12–48 часов после контакта с металлом/косметикой, похожа на экзему?"
+		leaf_delayed_contact
+		q7_wheals))
+		
+		(defrule leaf_delayed_contact
+		(next-node leaf_delayed_contact)
+		=>
+		(printout t 
+		"Диагноз: Аллергический контактный дерматит (IV тип, замедленный)" crlf)
+		(halt))
+	\end{lstlisting}
+	
+	\subsection{Объяснение вывода}
+	
+	Каждый переход по дереву фиксируется фактом \texttt{(next-node ...)}.
+	Таким образом система сохраняет путь, по которому пользователь прошёл
+	в процессе диагностики. Листовые правила выводят диагноз и завершают
+	работу, что позволяет однозначно восстановить последовательность
+	сработавших правил и вопросов, приведших к результату.
+	
+	\section{Тестирование}
+	
+	\subsection{Сценарии тестирования}
+	\begin{enumerate}
+		\item \textbf{Анафилаксия после еды}: немедленная реакция, анафилаксия, связь с орехами $\rightarrow$ пищевая анафилаксия.
+		\item \textbf{Сезонный ринит}: быстрая реакция, без анафилаксии, чихание, слезотечение, ухудшение весной $\rightarrow$ поллиноз.
+		\item \textbf{Контактный дерматит}: немедленная реакция, без анафилаксии, локальная экземапосле контакта с металлом $\rightarrow$ контактный дерматит.
+		\item \textbf{Физическая крапивница}: реакция от 6 до 12 часов, на холод/тепло/солнце появляются волдыри $\rightarrow$ физическая крапивница или холинергическая форма.
+	\end{enumerate}
+	
+	\subsection{Место для скриншотов}
+	Ниже представлены скриншоты с демонстрацией работы приложения на основе сценариев тестирования.
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=1.0\textwidth]{pic/1.png}
+		\caption{Сценарий тестирования: пищевая анафилаксия}
+		\label{fig:food}
+	\end{figure}
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=1.0\textwidth]{pic/2.png}
+		\caption{Сценарий тестирования: сезонный аллергический ринит (поллиноз)}
+		\label{fig:nose}
+	\end{figure}
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=1.0\textwidth]{pic/3.png}
+		\caption{Сценарий тестирования: контактный дерматит}
+		\label{fig:skin}
+	\end{figure}
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=1.0\textwidth]{pic/4.png}
+		\caption{Сценарий тестирования: физическая крапивница}
+		\label{fig:krapiva}
+	\end{figure}
+	
+	\newpage
+	
+	\section*{Заключение}
+	\addcontentsline{toc}{section}{Заключение}
+	Разработанная экспертная система соответствует требованиям ТЗ: использует продукционную модель, реализована в CLIPS, применяет диагностическое бинарное дерево решений, отражающее реальные клинические сценарии, и выдаёт диагностические предположения с объяснением. Система расширяема — новые правила и факты добавляются без изменения механизма вывода.
+	
+	\newpage
+	
+	\section*{Список источников}
+	\addcontentsline{toc}{section}{Список источников}
+	\begin{thebibliography}{9}
+		
+		\bibitem{clips}
+		CLIPS — \textit{CLIPS User's Guide and Reference Manual}. Официальная документация CLIPS. Доступно: \url{https://www.clipsrules.net/}.
+		
+		\bibitem{novikov}
+		Новиков Ф.А. Дискретная математика для программистов. 3-е изд. – Санкт-Петербург: Питер Пресс, 2009. – 384 с.
+		
+		\bibitem{who}
+		Всемирная организация здравоохранения. \textit{МКБ-11 для ведения статистики смертности и заболеваемости}. Доступно: \url{https://icd.who.int/browse/2025-01/mms/ru}.
+		
+	\end{thebibliography}
+	
+	\newpage
+	
+	\appendix
+	\section*{Приложение A. Листинг программы Allergy.clp}
+	\addcontentsline{toc}{section}{Приложение A. Листинг программы Allergy.clp}
+
+	\begin{lstlisting}
+		;Allergy.clp
+		(deffunction ask-question (?question ?yes-node ?no-node)
+		(printout t ?question " (yes/no): ")
+		(bind ?answer (read))
+		(if (eq ?answer yes)
+		then (assert (next-node ?yes-node))
+		else (assert (next-node ?no-node))))
+		
+		(defrule main-start
+		(not (next-node ?))
+		=>
+		(assert (next-node q1)))
+		
+		(defrule q1
+		(next-node q1)
+		=>
+		(ask-question "Реакция возникает в течение 1–6 часов после контакта с аллергеном?" q2_yes q2_no))
+		
+		(defrule q2_yes
+		(next-node q2_yes)
+		=>
+		(ask-question "В анамнезе есть указания на перенесённую тяжёлую системную реакцию (анафилаксию)?" q3_anaph q3_resp))
+		
+		;; ---- Branch: anaphylaxis (YES) ----
+		(defrule q3_anaph
+		(next-node q3_anaph)
+		=>
+		(ask-question "Реакцию вызвало жалящее насекомое?" leaf_bee q4_anaph_no))
+		
+		(defrule leaf_bee
+		(next-node leaf_bee)
+		=>
+		(printout t "Диагноз: Аллергия на яд перепончатокрылых (ос, пчёл)" crlf)
+		(printout t "--- Диагностика завершена ---" crlf)
+		(halt))
+		
+		(defrule q4_anaph_no
+		(next-node q4_anaph_no)
+		=>
+		(ask-question "Реакция возникла во время или после внутривенного введения лекарства?" leaf_anaph_drug q5_anaph_food))
+		
+		(defrule leaf_anaph_drug
+		(next-node leaf_anaph_drug)
+		=>
+		(printout t "Диагноз: Анафилаксия на ЛС (например, НПВП/антибиотики)" crlf)
+		(halt))
+		
+		(defrule q5_anaph_food
+		(next-node q5_anaph_food)
+		=>
+		(ask-question "Симптомы начались в течение 30 минут после употребления арахиса/орехов/моллюсков?" leaf_anaph_food leaf_anaph_unknown))
+		
+		(defrule leaf_anaph_food
+		(next-node leaf_anaph_food)
+		=>
+		(printout t "Диагноз: Анафилаксия пищевая (тяжёлая IgE-опосредованная)" crlf)
+		(halt))
+		
+		(defrule leaf_anaph_unknown
+		(next-node leaf_anaph_unknown)
+		=>
+		(printout t "Диагноз: Анафилаксия неясной этиологии" crlf)
+		(halt))
+		
+		;; ---- Branch: respiratory (no anaphylaxis) ----
+		(defrule q3_resp
+		(next-node q3_resp)
+		=>
+		(ask-question "Реакция связана с дыхательной системой?" q4_season q4_skin))
+		
+		(defrule q4_season
+		(next-node q4_season)
+		=>
+		(ask-question "Симптомы (чихание, зуд в носу, ринорея) появляются сезонно во время цветения?" leaf_seasonal q5_perennial))
+		
+		(defrule leaf_seasonal
+		(next-node leaf_seasonal)
+		=>
+		(printout t "Диагноз: Сезонный аллергический ринит (поллиноз)" crlf)
+		(halt))
+		
+		(defrule q5_perennial
+		(next-node q5_perennial)
+		=>
+		(ask-question "Симптомы сохраняются круглый год и усиливаются дома или на рабочем месте?" leaf_perennial q6_asthma))
+		
+		(defrule leaf_perennial
+		(next-node leaf_perennial)
+		=>
+		(printout t "Диагноз: Круглогодичный аллергический ринит (на бытовые аллергены)" crlf)
+		(halt))
+		
+		(defrule q6_asthma
+		(next-node q6_asthma)
+		=>
+		(ask-question "Основной симптом — приступы удушья, свистящее дыхание?" leaf_asthma leaf_nonallergic))
+		
+		(defrule leaf_asthma
+		(next-node leaf_asthma)
+		=>
+		(printout t "Диагноз: Аллергическая бронхиальная астма" crlf)
+		(halt))
+		
+		(defrule leaf_nonallergic
+		(next-node leaf_nonallergic)
+		=>
+		(printout t "Диагноз: Неаллергический ринит" crlf)
+		(halt))
+		
+		;; ---- Branch: skin (no respiratory) ----
+		(defrule q4_skin
+		(next-node q4_skin)
+		=>
+		(ask-question "Реакция проявляется на коже?" q5_contact_imm q5_gut))
+		
+		(defrule q5_contact_imm
+		(next-node q5_contact_imm)
+		=>
+		(ask-question "При контакте с аллергеном возникают зуд, волдыри, покраснение?" leaf_contact_urticaria q6_delayed))
+		
+		(defrule leaf_contact_urticaria
+		(next-node leaf_contact_urticaria)
+		=>
+		(printout t "Диагноз: Контактная крапивница (IgE-опосредованная)" crlf)
+		(halt))
+		
+		(defrule q6_delayed
+		(next-node q6_delayed)
+		=>
+		(ask-question "Сыпь появилась через 12–48 часов после контакта с металлом/косметикой, похожа на экзему?" leaf_delayed_contact q7_wheals))
+		
+		(defrule leaf_delayed_contact
+		(next-node leaf_delayed_contact)
+		=>
+		(printout t "Диагноз: Аллергический контактный дерматит (IV тип, замедленный)" crlf)
+		(halt))
+		
+		(defrule q7_wheals
+		(next-node q7_wheals)
+		=>
+		(ask-question "Беспокоят спонтанно возникающие зудящие волдыри («крапивница»), длятся менее 24 часов?" leaf_chronic_urticaria leaf_atopic))
+		
+		(defrule leaf_chronic_urticaria
+		(next-node leaf_chronic_urticaria)
+		=>
+		(printout t "Диагноз: Хроническая спонтанная крапивница" crlf)
+		(halt))
+		
+		(defrule leaf_atopic
+		(next-node leaf_atopic)
+		=>
+		(printout t "Диагноз: Атопический дерматит (экзема)" crlf)
+		(halt))
+		
+		;; ---- Branch: GI tract (no skin) ----
+		(defrule q5_gut
+		(next-node q5_gut)
+		=>
+		(ask-question "Реакция связана с желудочно-кишечным трактом (ЖКТ)?" q6_gut_child q6_exercise))
+		
+		(defrule q6_gut_child
+		(next-node q6_gut_child)
+		=>
+		(ask-question "Симптомы (боль в животе, тошнота, рвота, диарея) возникают у ребёнка до 2 лет при употреблении коровьего молока/яиц/сои?" leaf_food_milk q7_gut_other))
+		
+		(defrule leaf_food_milk
+		(next-node leaf_food_milk)
+		=>
+		(printout t "Диагноз: Пищевая аллергия (IgE-опосредованная, молоко/яйцо)" crlf)
+		(halt))
+		
+		(defrule q7_gut_other
+		(next-node q7_gut_other)
+		=>
+		(ask-question "Симптомы ЖКТ появляются через несколько часов после употребления пшеницы/морепродуктов?" leaf_food_grain leaf_oral_syndrome))
+		
+		(defrule leaf_food_grain
+		(next-node leaf_food_grain)
+		=>
+		(printout t "Диагноз: Пищевая аллергия (IgE-опосредованная, злаки/рыба)" crlf)
+		(halt))
+		
+		(defrule leaf_oral_syndrome
+		(next-node leaf_oral_syndrome)
+		=>
+		(printout t "Диагноз: Синдром оральной аллергии (на свежие фрукты/овощи)" crlf)
+		(halt))
+		
+		(defrule q6_exercise
+		(next-node q6_exercise)
+		=>
+		(ask-question "Реакция возникает при физической нагрузке?" q7_exercise_food leaf_undefined))
+		
+		(defrule q7_exercise_food
+		(next-node q7_exercise_food)
+		=>
+		(ask-question "Симптомы появляются только после еды перед физической нагрузкой?" leaf_cholinergic leaf_exercise_no_food))
+		
+		(defrule leaf_cholinergic
+		(next-node leaf_cholinergic)
+		=>
+		(printout t "Диагноз: Холинергическая крапивница/анафилаксия, вызванная физической нагрузкой" crlf)
+		(halt))
+		
+		(defrule leaf_exercise_no_food
+		(next-node leaf_exercise_no_food)
+		=>
+		(printout t "Диагноз: Крапивница от физической нагрузки (не связана с едой)" crlf)
+		(halt))
+		
+		(defrule leaf_undefined
+		(next-node leaf_undefined)
+		=>
+		(printout t "Диагноз: Неопределённый тип (требуется обследование у аллерголога)" crlf)
+		(halt))
+		
+		;; ---- Branch: delayed reactions (NO to question 1) ----
+		(defrule q2_no
+		(next-node q2_no)
+		=>
+		(ask-question "Реакция возникает не менее чем через 1 день (более 12–24 часов) после контакта с аллергеном?" q3_skin_delayed q3_physical))
+		
+		(defrule q3_skin_delayed
+		(next-node q3_skin_delayed)
+		=>
+		(ask-question "Реакция связана с кожей (сыпь, зуд)?" q4_local_delayed q4_fever_bite))
+		
+		(defrule q4_local_delayed
+		(next-node q4_local_delayed)
+		=>
+		(ask-question "Сыпь появилась в месте нанесения мази/пластыря или контакта с одеждой с металлическими деталями?" leaf_contact_delayed q5_drug_rash))
+		
+		(defrule leaf_contact_delayed
+		(next-node leaf_contact_delayed)
+		=>
+		(printout t "Диагноз: Аллергический контактный дерматит (IV тип, замедленный)" crlf)
+		(halt))
+		
+		(defrule q5_drug_rash
+		(next-node q5_drug_rash)
+		=>
+		(ask-question "Сыпь генерализованная, появилась через несколько дней после приёма внутрь антибиотиков?" leaf_drug_rash leaf_nonallergic_urticaria))
+		
+		(defrule leaf_drug_rash
+		(next-node leaf_drug_rash)
+		=>
+		(printout t "Диагноз: Лекарственная сыпь (IV тип, замедленная)" crlf)
+		(halt))
+		
+		(defrule leaf_nonallergic_urticaria
+		(next-node leaf_nonallergic_urticaria)
+		=>
+		(printout t "Диагноз: Неаллергическая крапивница" crlf)
+		(halt))
+		
+		(defrule q4_fever_bite
+		(next-node q4_fever_bite)
+		=>
+		(ask-question "Реакция проявилась в виде лихорадки, болей в суставах после укуса насекомого?" leaf_systemic_delayed leaf_undefined_delayed))
+		
+		(defrule leaf_systemic_delayed
+		(next-node leaf_systemic_delayed)
+		=>
+		(printout t "Диагноз: Системная реакция замедленного типа на укус насекомого" crlf)
+		(halt))
+		
+		(defrule leaf_undefined_delayed
+		(next-node leaf_undefined_delayed)
+		=>
+		(printout t "Диагноз: Неопределённый тип" crlf)
+		(halt))
+		
+		;; ---- Branch: physical urticaria (neither immediate nor delayed) ----
+		(defrule q3_physical
+		(next-node q3_physical)
+		=>
+		(ask-question "Реакция всегда возникает на холод/тепло/солнце?" q4_physical_factor leaf_undefined_physical))
+		
+		(defrule q4_physical_factor
+		(next-node q4_physical_factor)
+		=>
+		(ask-question "Симптомы (волдыри, зуд, покраснение) появляются под воздействием провоцирующего фактора?" leaf_physical_urticaria leaf_idiopathic))
+		
+		(defrule leaf_physical_urticaria
+		(next-node leaf_physical_urticaria)
+		=>
+		(printout t "Диагноз: Физическая крапивница (холодовая/солнечная/вибрационная)" crlf)
+		(halt))
+		
+		(defrule leaf_idiopathic
+		(next-node leaf_idiopathic)
+		=>
+		(printout t "Диагноз: Идиопатическая крапивница" crlf)
+		(halt))
+		
+		(defrule leaf_undefined_physical
+		(next-node leaf_undefined_physical)
+		=>
+		(printout t "Диагноз: Неопределённый тип" crlf)
+		(halt))
+	\end{lstlisting}
+	
+\end{document}
