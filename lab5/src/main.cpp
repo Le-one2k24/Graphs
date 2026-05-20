@@ -724,7 +724,7 @@ int main() {
                     cout << "Размер текущего графа и MST не совпадают. Сначала постройте MST для текущего графа.\n";
                     break;
                 }
-
+            
                 vector<Cut> fundamental = get_fundamental_cuts(cur, mst, mstN);
                 if (fundamental.empty()) {
                     cout << "Не удалось получить фундаментальные разрезы (возможно MST пусто).\n";
@@ -735,7 +735,7 @@ int main() {
                     string name = "Разрез " + to_string(i+1);
                     print_cut(fundamental[i], name.c_str());
                 }
-
+            
                 cout << "\nВведите номера разрезов (через Enter) для получения их симметрической разности.\n";
                 cout << "Для завершения ввода введите -1.\n";
                 vector<int> indices;
@@ -751,8 +751,13 @@ int main() {
                 vector<Cut> selected;
                 for (int i : indices) selected.push_back(fundamental[i]);
                 Cut result = symmetric_difference_multiple(selected);
-                cout << "Симметрическая разность выбранных разрезов:\n";
-                print_cut(result, "Результирующий разрез");
+                
+                // Вывод результата с проверкой на пустоту
+                if (result.empty()) {
+                    cout << "Результирующий разрез: Пустой набор рёбер\n";
+                } else {
+                    print_cut(result, "Результирующий разрез");
+                }
                 break;
             }
             case 0:
