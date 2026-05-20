@@ -888,7 +888,6 @@ CMakeFiles/lab5.dir/src/euler.cpp.o: /mnt/c/study/Graphs/lab5/src/euler.cpp \
   /usr/include/c++/13/bits/cxxabi_forced.h \
   /usr/include/c++/13/bits/cxxabi_init_exception.h \
   /usr/include/c++/13/bits/deque.tcc \
-  /usr/include/c++/13/bits/erase_if.h \
   /usr/include/c++/13/bits/exception.h \
   /usr/include/c++/13/bits/exception_defines.h \
   /usr/include/c++/13/bits/exception_ptr.h \
@@ -926,16 +925,9 @@ CMakeFiles/lab5.dir/src/euler.cpp.o: /mnt/c/study/Graphs/lab5/src/euler.cpp \
   /usr/include/c++/13/bits/stl_iterator.h \
   /usr/include/c++/13/bits/stl_iterator_base_funcs.h \
   /usr/include/c++/13/bits/stl_iterator_base_types.h \
-  /usr/include/c++/13/bits/stl_map.h \
-  /usr/include/c++/13/bits/stl_multimap.h \
-  /usr/include/c++/13/bits/stl_multiset.h \
   /usr/include/c++/13/bits/stl_pair.h \
-  /usr/include/c++/13/bits/stl_queue.h \
-  /usr/include/c++/13/bits/stl_relops.h \
-  /usr/include/c++/13/bits/stl_set.h \
   /usr/include/c++/13/bits/stl_stack.h \
   /usr/include/c++/13/bits/stl_tempbuf.h \
-  /usr/include/c++/13/bits/stl_tree.h \
   /usr/include/c++/13/bits/stl_uninitialized.h \
   /usr/include/c++/13/bits/stl_vector.h \
   /usr/include/c++/13/bits/streambuf.tcc \
@@ -950,14 +942,12 @@ CMakeFiles/lab5.dir/src/euler.cpp.o: /mnt/c/study/Graphs/lab5/src/euler.cpp \
   /usr/include/c++/13/clocale \
   /usr/include/c++/13/cstdio \
   /usr/include/c++/13/cstdlib \
-  /usr/include/c++/13/cstring \
   /usr/include/c++/13/cwchar \
   /usr/include/c++/13/cwctype \
   /usr/include/c++/13/debug/assertions.h \
   /usr/include/c++/13/debug/debug.h \
   /usr/include/c++/13/deque \
   /usr/include/c++/13/exception \
-  /usr/include/c++/13/ext/aligned_buffer.h \
   /usr/include/c++/13/ext/alloc_traits.h \
   /usr/include/c++/13/ext/atomicity.h \
   /usr/include/c++/13/ext/numeric_traits.h \
@@ -968,20 +958,15 @@ CMakeFiles/lab5.dir/src/euler.cpp.o: /mnt/c/study/Graphs/lab5/src/euler.cpp \
   /usr/include/c++/13/iosfwd \
   /usr/include/c++/13/iostream \
   /usr/include/c++/13/istream \
-  /usr/include/c++/13/map \
   /usr/include/c++/13/new \
   /usr/include/c++/13/ostream \
-  /usr/include/c++/13/queue \
-  /usr/include/c++/13/set \
   /usr/include/c++/13/stack \
   /usr/include/c++/13/stdexcept \
   /usr/include/c++/13/streambuf \
   /usr/include/c++/13/string \
   /usr/include/c++/13/system_error \
-  /usr/include/c++/13/tuple \
   /usr/include/c++/13/type_traits \
   /usr/include/c++/13/typeinfo \
-  /usr/include/c++/13/utility \
   /usr/include/c++/13/vector \
   /usr/include/ctype.h \
   /usr/include/endian.h \
@@ -995,8 +980,6 @@ CMakeFiles/lab5.dir/src/euler.cpp.o: /mnt/c/study/Graphs/lab5/src/euler.cpp \
   /usr/include/stdc-predef.h \
   /usr/include/stdio.h \
   /usr/include/stdlib.h \
-  /usr/include/string.h \
-  /usr/include/strings.h \
   /usr/include/time.h \
   /usr/include/wchar.h \
   /usr/include/wctype.h \
@@ -2863,12 +2846,6 @@ CMakeFiles/lab5.dir/src/shortest_paths.cpp.o: /mnt/c/study/Graphs/lab5/src/short
 
 /mnt/c/study/Graphs/lab5/include/kirchhoff.h:
 
-/mnt/c/study/Graphs/lab5/src/kirchhoff.cpp:
-
-/usr/include/x86_64-linux-gnu/bits/mathcalls-narrow.h:
-
-/usr/include/x86_64-linux-gnu/bits/mathcalls-helper-functions.h:
-
 /usr/include/x86_64-linux-gnu/bits/time64.h:
 
 /usr/include/c++/13/bits/basic_ios.h:
@@ -3071,6 +3048,8 @@ CMakeFiles/lab5.dir/src/shortest_paths.cpp.o: /mnt/c/study/Graphs/lab5/src/short
 
 /usr/include/wchar.h:
 
+/usr/include/c++/13/bits/nested_exception.h:
+
 /usr/include/c++/13/bits/basic_ios.tcc:
 
 /usr/include/x86_64-linux-gnu/c++/13/bits/gthr.h:
@@ -3147,6 +3126,8 @@ CMakeFiles/lab5.dir/src/shortest_paths.cpp.o: /mnt/c/study/Graphs/lab5/src/short
 
 /usr/include/c++/13/bits/uses_allocator.h:
 
+/usr/include/x86_64-linux-gnu/bits/mathcalls-narrow.h:
+
 /usr/include/x86_64-linux-gnu/bits/pthreadtypes-arch.h:
 
 /usr/include/c++/13/bits/utility.h:
@@ -3171,6 +3152,8 @@ CMakeFiles/lab5.dir/src/shortest_paths.cpp.o: /mnt/c/study/Graphs/lab5/src/short
 
 /usr/include/c++/13/bits/move.h:
 
+/mnt/c/study/Graphs/lab5/src/kirchhoff.cpp:
+
 /usr/include/x86_64-linux-gnu/bits/stdio_lim.h:
 
 /usr/include/x86_64-linux-gnu/bits/timex.h:
@@ -3181,8 +3164,6 @@ CMakeFiles/lab5.dir/src/shortest_paths.cpp.o: /mnt/c/study/Graphs/lab5/src/short
 
 /usr/include/x86_64-linux-gnu/bits/types/__FILE.h:
 
-/usr/include/c++/13/bits/stl_multimap.h:
-
 /usr/include/x86_64-linux-gnu/bits/types/__locale_t.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/__mbstate_t.h:
@@ -3191,9 +3172,9 @@ CMakeFiles/lab5.dir/src/shortest_paths.cpp.o: /mnt/c/study/Graphs/lab5/src/short
 
 /usr/include/x86_64-linux-gnu/bits/types/__sigset_t.h:
 
-/usr/include/x86_64-linux-gnu/bits/mathcalls.h:
-
 /usr/include/c++/13/stack:
+
+/usr/include/x86_64-linux-gnu/bits/mathcalls.h:
 
 /usr/include/c++/13/bits/stl_relops.h:
 
@@ -3204,6 +3185,8 @@ CMakeFiles/lab5.dir/src/shortest_paths.cpp.o: /mnt/c/study/Graphs/lab5/src/short
 /usr/include/x86_64-linux-gnu/bits/local_lim.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/error_t.h:
+
+/usr/include/x86_64-linux-gnu/bits/mathcalls-helper-functions.h:
 
 /usr/include/x86_64-linux-gnu/bits/wctype-wchar.h:
 
@@ -3277,10 +3260,6 @@ CMakeFiles/lab5.dir/src/shortest_paths.cpp.o: /mnt/c/study/Graphs/lab5/src/short
 
 /usr/lib/gcc/x86_64-linux-gnu/13/include/stddef.h:
 
-/usr/include/c++/13/bits/nested_exception.h:
-
-/usr/include/c++/13/tuple:
-
 /mnt/c/study/Graphs/lab5/src/boruvka.cpp:
 
 /usr/include/c++/13/algorithm:
@@ -3292,8 +3271,6 @@ CMakeFiles/lab5.dir/src/shortest_paths.cpp.o: /mnt/c/study/Graphs/lab5/src/short
 /usr/include/x86_64-linux-gnu/bits/fp-logb.h:
 
 /usr/include/c++/13/locale:
-
-/usr/include/c++/13/bits/stl_map.h:
 
 /usr/include/c++/13/bits/stl_vector.h:
 
@@ -3365,10 +3342,6 @@ CMakeFiles/lab5.dir/src/shortest_paths.cpp.o: /mnt/c/study/Graphs/lab5/src/short
 
 /mnt/c/study/Graphs/lab5/src/euler.cpp:
 
-/usr/include/c++/13/cstring:
-
-/usr/include/string.h:
-
 /mnt/c/study/Graphs/lab5/src/flows.cpp:
 
 /mnt/c/study/Graphs/lab5/include/flows.h:
@@ -3377,14 +3350,16 @@ CMakeFiles/lab5.dir/src/shortest_paths.cpp.o: /mnt/c/study/Graphs/lab5/src/short
 
 /usr/include/c++/13/climits:
 
+/usr/include/c++/13/cstring:
+
 /usr/include/c++/13/initializer_list:
 
 /usr/include/limits.h:
 
+/usr/include/string.h:
+
 /usr/include/x86_64-linux-gnu/bits/uio_lim.h:
 
 /usr/include/x86_64-linux-gnu/bits/fp-fast.h:
-
-/usr/include/c++/13/map:
 
 /usr/include/x86_64-linux-gnu/bits/iscanonical.h:

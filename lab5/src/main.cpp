@@ -662,12 +662,15 @@ int main() {
                 int curN; bool oriented;
                 int** cur = get_current_matrix(curN, oriented);
                 if (!cur) { cout << "Нет текущего графа...\n"; break; }
-                if (oriented) { cout << "Эйлеров цикл для неориентированного графа...\n"; break; }
+                if (curN <= 1){
+                        cout << "Граф не может быть эйлеровым\n";
+                        continue;
+                    }
 
                 if (is_eulerian(cur, curN)) {
                     cout << "Граф уже эйлеров.\n";
                     vector<vector<int>> mult;
-                    make_eulerian(cur, curN, mult); // просто скопирует
+                    make_eulerian(cur, curN, mult);
                     vector<int> cycle = find_eulerian_cycle(mult, curN);
                     if (cycle.empty()) cout << "Не удалось построить эйлеров цикл.\n";
                     else {
@@ -679,27 +682,23 @@ int main() {
                         cout << endl;
                     }
                 } else {
-                    cout << "Граф не эйлеров. Попытка модификации...\n";
+                    cout << "Граф не эйлеров. Модификация...\n";
                     vector<vector<int>> mult;
-                    vector<pair<int,int>> added = make_eulerian(cur, curN, mult);
-                    if (added.empty()) {
-                        cout << "Модификация невозможна.\n";
-                    } else {
-                        cout << "Модифицированный граф:\n";
-                        for (int i = 0; i < curN; ++i) {
-                            for (int j = 0; j < curN; ++j) cout << mult[i][j] << " ";
-                            cout << endl;
+                    make_eulerian(cur, curN, mult);
+                    cout << "Модифицированный граф:\n";
+                    for (int i = 0; i < curN; ++i) {
+                        for (int j = 0; j < curN; ++j) cout << mult[i][j] << " ";
+                        cout << endl;
+                    }
+                    vector<int> cycle = find_eulerian_cycle(mult, curN);
+                    if (cycle.empty()) cout << "Не удалось построить эйлеров цикл.\n";
+                    else {
+                        cout << "Эйлеров цикл в модифицированном графе: ";
+                        for (size_t i = 0; i < cycle.size(); ++i) {
+                            cout << cycle[i];
+                            if (i+1 < cycle.size()) cout << " -> ";
                         }
-                        vector<int> cycle = find_eulerian_cycle(mult, curN);
-                        if (cycle.empty()) cout << "Не удалось построить эйлеров цикл.\n";
-                        else {
-                            cout << "Эйлеров цикл в модифицированном графе: ";
-                            for (size_t i = 0; i < cycle.size(); ++i) {
-                                cout << cycle[i];
-                                if (i+1 < cycle.size()) cout << " -> ";
-                            }
-                            cout << endl;
-                        }
+                        cout << endl;
                     }
                 }
                 break;

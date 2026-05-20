@@ -169,6 +169,6 @@ CMakeFiles/lab5.dir/src/main.cpp.o: /mnt/c/study/Graphs/lab5/src/main.cpp \
  /mnt/c/study/Graphs/lab5/include/coloring.h \
  /mnt/c/study/Graphs/lab5/include/kirchhoff.h \
  /mnt/c/study/Graphs/lab5/include/prufer.h \
- /mnt/c/study/Graphs/lab5/include/euler.h /usr/include/c++/13/utility \
- /usr/include/c++/13/bits/stl_relops.h \
- /mnt/c/study/Graphs/lab5/include/cuts.h
+ /mnt/c/study/Graphs/lab5/include/euler.h \
+ /mnt/c/study/Graphs/lab5/include/cuts.h /usr/include/c++/13/utility \
+ /usr/include/c++/13/bits/stl_relops.h
