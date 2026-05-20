@@ -36,13 +36,39 @@ void make_eulerian(int** adj, int N, vector<vector<int>>& mult) {
         return;
     }
 
-    cout << "Вершины с нечётной степенью: ";
+    sort(odds.begin(), odds.end(), [&](int a, int b) {
+        return deg[a] < deg[b];
+    });
+
+    cout << "Вершины с нечётной степенью (отсортированы по степени): ";
     for (int x : odds) cout << x << " ";
     cout << endl;
 
-    for (size_t i = 0; i < odds.size(); i += 2) {
+    vector<bool> used(odds.size(), false);
+    int remaining = odds.size();
+
+    while (remaining > 0) {
+        int i = 0;
+        while (i < (int)odds.size() && used[i]) ++i;
+        if (i == (int)odds.size()) break;
+
         int u = odds[i];
-        int v = odds[i+1];
+        int j;
+        for (int k = i + 1; k < (int)odds.size(); ++k) {
+            if (used[k]) continue;
+            int v = odds[k];
+            if (deg[u] == 1 || deg[v] == 1) {
+                if (mult[u][v] == 0) {
+                    j = k;
+                    break;
+                }
+            } else {
+                j = k;
+                break;
+            }
+        }
+
+        int v = odds[j];
         if (mult[u][v] > 0) {
             mult[u][v]--;
             mult[v][u]--;
@@ -52,6 +78,8 @@ void make_eulerian(int** adj, int N, vector<vector<int>>& mult) {
             mult[v][u]++;
             cout << "Добавлено ребро " << u << " - " << v << endl;
         }
+        used[i] = used[j] = true;
+        remaining -= 2;
     }
 }
 
