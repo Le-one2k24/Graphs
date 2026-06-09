@@ -1,0 +1,1890 @@
+\section{Особенности реализации}
+
+\subsection{Структуры данных}
+Файл \texttt{common\_structures.h} содержит описание структуры \texttt{Graph} для представления ориентированного графа в виде списков смежности, а также глобальные переменные для хранения текущего графа (матрица смежности), весовой матрицы, матрицы пропускных способностей и матрицы стоимостей. Управление этими матрицами осуществляется через функции, объявленные в этом же файле.
+
+\begin{lstlisting}[caption=common\_structures.h]
+	#include <iostream>
+	using namespace std;
+	
+	struct Graph {
+		int N;
+		int** list;
+		int* size;
+		
+		Graph(int n);
+		~Graph();
+		void edge(int a, int b);
+		void print();
+	};
+	
+	extern int** current_matrix;
+	extern int current_matrix_N;
+	extern bool current_matrix_oriented;
+	
+	extern int** current_weight_matrix;
+	extern int current_weight_matrix_N;
+	extern bool weight_matrix_exist;
+	
+	extern int** current_capacity_matrix;
+	extern int capacity_matrix_N;
+	extern bool capacity_matrix_exist;
+	
+	extern int** current_cost_matrix;
+	extern int cost_matrix_N;
+	extern bool cost_matrix_exist;
+	
+	void print_smezhn_matrix(int** matrix, int N);
+	void delete_matrix(int** M, int N);
+	void set_current_matrix(int** matrix, int N, bool oriented);
+	int** get_current_matrix(int& N, bool& oriented);
+	
+	void set_weight_matrix(int** matrix, int N);
+	int** get_weight_matrix(int& N);
+	bool is_weight_matrix_exist();
+	void clear_weight_matrix();
+	void print_weight_matrix(int** weight, int N);
+	
+	void set_capacity_matrix(int** matrix, int N);
+	int** get_capacity_matrix(int& N);
+	bool is_capacity_matrix_exist();
+	void clear_capacity_matrix();
+	void print_capacity_matrix(int** cap, int N);
+	
+	void set_cost_matrix(int** matrix, int N);
+	int** get_cost_matrix(int& N);
+	bool is_cost_matrix_exist();
+	void clear_cost_matrix();
+	void print_cost_matrix(int** cost, int N);s
+\end{lstlisting}
+
+\subsection{Связный ациклический граф}
+Генерация ориентированного связного ациклического графа выполняется с использованием случайной перестановки вершин. Каждому ребру присваивается направление от вершины с меньшим порядковым номером в перестановке к вершине с большим номером, что гарантирует отсутствие циклов. Для обеспечения связности производится несколько попыток генерации (до 20), после чего граф проверяется на связность в неориентированном смысле.
+
+\noindent\textbf{Вход:}
+int N — количество вершин графа
+
+\noindent\textbf{Выход:}
+int** — матрица смежности размера N×N, представляющая ориентированный связный ациклический граф
+
+
+\begin{lstlisting}[caption=Генерация графа (generate\_graphs.cpp)]
+	int** generate_directed_by_degrees(int N) {
+		int* out_degree = new int[N];
+		
+		int max_deg = 0;
+		for (int i = 0; i < N; ++i) {
+			out_degree[i] = generate_random_degree();
+			if (out_degree[i] < 0) out_degree[i] = 0;
+			if (out_degree[i] > max_deg) max_deg = out_degree[i];
+		}
+		
+		if (max_deg == 0) {
+			for (int i = 0; i < N; ++i) out_degree[i] = 1;
+			max_deg = 1;
+		}
+		
+		double k = double(N - 1) / double(max_deg);
+		
+		for (int i = 0; i < N; ++i) {
+			out_degree[i] = int(round(out_degree[i] * k));
+		}
+		
+		cout << "Исходящие степени (после нормировки): ";
+		for (int i = 0; i < N; ++i) cout << out_degree[i] << " ";
+		cout << endl;
+		
+		vector<int> order(N);
+		for (int i = 0; i < N; i++) order[i] = i;
+		random_shuffle(order.begin(), order.end());
+		
+		vector<int> position(N);
+		for (int i = 0; i < N; i++) {
+			position[order[i]] = i;
+		}
+		
+		int** adj = new int*[N];
+		for (int i = 0; i < N; ++i) {
+			adj[i] = new int[N];
+			for (int j = 0; j < N; ++j) adj[i][j] = 0;
+		}
+		
+		for (int i = 0; i < N; ++i) {
+			int deg = out_degree[i];
+			vector<int> candidates;
+			
+			for (int j = 0; j < N; ++j) {
+				if (j != i && position[j] > position[i]) {
+					candidates.push_back(j);
+				}
+			}
+			
+			if (candidates.empty()) continue;
+			
+			random_shuffle(candidates.begin(), candidates.end());
+			int edges_to_add = min(deg, (int)candidates.size());
+			
+			for (int k2 = 0; k2 < edges_to_add; ++k2) {
+				adj[i][candidates[k2]] = 1;
+			}
+		}
+		
+		delete[] out_degree;
+		return adj;
+	}
+\end{lstlisting}
+
+\subsection{Распределение Чампернауна}
+Для генерации случайных целых чисел (степеней вершин, весов рёбер, пропускных способностей) используется непрерывное распределение Чампернауна с параметрами $\mu$ и $\alpha$:
+\[
+X = \mu + \frac{1}{\alpha}\ln\left(\tan\frac{\pi r}{2}\right),\quad r \in (0,1).
+\]
+Полученное значение округляется до ближайшего целого. Функция \\ \texttt{generate\_random\_degree\_champernaun} применяется как при создании графа, так и при генерации весовых матриц и матриц пропускных способностей.
+
+\noindent\textbf{Вход:}
+\begin{enumerate}
+	\item double $\mu$ — параметр сдвига
+	\item double $\alpha$ — параметр масштаба
+\end{enumerate}
+\noindent\textbf{Выход:}
+int (для целочисленного) — сгенерированное случайное значение степени вершины
+
+\begin{lstlisting}[caption=Генерация по Чампернауну (generate\_graphs.cpp)]
+	double generate_champernaun_continuous(double mu, double alpha) {
+		double r;
+		do {
+			r = (rand() + 0.5) / (RAND_MAX + 1.0);
+		} while (r <= 0.0 || r >= 1.0);
+		return mu + (1.0 / alpha) * log(tan(M_PI * r / 2.0));
+	}
+	
+	int generate_random_degree_champernaun(double mu, double alpha) {
+		double x = generate_champernaun_continuous(mu, alpha);
+		int deg = (int)round(x);
+		if (deg < 0) deg = 0;
+		return deg;
+	}
+\end{lstlisting}
+
+\subsection{Метод Шимбелла}
+Метод Шимбелла позволяет найти кратчайшие пути между всеми парами вершин с ограничением на максимальное число рёбер. Реализовано обобщённое умножение матриц, где операция «сложения» заменена на минимум (или максимум), а «умножения» — на сложение весов. Итеративное возведение в степень (до $max\_edges$) даёт искомые характеристики.
+
+\noindent\textbf{Вход:}
+\begin{enumerate}
+	\item int** A, int** B — матрицы весов (размер $N \times N$)
+	\item int N — размер матриц
+	\item bool max\_min — false: поиск минимума, true: поиск максимума
+\end{enumerate}
+\noindent\textbf{Выход:}
+int** — матрица $C$ размера $N \times N$, где $C[i][j]$ — минимальная (или максимальная) сумма весов.
+
+\begin{lstlisting}[caption=Умножение матриц по Шимбеллу (shimbell.cpp)]
+	int** shimbell_multiply(int** A, int** B, int N, bool max_min) {
+		int** C = new int*[N];
+		for (int i = 0; i < N; i++) {
+			C[i] = new int[N];
+			for (int j = 0; j < N; j++) {
+				bool found = false;
+				int best = (max_min) ? -INF : INF;
+				for (int k = 0; k < N; k++) {
+					if (A[i][k] == INF || B[k][j] == INF) continue;
+					if (A[i][k] == 0 || B[k][j] == 0) continue;
+					int sum = A[i][k] + B[k][j];
+					if (!found) { best = sum; found = true; }
+					else if (!max_min && sum < best) best = sum;
+					else if (max_min && sum > best) best = sum;
+				}
+				C[i][j] = found ? best : INF;
+			}
+		}
+		return C;
+	}
+\end{lstlisting}
+
+\subsection{Точки сочленения графа}
+
+Поиск точек сочленения в неориентированном графе, выполняется с помощью обхода в глубину (DFS). В процессе обхода для каждой вершины $v$ вычисляются время входа $disc[v]$ и минимальная достижимая метка $low[v]$ (наименьшее значение $disc$ среди вершин, достижимых из поддерева $v$ по обратным рёбрам). Условие $low[u] \ge disc[v]$ для ребёнка $u$ в DFS-дереве определяет, является ли $v$ точкой сочленения (для корня условие иное: наличие двух и более сыновей). Алгоритм работает за время $O(n^2)$, где $n$ — число вершин, что обусловлено просмотром всей матрицы смежности.
+
+\noindent\textbf{Вход:}
+\begin{enumerate}
+	\item int** matrix — матрица смежности ($N \times N$, неориентированный граф)
+	\item int N — количество вершин
+\end{enumerate}
+\noindent\textbf{Выход:}
+список вершин, являющихся точками сочленения (выводится на экран)
+
+\begin{lstlisting}[caption=Поиск точек сочленения (articulation.cpp)]
+	void find_articulation_points_matrix(int** matrix, int N)
+	{
+		if (!matrix || N <= 0) {
+			cout << "Граф пуст или некорректен\n";
+			return;
+		}
+		
+		bool* visited = new bool[N];
+		int* disc = new int[N];
+		int* low = new int[N];
+		bool* isAP = new bool[N];
+		
+		for (int i = 0; i < N; ++i) {
+			visited[i] = false;
+			disc[i] = 0;
+			low[i] = 0;
+			isAP[i] = false;
+		}
+		
+		int timer = 0;
+		
+		ap_dfs(0, -1, matrix, N, visited, disc, low, timer, isAP);
+		
+		cout << "Точки сочленения: ";
+		bool any = false;
+		for (int i = 0; i < N; ++i) {
+			if (isAP[i]) {
+				cout << i << " ";
+				any = true;
+			}
+		}
+		if (!any) {
+			cout << "(нет)";
+		}
+		cout << "\n";
+		
+		delete[] visited;
+		delete[] disc;
+		delete[] low;
+		delete[] isAP;
+	}
+\end{lstlisting}
+
+\subsection{Алгоритм Дейкстры}
+Классический алгоритм Дейкстры реализован с проверкой на наличие отрицательных весов (в этом случае выводится сообщение об ошибке). Расстояния хранятся в массиве $dist$, родители — в $parent$. На каждом шаге выбирается непосещённая вершина с минимальным расстоянием, затем релаксируются все исходящие рёбра.
+
+\noindent\textbf{Вход:}
+\begin{enumerate}
+	\item int** W — весовая матрица ($N \times N$, 0 означает отсутствие ребра)
+	\item int N — количество вершин
+	\item int start — стартовая вершина
+	\item int* dist, int* parent — выходные массивы
+	\item long long\& iters — счётчик итераций (по ссылке)
+\end{enumerate}
+\noindent\textbf{Выход:}
+bool — true, если алгоритм выполнен успешно (нет отрицательных весов); иначе false. \\
+dist[N] — массив кратчайших расстояний, parent[N] — массив предков, iters — количество итераций.
+
+\begin{lstlisting}[caption=Дейкстра (shortest\_paths.cpp)]
+	bool dijkstra_shortest(int** W, int N, int start, int* dist, int* parent, long long& iters) {
+		if (has_negative_weights(W, N)) {
+			return false;
+		}
+		bool* used = new bool[N];
+		for (int i = 0; i < N; ++i) {
+			dist[i] = INF; parent[i] = -1; used[i] = false;
+		}
+		dist[start] = 0;
+		for (int step = 0; step < N; ++step) {
+			int v = -1;
+			for (int i = 0; i < N; ++i)
+			if (!used[i] && (v == -1 || dist[i] < dist[v])) v = i;
+			if (v == -1 || dist[v] == INF) break;
+			used[v] = true;
+			for (int u = 0; u < N; ++u) {
+				if (W[v][u] == 0) continue;
+				if (dist[v] + W[v][u] < dist[u]) {
+					dist[u] = dist[v] + W[v][u];
+					parent[u] = v;
+				}
+			}
+		}
+		delete[] used;
+		return true;
+	}
+\end{lstlisting}
+
+\subsection{Алгоритм Форда-Фалкерсона (Эдмондс-Карп)}
+Поиск максимального потока в ориентированной сети выполняется с помощью BFS для нахождения увеличивающего пути в остаточной сети. Алгоритм Эдмондса-Карпа гарантирует полиномиальное время $O(nm^2)$.
+
+\noindent\textbf{Вход:}
+\begin{enumerate}
+	\item int** capacity — матрица пропускных способностей ($N \times N$, целые неотрицательные)
+	\item int N — количество вершин
+	\item int s, int t — источник и сток
+\end{enumerate}
+\noindent\textbf{Выход:}
+int — величина максимального потока из $s$ в $t$
+
+\begin{lstlisting}[caption=Максимальный поток (flows.cpp)]
+	int max_flow_edmonds_karp(int** capacity, int N, int s, int t) {
+		if (!capacity || N <= 0) return 0;
+		if (s < 0 || s >= N || t < 0 || t >= N) return 0;
+		
+		int** residual = new int*[N];
+		for (int i = 0; i < N; ++i) {
+			residual[i] = new int[N];
+			for (int j = 0; j < N; ++j) {
+				residual[i][j] = capacity[i][j];
+			}
+		}
+		
+		int* parent = new int[N];
+		int max_flow = 0;
+		
+		while (true) {
+			int flow = bfs_for_flow(residual, N, s, t, parent);
+			if (flow == 0) break;
+			max_flow += flow;
+			
+			int cur = t;
+			while (cur != s) {
+				int prev = parent[cur];
+				residual[prev][cur] -= flow;
+				residual[cur][prev] += flow;
+				cur = prev;
+			}
+		}
+		
+		delete[] parent;
+		delete_matrix(residual, N);
+		return max_flow;
+	}
+	
+\end{lstlisting}
+
+\subsection{Алгоритм поиска заданного потока минимальной стоимости}
+Для нахождения потока заданной величины с минимальной суммарной стоимостью используется метод последовательного дополнения вдоль кратчайших путей в приведённой сети. Для поиска кратяайших путей используется ранее реализованный алгоритм Дейкстры. На каждом шаге находится путь минимальной стоимости в остаточной сети, по которому пропускается максимально возможный поток.
+
+\noindent\textbf{Вход:}
+\begin{enumerate}
+	\item int** capacity — матрица пропускных способностей ($N \times N$)
+	\item int** cost — матрица стоимостей ($N \times N$)
+	\item int N — количество вершин
+	\item int s, int t — источник и сток
+	\item int required\_flow — требуемая величина потока
+	\item int\& achieved\_flow — выходной параметр
+	\item int** flow — матрица для записи найденного потока
+\end{enumerate}
+\noindent\textbf{Выход:}
+long long — минимальная суммарная стоимость достигнутого потока. \\
+Через параметры: achieved\_flow — реально достигнутая величина потока ($\le$ required\_flow), flow[$N$][$N$] — матрица потока на каждом ребре.
+
+\begin{lstlisting}[caption=Поток минимальной стоимости (flows.cpp)]
+	long long min_cost_flow_with_dijkstra( int** capacity,
+	int** cost, int N, int s, int t, int required_flow,
+	int& achieved_flow, int** flow
+	) {
+		achieved_flow = 0;
+		if (!capacity || !cost || N <= 0) return 0;
+		if (s < 0 || s >= N || t < 0 || t >= N) return 0;
+		if (required_flow <= 0) return 0;
+		
+		int** cap = new int*[N];
+		for (int i = 0; i < N; ++i) {
+			cap[i] = new int[N];
+			for (int j = 0; j < N; ++j) {
+				cap[i][j] = capacity[i][j];
+			}
+		}
+		
+		int** c = new int*[N];
+		for (int i = 0; i < N; ++i) {
+			c[i] = new int[N];
+			for (int j = 0; j < N; ++j) {
+				c[i][j] = cost[i][j];
+			}
+		}
+		
+		for (int i = 0; i < N; ++i) {
+			for (int j = 0; j < N; ++j) {
+				flow[i][j] = 0;
+			}
+		}
+		
+		vector<int> potential(N, 0);
+		vector<int> dist(N);
+		vector<int> parent(N);
+		
+		long long total_cost = 0;
+		
+		while (achieved_flow < required_flow) {
+			dijkstra_reduced(cap, c, N, s, potential, dist, parent);
+			if (dist[t] == INF_LOCAL) break;
+			
+			for (int i = 0; i < N; ++i) {
+				if (dist[i] < INF_LOCAL) {
+					potential[i] += dist[i];
+				}
+			}
+			
+			int add_flow = required_flow - achieved_flow;
+			int v = t;
+			while (v != s) {
+				int u = parent[v];
+				if (u == -1) { add_flow = 0; break; }
+				if (cap[u][v] < add_flow) add_flow = cap[u][v];
+				v = u;
+			}
+			if (add_flow <= 0) break;
+			
+			v = t;
+			while (v != s) {
+				int u = parent[v];
+				cap[u][v] -= add_flow;
+				cap[v][u] += add_flow;
+				
+				flow[u][v] += add_flow;
+				flow[v][u] -= add_flow;
+				
+				total_cost += 1LL * add_flow * cost[u][v];
+				
+				v = u;
+			}
+			
+			achieved_flow += add_flow;
+		}
+		
+		for (int i = 0; i < N; ++i) {
+			delete[] cap[i];
+			delete[] c[i];
+		}
+		delete[] cap;
+		delete[] c;
+		
+		return total_cost;
+	}
+\end{lstlisting}
+
+\subsection{Матричная теорема Кирхгофа}
+Число остовных деревьев неориентированного графа вычисляется как любой главный минор матрицы Кирхгофа. Матрица Кирхгофа $L$ определяется: $B_{ii} = \deg(i)$, $B_{ij} = -1$ при наличии ребра между $i$ и $j$. Определитель матрицы $(N-1)\times(N-1)$ находится методом Гаусса с выбором главного элемента и использованием типа \texttt{long double} для повышения точности.
+
+\noindent\textbf{Вход:}
+\begin{enumerate}
+	\item int** adj — матрица смежности неориентированного графа ($N \times N$, 1 — ребро, 0 — нет)
+	\item int N — количество вершин
+\end{enumerate}
+\noindent\textbf{Выход:}
+long long — число остовных деревьев графа (округляется до ближайшего целого от определителя)
+
+\begin{lstlisting}[caption=Подсчёт остовных деревьев (kirchhoff.cpp)]
+	tatic long double determinant_ld(vector<vector<long double>>& A, int n) {
+		long double det = 1.0L;
+		for (int i = 0; i < n; ++i) {
+			int pivot = i;
+			long double maxv = fabsl(A[i][i]);
+			for (int r = i+1; r < n; ++r) {
+				long double val = fabsl(A[r][i]);
+				if (val > maxv) { maxv = val; pivot = r; }
+			}
+			if (fabsl(maxv) < 1e-18L) {
+				return 0.0L;
+			}
+			if (pivot != i) {
+				swap(A[pivot], A[i]);
+				det = -det;
+			}
+			long double diag = A[i][i];
+			det *= diag;
+			for (int r = i+1; r < n; ++r) {
+				long double factor = A[r][i] / diag;
+				if (fabsl(factor) < 1e-18L) continue;
+				for (int c = i; c < n; ++c) {
+					A[r][c] -= factor * A[i][c];
+				}
+			}
+		}
+		return det;
+	}
+\end{lstlisting}
+
+\subsection{Алгоритм Борувки}
+Построение минимального остовного дерева (MST) во взвешенном неориентированном графе выполняется алгоритмом Борувки. На каждом этапе для каждой компоненты связности выбирается инцидентное ребро минимального веса, после чего компоненты объединяются. Алгоритм продолжается, пока не останется одна компонента.
+
+\noindent\textbf{Вход:}
+\begin{enumerate}
+	\item int** adj — матрица смежности неориентированного графа ($N \times N$)
+	\item int** weight — матрица весов рёбер ($N \times N$, 0 — ребро отсутствует)
+	\item int N — количество вершин
+	\item int\& total\_weight — выходной параметр для суммарного веса MST
+\end{enumerate}
+\noindent\textbf{Выход:}
+int** — матрица смежности минимального остовного дерева (размер $N \times N$). \\
+total\_weight — суммарный вес рёбер в построенном MST.
+
+\begin{lstlisting}[caption=Алгоритм Борувки (boruvka.cpp)]
+	int** boruvka_mst(int** adj, int** weight, int N, int& total_weight) {
+		total_weight = 0;
+		if (!adj || !weight || N <= 0) return nullptr;
+		
+		int** mst = new int*[N];
+		for (int i=0;i<N;++i){
+			mst[i] = new int[N];
+			for (int j=0;j<N;++j) mst[i][j] = 0;
+		}
+		
+		DSU dsu(N);
+		int components = N;
+		total_weight = 0;
+		
+		while (components > 1) {
+			const int INF_W = numeric_limits<int>::max();
+			vector<int> best_u(N, -1);
+			vector<int> best_v(N, -1);
+			vector<int> best_w(N, INF_W);
+			vector<int> best_id(N, numeric_limits<int>::max());
+			
+			for (int u = 0; u < N; ++u) {
+				for (int v = 0; v < N; ++v) {
+					if (u == v) continue;
+					if (adj[u][v] == 0 && adj[v][u] == 0) continue;
+					int w = weight[u][v];
+					if (w == 0) continue;
+					int cu = dsu.find(u);
+					int cv = dsu.find(v);
+					if (cu == cv) continue;
+					int eid = u * N + v;
+					if (w < best_w[cu] || (w == best_w[cu] && eid < best_id[cu])) {
+						best_w[cu] = w;
+						best_u[cu] = u;
+						best_v[cu] = v;
+						best_id[cu] = eid;
+					}
+				}
+			}
+			
+			
+			for (int i = 0; i < N; ++i) {
+				if (best_u[i] == -1) continue;
+				int u = best_u[i];
+				int v = best_v[i];
+				int cu = dsu.find(u);
+				int cv = dsu.find(v);
+				if (cu == cv) continue;
+				
+				if (dsu.unite(cu, cv)) {
+					mst[u][v] = 1;
+					mst[v][u] = 1;
+					total_weight += weight[u][v];
+					components--;
+				}
+			}
+		}
+		
+		clear_last_mst();
+		last_mst_N = N;
+		last_mst = new int*[N];
+		for (int i=0;i<N;++i){
+			last_mst[i] = new int[N];
+			for (int j=0;j<N;++j) last_mst[i][j] = mst[i][j];
+		}
+		
+		return mst;
+	}
+\end{lstlisting}
+
+\subsection{Код Прюфера}
+Для кодирования дерева (MST) в код Прюфера с сохранением весов рёбер реализованы две функции: \texttt{encode\_prufer\_with\_weights} и \texttt{decode\_prufer\_with\_weights}. При кодировании на каждом шаге удаляется лист с наименьшим номером, а номер смежной вершины заносится в код. Вес удаляемого ребра сохраняется в отдельный список. При декодировании восстанавливается дерево и соответствующие веса.
+
+\noindent\textbf{Кодирование (encode\_prufer\_with\_weights):} \\
+\noindent\textbf{Вход:}
+\begin{enumerate}
+	\item int** adj — матрица смежности дерева (MST)
+	\item int** weight — матрица весов рёбер
+	\item int N — количество вершин
+\end{enumerate}
+\noindent\textbf{Выход:}
+bool — успешность операции. \\
+vector<int>\& code\_nodes — код Прюфера (длина N-2), vector<int>\& code\_weights — веса удаляемых рёбер, int\& last\_u, int\& last\_v — вершины последнего ребра.
+
+\begin{lstlisting}[caption=Кодирование Прюфера с весами (prufer.cpp)]
+bool encode_prufer_with_weights(
+int** adj,
+int** weight,
+int N,
+vector<int>& code_nodes,
+vector<int>& code_weights,
+int& last_u,
+int& last_v
+) {
+	if (!adj || !weight || N <= 0) return false;
+	
+	int** tmp_adj = new int* [N];
+	for (int i = 0; i < N; ++i) {
+		tmp_adj[i] = new int[N];
+		for (int j = 0; j < N; ++j) {
+			tmp_adj[i][j] = adj[i][j];
+		}
+	}
+	
+	vector<int> deg(N, 0);
+	for (int i = 0; i < N; ++i) {
+		for (int j = 0; j < N; ++j) {
+			if (tmp_adj[i][j] == 1) deg[i]++;
+		}
+	}
+	
+	priority_queue<int, vector<int>, greater<int>> leaves;
+	for (int i = 0; i < N; ++i) {
+		if (deg[i] == 1) leaves.push(i);
+	}
+	
+	code_nodes.clear();
+	code_weights.clear();
+	code_nodes.reserve((N > 2) ? (N - 2) : 0);
+	code_weights.reserve((N > 1) ? (N - 1) : 0);
+	
+	for (int step = 0; step < N - 2; ++step) {
+		int v = -1;
+		while (!leaves.empty()) {
+			int x = leaves.top();
+			leaves.pop();
+			if (deg[x] == 1) { v = x; break; }
+		}
+		if (v == -1) {
+			for (int i = 0; i < N; ++i) delete[] tmp_adj[i];
+			delete[] tmp_adj;
+			return false;
+		}
+		
+		int u = -1;
+		for (int j = 0; j < N; ++j) {
+			if (tmp_adj[v][j] == 1) {
+				u = j;
+				break;
+			}
+		}
+		if (u == -1) {
+			for (int i = 0; i < N; ++i) delete[] tmp_adj[i];
+			delete[] tmp_adj;
+			return false;
+		}
+		
+		code_nodes.push_back(u);
+		code_weights.push_back(weight[v][u]);
+		
+		tmp_adj[v][u] = tmp_adj[u][v] = 0;
+		deg[v]--;
+		deg[u]--;
+		
+		if (deg[u] == 1) {
+			leaves.push(u);
+		}
+	}
+	
+	last_u = -1;
+	last_v = -1;
+	for (int i = 0; i < N; ++i) {
+		if (deg[i] == 1) {
+			if (last_u == -1) last_u = i;
+			else last_v = i;
+		}
+	}
+	if (last_u == -1 || last_v == -1) {
+		for (int i = 0; i < N; ++i) delete[] tmp_adj[i];
+		delete[] tmp_adj;
+		return false;
+	}
+	
+	code_weights.push_back(weight[last_u][last_v]);
+	
+	for (int i = 0; i < N; ++i) delete[] tmp_adj[i];
+	delete[] tmp_adj;
+	return true;
+}
+\end{lstlisting}
+
+\noindent\textbf{Декодирование (decode\_prufer\_with\_weights):} \\
+\noindent\textbf{Вход:}
+\begin{enumerate}
+	\item vector<int>\& code\_nodes — код Прюфера (вершины)
+	\item vector<int>\& code\_weights — соответствующие веса
+	\item int N — количество вершин
+\end{enumerate}
+\noindent\textbf{Выход:}
+int** — матрица смежности восстановленного дерева ($N \times N$), int**\& decoded\_weights — матрица весов.
+
+\begin{lstlisting}[caption=Декодирование Прюфера с весами (prufer.cpp)]
+	int** decode_prufer_with_weights(
+	const vector<int>& code_nodes,
+	const vector<int>& code_weights,
+	int N,
+	int**& decoded_weights
+	) {
+		decoded_weights = nullptr;
+		if (N <= 0) return nullptr;
+		if ((int)code_nodes.size() != N - 2) return nullptr;
+		if ((int)code_weights.size() != N - 1) return nullptr;
+		
+		int** adj = new int* [N];
+		for (int i = 0; i < N; ++i) {
+			adj[i] = new int[N];
+			for (int j = 0; j < N; ++j) adj[i][j] = 0;
+		}
+		
+		decoded_weights = new int* [N];
+		for (int i = 0; i < N; ++i) {
+			decoded_weights[i] = new int[N];
+			for (int j = 0; j < N; ++j) decoded_weights[i][j] = 0;
+		}
+		
+		vector<int> deg(N, 1);
+		for (int x : code_nodes) {
+			if (x >= 0 && x < N) deg[x]++;
+		}
+		
+		priority_queue<int, vector<int>, greater<int>> leaves;
+		for (int i = 0; i < N; ++i) {
+			if (deg[i] == 1) leaves.push(i);
+		}
+		
+		for (int i = 0; i < N - 2; ++i) {
+			int u = code_nodes[i];
+			int w = code_weights[i];
+			
+			int v = -1;
+			while (!leaves.empty()) {
+				int x = leaves.top();
+				leaves.pop();
+				if (deg[x] == 1) { v = x; break; }
+			}
+			if (v == -1) {
+				for (int r = 0; r < N; ++r) delete[] adj[r];
+				delete[] adj;
+				for (int r = 0; r < N; ++r) delete[] decoded_weights[r];
+				delete[] decoded_weights;
+				decoded_weights = nullptr;
+				return nullptr;
+			}
+			
+			adj[v][u] = adj[u][v] = 1;
+			decoded_weights[v][u] = decoded_weights[u][v] = w;
+			
+			deg[v]--;
+			deg[u]--;
+			
+			if (deg[u] == 1) {
+				leaves.push(u);
+			}
+		}
+		
+		int a = -1, b = -1;
+		for (int i = 0; i < N; ++i) {
+			if (deg[i] == 1) {
+				if (a == -1) a = i;
+				else b = i;
+			}
+		}
+		if (a != -1 && b != -1) {
+			int last_weight = code_weights.back();
+			adj[a][b] = adj[b][a] = 1;
+			decoded_weights[a][b] = decoded_weights[b][a] = last_weight;
+		} else {
+			for (int r = 0; r < N; ++r) delete[] adj[r];
+			delete[] adj;
+			for (int r = 0; r < N; ++r) delete[] decoded_weights[r];
+			delete[] decoded_weights;
+			decoded_weights = nullptr;
+			return nullptr;
+		}
+		
+		return adj;
+	}
+\end{lstlisting}
+
+\subsection{Алгоритм нахождения минимальной раскраски графа}
+Для раскраски вершин неориентированного графа используется улучшенный алгоритм последовательного раскрашивания. Вершины сортируются по убыванию степени, затем последовательно раскрашиваются в минимальный возможный цвет. Выбор цвета осуществляется с учётом уже окрашенных соседей.
+
+\noindent\textbf{Вход:}
+\begin{enumerate}
+	\item int** adj — матрица смежности неориентированного графа ($N \times N$)
+	\item int N — количество вершин
+	\item int\& colors\_used — выходной параметр
+\end{enumerate}
+\noindent\textbf{Выход:}
+int* — массив цветов вершин (длина N, цвета от 1 до colors\_used). \\
+Через параметр colors\_used — количество использованных цветов (одноцветных классов).
+
+\begin{lstlisting}[caption=Раскраска графа (coloring.cpp)]
+	int* dsatur_coloring(int** adj, int N, int& colors_used) {
+		std::vector<int> degree(N, 0);
+		for (int i = 0; i < N; ++i) {
+			int deg = 0;
+			for (int j = 0; j < N; ++j) {
+				if (adj[i][j] != 0) ++deg;
+			}
+			degree[i] = deg;
+		}
+		
+		std::vector<int> vertices(N);
+		for (int i = 0; i < N; ++i) vertices[i] = i;
+		std::sort(vertices.begin(), vertices.end(),
+		[&](int a, int b) { return degree[a] > degree[b]; });
+		
+		std::vector<int> color(N, 0);
+		int uncolored = N;
+		int c = 1;
+		colors_used = 0;
+		
+		while (uncolored > 0) {
+			for (int idx = 0; idx < N; ++idx) {
+				int v = vertices[idx];
+				if (color[v] != 0) continue;
+				
+				bool conflict = false;
+				for (int u = 0; u < N; ++u) {
+					if (adj[v][u] != 0 && color[u] == c) {
+						conflict = true;
+						break;
+					}
+				}
+				if (!conflict) {
+					color[v] = c;
+					--uncolored;
+				}
+			}
+			if (c > colors_used) colors_used = c;
+			++c;
+		}
+		
+		int* result = new int[N];
+		for (int i = 0; i < N; ++i) result[i] = color[i];
+		return result;
+	}
+\end{lstlisting}
+
+\subsection{Эйлеров граф}
+Проверка графа на эйлеровость заключается в вычислении чётности степеней всех вершин. Если граф не эйлеров, выполняется модификация: вершины с нечётной степенью попарно соединяются (добавляются или удаляются рёбра) для достижения чётности, затем строится эйлеров цикл.
+
+\noindent\textbf{Проверка (is\_eulerian):} \\
+\noindent\textbf{Вход:}
+\begin{enumerate}
+	\item int** adj — матрица смежности неориентированного графа ($N \times N$)
+	\item int N — количество вершин
+\end{enumerate}
+\noindent\textbf{Выход:}
+bool — true, если все вершины имеют чётную степень (граф эйлеров).
+
+\begin{lstlisting}[caption=Проверка на эйлеровость (euler.cpp)]
+	bool is_eulerian(int** adj, int N) {
+		for (int i = 0; i < N; ++i) {
+			int deg = 0;
+			for (int j = 0; j < N; ++j) deg += (adj[i][j] != 0);
+			if (deg % 2 != 0) return false;
+		}
+		return true;
+	}
+\end{lstlisting}
+
+\vspace*{20pt}
+
+\noindent\textbf{Модификация (make\_eulerian):} \\
+\noindent\textbf{Вход:}
+\begin{enumerate}
+	\item int** adj — исходная матрица смежности
+	\item int N — количество вершин
+\end{enumerate}
+\noindent\textbf{Выход:}
+vector<vector<int>>\& mult — обновлённая матрица смежности с чётными степенями.
+
+\begin{lstlisting}[caption=Модификация графа в эйлеров (euler.cpp)]
+	void make_eulerian(int** adj, int N, vector<vector<int>>& eul) {
+		eul.assign(N, vector<int>(N, 0));
+		for (int i = 0; i < N; ++i)
+		for (int j = 0; j < N; ++j)
+		eul[i][j] = adj[i][j];
+		
+		vector<int> deg(N, 0);
+		for (int i = 0; i < N; ++i)
+		for (int j = 0; j < N; ++j)
+		if (adj[i][j] != 0) deg[i]++;
+		
+		vector<int> odds;
+		for (int i = 0; i < N; ++i)
+		if (deg[i] % 2 == 1)
+		odds.push_back(i);
+		
+		if (odds.empty()) {
+			cout << "Граф уже эйлеров.\n";
+			return;
+		}
+		
+		sort(odds.begin(), odds.end(), [&](int a, int b) {
+			return deg[a] < deg[b];
+		});
+		
+		cout << "Вершины с нечётной степенью (отсортированы по степени): ";
+		for (int x : odds) cout << x << " ";
+		cout << endl;
+		
+		vector<bool> used(odds.size(), false);
+		int remaining = odds.size();
+		
+		while (remaining > 0) {
+			int i = 0;
+			while (i < (int)odds.size() && used[i]) ++i;
+			if (i == (int)odds.size()) break;
+			
+			int u = odds[i];
+			int j;
+			for (int k = i + 1; k < (int)odds.size(); ++k) {
+				if (used[k]) continue;
+				int v = odds[k];
+				if (deg[u] == 1 || deg[v] == 1) {
+					if (eul[u][v] == 0) {
+						j = k;
+						break;
+					}
+				} else {
+					j = k;
+					break;
+				}
+			}
+			
+			int v = odds[j];
+			if (eul[u][v] > 0) {
+				eul[u][v]--;
+				eul[v][u]--;
+				cout << "Удалено ребро " << u << " - " << v << endl;
+			} else {
+				eul[u][v]++;
+				eul[v][u]++;
+				cout << "Добавлено ребро " << u << " - " << v << endl;
+			}
+			used[i] = used[j] = true;
+			remaining -= 2;
+		}
+	}
+\end{lstlisting}
+
+\vspace*{20pt}
+
+\noindent\textbf{Построение цикла (find\_eulerian\_cycle):} \\
+\noindent\textbf{Вход:}
+\begin{enumerate}
+	\item const vector<vector<int>>\& eul — матрица кратностей эйлерова графа
+	\item int N — количество вершин
+	\item int start — начальная вершина
+\end{enumerate}
+\noindent\textbf{Выход:}
+vector<int> — последовательность вершин эйлерова цикла.
+
+\begin{lstlisting}[caption=Эйлеров цикл (euler.cpp)]
+	vector<int> find_eulerian_cycle(const vector<vector<int>>& eul, int N, int start) {
+		vector<vector<int>> m = eul;
+		vector<int> cycle;
+		stack<int> st;
+		st.push(start);
+		
+		while (!st.empty()) {
+			int v = st.top();
+			bool found = false;
+			for (int u = 0; u < N; ++u) {
+				if (m[v][u] > 0) {
+					m[v][u]--;
+					m[u][v]--;
+					st.push(u);
+					found = true;
+					break;
+				}
+			}
+			if (!found) {
+				cycle.push_back(v);
+				st.pop();
+			}
+		}
+		
+		reverse(cycle.begin(), cycle.end());
+		return cycle;
+	}
+\end{lstlisting}
+
+\subsection{Разрез графа}
+Разрез — это множество рёбер, удаление которых увеличивает число компонент связности. В программе разрез задаётся как набор пар вершин $(u,v)$ (рёбра соединяющие эти вершины). Фундаментальный разрез для ребра $e$ минимального отстовного дереыва строится как множество всех рёбер исходного графа, соединяющих две компоненты, полученные удалением $e$ из минимального остовного дерева (множество хорд).
+
+В файле \texttt{cuts.h} определён тип \texttt{Cut} как вектор пар целых чисел, а также объявлены функции для работы с фундаментальными разрезами.
+
+\begin{lstlisting}[caption=cuts.h]
+	#include <vector>
+	#include <utility>
+	
+	using Cut = std::vector<std::pair<int,int>>;
+	
+	std::vector<Cut> get_fundamental_cuts(int** adj, int** mst, int N);
+	void print_cut(const Cut& cut, const char* name);
+	Cut symmetric_difference(const Cut& a, const Cut& b);
+	Cut symmetric_difference_multiple(const std::vector<Cut>& cuts);
+\end{lstlisting}
+
+
+
+\subsection{Фундаментальная система разрезов}
+Совокупность фундаментальных разрезов для всех рёбер MST образует фундаментальную систему разрезов. Над выбранными разрезами может быть выполнена операция симметрической разности, которая также является разрезом. Реализованы функции \texttt{symmetric\_difference} и \texttt{symmetric\_difference\_multiple}.
+
+\noindent\textbf{Построение фундаментального разреза для ребра минимального остовного дерева (get\_fundamental\_cut\_for\_edge):} \\
+\noindent\textbf{Вход:}
+\begin{enumerate}
+	\item int** adj — матрица смежности исходного графа
+	\item int** mst — матрица смежности остовного дерева
+	\item int N — количество вершин
+	\item int u\_edge, int v\_edge — ребро остовного дерева
+\end{enumerate}
+\noindent\textbf{Выход:}
+Cut (тип vector<pair<int,int>>) — полученный фундаментальный разрез.
+
+\begin{lstlisting}[caption=Фундаментальный разрез (cuts.cpp)]
+	Cut get_fundamental_cut_for_edge(int** adj, int** mst, int N, int u_edge, int v_edge) {
+		vector<bool> comp1;
+		get_component(mst, N, u_edge, u_edge, v_edge, comp1);
+		Cut cut;
+		if (u_edge < v_edge) cut.push_back({u_edge, v_edge});
+		else cut.push_back({v_edge, u_edge});
+		
+		for (int i = 0; i < N; ++i) {
+			for (int j = i+1; j < N; ++j) {
+				if (adj[i][j] == 0) continue;
+				if (comp1[i] != comp1[j]) {
+					cut.push_back({i, j});
+				}
+			}
+		}
+		sort(cut.begin(), cut.end());
+		cut.erase(unique(cut.begin(), cut.end()), cut.end());
+		return cut;
+	}
+\end{lstlisting}
+
+\vspace*{20pt}
+
+\noindent\textbf{Симметрическая разность двух разрезов (symmetric\_difference):} \\
+\noindent\textbf{Вход:}
+\begin{enumerate}
+	\item const Cut\& a, const Cut\& b — два разреза
+\end{enumerate}
+\noindent\textbf{Выход:}
+Cut — разрез, являющийся симметрической разностью фундаментальных разрезов.
+
+\begin{lstlisting}[caption=Фундаментальный разрез (cuts.cpp)]
+	Cut symmetric_difference(const Cut& a, const Cut& b) {
+		set<pair<int,int>> sa(a.begin(), a.end());
+		set<pair<int,int>> sb(b.begin(), b.end());
+		Cut res;
+		for (auto& p : sa) {
+			if (sb.find(p) == sb.end()) res.push_back(p);
+		}
+		for (auto& p : sb) {
+			if (sa.find(p) == sa.end()) res.push_back(p);
+		}
+		sort(res.begin(), res.end());
+		return res;
+	}
+\end{lstlisting}
+
+\vspace*{20pt}
+
+\noindent\textbf{Симметрическая разность нескольких разрезов (symmetric\_difference\_multiple):} \\
+\noindent\textbf{Вход:}
+\begin{enumerate}
+	\item const vector<Cut>\& cuts — список разрезов
+\end{enumerate}
+\noindent\textbf{Выход:}
+Cut — результирующий разрез, после последовательного применения симметрической разности ко всем разрезам из списка.
+
+\begin{lstlisting}[caption=Фундаментальный разрез (cuts.cpp)]
+	Cut symmetric_difference_multiple(const vector<Cut>& cuts) {
+		if (cuts.empty()) return Cut();
+		Cut res = cuts[0];
+		for (size_t i = 1; i < cuts.size(); ++i) {
+			res = symmetric_difference(res, cuts[i]);
+		}
+		return res;
+	}
+\end{lstlisting}
+
+\subsection{Меню программы (main.cpp)}
+В главном файле \texttt{main.cpp} реализовано текстовое меню, позволяющее пользователю последовательно вызывать все реализованные алгоритмы. После генерации графа все данные сохраняются в глобальных переменных, что позволяет выполнять над ними различные операции без повторной генерации. Меню поддерживает следующие действия (см. листинг ниже).
+
+\begin{lstlisting}[caption=main.cpp]
+#include <iostream>
+#include <cstdlib>
+#include <ctime>
+#include <string>
+#include <vector>
+#include <climits>
+#include "common_structures.h"
+#include "generate_graphs.h"
+#include "metrics.h"
+#include "shimbell.h"
+#include "routes.h"
+#include "articulation.h"
+#include "shortest_paths.h"
+#include "flows.h"
+#include "boruvka.h"
+#include "coloring.h"
+#include "kirchhoff.h"
+#include "prufer.h"
+#include "euler.h"
+#include "cuts.h"
+
+using namespace std;
+
+void print_menu() {
+	cout << "\nМЕНЮ\n";
+	cout << "1. Сгенерировать ориентированный связный ациклический граф (по степеням Чампернауна)\n";
+	cout << "2. Сгенерировать неориентированный граф из текущего ориентированного (симметризация матриц)\n";
+	cout << "3. Сгенерировать весовую матрицу для текущего графа (положит/отриц/смеш)\n";
+	cout << "4. Показать текущий граф и метрики (эксцентриситеты, центр, диаметр)\n";
+	cout << "5. Показать сохранённую весовую матрицу\n";
+	cout << "6. Метод Шимбелла (минимум/максимум путей с ограничением по числу рёбер)\n";
+	cout << "7. Подсчитать количество маршрутов между двумя вершинами\n";
+	cout << "8. Найти точки сочленения в текущем графе (только для неориентированного)\n";
+	cout << "9. Найти кратчайший путь между двумя вершинами (Классический алгоритм Дейкстры)\n";
+	cout << "10. Сгенерировать матрицы пропускных способностей и стоимостей для текущего графа\n";
+	cout << "11. Показать матрицы пропускных способностей и стоимостей\n";
+	cout << "12. Найти максимальный поток (алгоритм Эдмондса-Карпа)\n";
+	cout << "13. Найти поток минимальной стоимости объёма [2/3 * max]\n";
+	cout << "14. Число остовных деревьев (теорема Кирхгофа) для текущего неориентированного графа\n";
+	cout << "15. Построить минимальное остовное дерево (алгоритм Борувки) и сохранить его как последний MST\n";
+	cout << "16. Код Прюфера: закодировать последний MST и декодировать обратно (с сохранением весов)\n";
+	cout << "17. Минимальная раскраска графа (на исходном графе или на последнем MST)\n";
+	cout << "18. Проверить граф на эйлеровость, при необходимости модифицировать и построить эйлеров цикл\n";
+	cout << "19. Фундаментальная система разрезов последнего MST и симметрическая разность выбранных разрезов\n";
+	cout << "0. Выход\n";
+	cout << "Ваш выбор: ";
+}
+
+// Вспомогательная функция для ввода целого числа с проверкой диапазона и возможностью выхода (-1)
+int input_int(const string& prompt, int min_val, int max_val, bool allow_cancel = true) {
+	int val;
+	while (true) {
+		cout << prompt;
+		if (!(cin >> val)) {
+			cin.clear();
+			cin.ignore(10000, '\n');
+			cout << "Ошибка ввода. Введите целое число.\n";
+			continue;
+		}
+		if (allow_cancel && val == -1) {
+			cout << "Отмена операции.\n";
+			return -1;
+		}
+		if (val >= min_val && val <= max_val) {
+			return val;
+		}
+		cout << "Значение должно быть в диапазоне [" << min_val << ", " << max_val << "]. Повторите.\n";
+	}
+}
+
+int main() {
+	srand((unsigned)time(nullptr));
+	int choice;
+	int N = 0;
+	
+	do {
+		print_menu();
+		cin >> choice;
+		if (cin.fail()) {
+			cin.clear();
+			cin.ignore(10000, '\n');
+			cout << "Некорректный ввод. Повторите.\n";
+			continue;
+		}
+		
+		switch (choice) {
+			case 1: {
+				// Ввод N
+				int n = input_int("Введите количество вершин (или -1 для отмены): ", 1, INT_MAX, true);
+				if (n == -1) break;
+				N = n;
+				
+				clear_weight_matrix();
+				clear_capacity_matrix();
+				clear_cost_matrix();
+				
+				int** adj = nullptr;
+				for (int attempt = 0; attempt < 20; ++attempt) {
+					adj = generate_directed_by_degrees(N);
+					
+					bool* vis = new bool[N];
+					for (int i = 0; i < N; ++i) vis[i] = false;
+					int* q = new int[N]; int h = 0, t = 0;
+					q[t++] = 0; vis[0] = true;
+					while (h < t) {
+						int v = q[h++];
+						for (int u = 0; u < N; ++u) {
+							if ((adj[v][u] == 1 || adj[u][v] == 1) && !vis[u]) {
+								vis[u] = true; q[t++] = u;
+							}
+						}
+					}
+					bool ok = true;
+					for (int i = 0; i < N; ++i) if (!vis[i]) { ok = false; break; }
+					delete[] vis; delete[] q;
+					if (ok) break;
+					delete_matrix(adj, N); adj = nullptr;
+				}
+				if (!adj) {
+					cout << "Не удалось сгенерировать связный ориентированный граф\n";
+					break;
+				}
+				set_current_matrix(adj, N, true);
+				delete_matrix(adj, N);
+				cout << "Ориентированный связный ациклический граф сгенерирован и сохранён как текущая матрица.\n";
+				break;
+			}
+			case 2: {
+				int curN; bool oriented;
+				int** cur = get_current_matrix(curN, oriented);
+				if (!cur) {
+					cout << "Нет текущего графа. Сначала сгенерируйте ориентированный граф в пункте 1.\n";
+					break;
+				}
+				if (!oriented) {
+					cout << "Текущий граф уже неориентированный.\n";
+					break;
+				}
+				
+				int** und = new int* [curN];
+				for (int i = 0; i < curN; ++i) {
+					und[i] = new int[curN];
+					for (int j = 0; j < curN; ++j) und[i][j] = 0;
+				}
+				for (int i = 0; i < curN; ++i) {
+					for (int j = 0; j < curN; ++j) {
+						if (cur[i][j] == 1 || cur[j][i] == 1) {
+							und[i][j] = 1;
+							und[j][i] = 1;
+						}
+					}
+				}
+				set_current_matrix(und, curN, false);
+				delete_matrix(und, curN);
+				
+				if (is_weight_matrix_exist()) {
+					int wn; int** W = get_weight_matrix(wn);
+					if (wn == curN) {
+						int** Wsym = new int* [wn];
+						for (int i = 0; i < wn; ++i) {
+							Wsym[i] = new int[wn];
+							for (int j = 0; j < wn; ++j) Wsym[i][j] = 0;
+						}
+						for (int i = 0; i < wn; ++i) {
+							for (int j = i; j < wn; ++j) {
+								int a = W[i][j];
+								int b = W[j][i];
+								int val = 0;
+								if (a != 0 && b != 0) val = a;
+								else if (a != 0) val = a;
+								else if (b != 0) val = b;
+								else val = 0;
+								Wsym[i][j] = val;
+								Wsym[j][i] = val;
+							}
+						}
+						set_weight_matrix(Wsym, wn);
+						delete_matrix(Wsym, wn);
+					} else {
+						cout << "Размер сохранённой весовой матрицы не совпадает с текущим графом — весовая матрица не симметризована.\n";
+					}
+				}
+				cout << "Преобразование выполнено: текущая матрица теперь неориентированная. Весовая матрица симметризована (если была сохранена и совпадала по размеру).\n";
+				break;
+			}
+			case 3: {
+				int curN; bool oriented;
+				int** cur = get_current_matrix(curN, oriented);
+				if (!cur) {
+					cout << "Нет текущего графа\n";
+					break;
+				}
+				int sign = input_int("Выберите тип весов: 1-положительные, 2-отрицательные, 3-смешанные (или -1 для отмены): ", 1, 3, true);
+				if (sign == -1) break;
+				
+				int** W = new int* [curN];
+				for (int i = 0; i < curN; ++i) {
+					W[i] = new int[curN];
+					for (int j = 0; j < curN; ++j) W[i][j] = 0;
+				}
+				
+				double weight_mu = 8.0;
+				double weight_alpha = 0.9;
+				
+				for (int i = 0; i < curN; ++i) {
+					for (int j = 0; j < curN; ++j) {
+						bool has = oriented ? (cur[i][j] == 1) : (i < j && (cur[i][j] == 1 || cur[j][i] == 1));
+						if (!has) continue;
+						int w = 0;
+						while (w == 0) w = generate_random_degree_champernaun(weight_mu, weight_alpha);
+						if (sign == 2) w = -w;
+						else if (sign == 3 && rand() % 2 == 0) w = -w;
+						W[i][j] = w;
+						if (!oriented && i < j) W[j][i] = w;
+					}
+				}
+				set_weight_matrix(W, curN);
+				cout << "Весовая матрица сгенерирована и сохранена.\n";
+				delete_matrix(W, curN);
+				break;
+			}
+			case 4: {
+				int curN; bool oriented;
+				int** cur = get_current_matrix(curN, oriented);
+				if (!cur) {
+					cout << "Нет текущего графа\n";
+					break;
+				}
+				cout << (oriented ? "Текущий граф: ориентированный\n" : "Текущий граф: неориентированный\n");
+				print_smezhn_matrix(cur, curN);
+				
+				if (!oriented) {
+					Graph* g = new Graph(curN);
+					for (int i = 0; i < curN; ++i) {
+						for (int j = i + 1; j < curN; ++j) {
+							if (cur[i][j] == 1 || cur[j][i] == 1) g->edge(i, j);
+						}
+					}
+					int* eccs = all_eccentricites(g);
+					cout << "Эксцентриситеты:\n";
+					for (int i = 0; i < curN; ++i) cout << "e(" << i << ")=" << eccs[i] << "\n";
+					find_center(eccs, curN);
+					find_diametr(eccs, curN);
+					delete[] eccs;
+					delete g;
+				} else {
+					int* eccs = eccentricites_oriented(cur, curN);
+					print_eccentricities_oriented(eccs, curN);
+					find_center_oriented(eccs, curN);
+					find_diametr_oriented(eccs, curN);
+					delete[] eccs;
+				}
+				break;
+			}
+			case 5: {
+				if (!is_weight_matrix_exist()) {
+					cout << "Весовая матрица не сохранена. Сгенерируйте её в пункте 3.\n";
+					break;
+				}
+				int wn; int** W = get_weight_matrix(wn);
+				cout << "Сохранённая весовая матрица:\n";
+				print_weight_matrix(W, wn);
+				break;
+			}
+			case 6: {
+				int curN; bool oriented;
+				int** cur = get_current_matrix(curN, oriented);
+				if (!cur) {
+					cout << "Нет текущего графа\n";
+					break;
+				}
+				if (!is_weight_matrix_exist()) {
+					cout << "Нет сохранённой весовой матрицы (сгенерируйте в пункте 3)\n";
+					break;
+				}
+				int Nw; int** W = get_weight_matrix(Nw);
+				int maxe = input_int("Введите максимальное число рёбер в пути (0 - только диагональ, -1 для отмены): ", 0, INT_MAX, true);
+				if (maxe == -1) break;
+				int t = input_int("1 - минимальные пути, 2 - максимальные, 3 - оба (или -1 для отмены): ", 1, 3, true);
+				if (t == -1) break;
+				if (t == 1 || t == 3) {
+					int** minp = shimbell_all_paths(W, Nw, maxe, false);
+					print_matrix_with_inf(minp, Nw, "Минимальные пути");
+					delete_matrix(minp, Nw);
+				}
+				if (t == 2 || t == 3) {
+					int** maxp = shimbell_all_paths(W, Nw, maxe, true);
+					print_matrix_with_inf(maxp, Nw, "Максимальные пути");
+					delete_matrix(maxp, Nw);
+				}
+				break;
+			}
+			case 7: {
+				int curN; bool oriented;
+				int** cur = get_current_matrix(curN, oriented);
+				if (!cur) {
+					cout << "Нет текущего графа\n";
+					break;
+				}
+				
+				int s = input_int("Стартовая вершина (или -1 для отмены): ", 0, curN - 1, true);
+				if (s == -1) break;
+				int e = input_int("Конечная вершина (или -1 для отмены): ", 0, curN - 1, true);
+				if (e == -1) break;
+				
+				int cnt = count_routes_matrix(cur, curN, oriented, s, e);
+				if (cnt < 0) {
+					cout << "Ошибка: некорректные номера вершин\n";
+				} else if (cnt == 0) {
+					cout << "Маршрут из вершины " << s << " в вершину " << e << " отсутствует\n";
+				} else {
+					cout << "Количество маршрутов: " << cnt << "\n";
+				}
+				break;
+			}
+			case 8: {
+				int curN; bool oriented;
+				int** cur = get_current_matrix(curN, oriented);
+				if (!cur) {
+					cout << "Нет текущего графа\n";
+					break;
+				}
+				if (oriented) {
+					cout << "Точки сочленения определяются для неориентированных графов.\n";
+					cout << "Сначала преобразуйте граф в неориентированный (пункт 2).\n";
+					break;
+				}
+				cout << "Текущий неориентированный граф (матрица смежности):\n";
+				print_smezhn_matrix(cur, curN);
+				find_articulation_points_matrix(cur, curN);
+				break;
+			}
+			case 9: {
+				if (!is_weight_matrix_exist()) {
+					cout << "Нет весовой матрицы. Сгенерируйте её в пункте 3.\n";
+					break;
+				}
+				int Nw;
+				int** W = get_weight_matrix(Nw);
+				
+				int s = input_int("Стартовая вершина (или -1 для отмены): ", 0, Nw - 1, true);
+				if (s == -1) break;
+				int e = input_int("Конечная вершина (или -1 для отмены): ", 0, Nw - 1, true);
+				if (e == -1) break;
+				
+				int* dist = new int[Nw];
+				int* parent = new int[Nw];
+				long long iters = 0;
+				
+				bool ok = dijkstra_shortest(W, Nw, s, dist, parent, iters);
+				if (!ok) {
+					delete[] dist;
+					delete[] parent;
+					break;
+				}
+				
+				cout << "Вектор расстояний (Дейкстра):\n";
+				for (int i = 0; i < Nw; ++i) {
+					cout << "dist[" << i << "] = ";
+					if (dist[i] >= INF) cout << "INF";
+					else cout << dist[i];
+					cout << "\n";
+				}
+				
+				cout << "Кратчайший путь " << s << " -> " << e << ": ";
+				if (dist[e] >= INF) {
+					cout << "пути нет\n";
+				} else {
+					print_path_from_parents(s, e, parent);
+					cout << "\nДлина пути: " << dist[e] << "\n";
+				}
+				cout << "Количество итераций: " << iters << "\n";
+				
+				delete[] dist;
+				delete[] parent;
+				break;
+			}
+			case 10: {
+				generate_capacity_and_cost_for_current_graph();
+				break;
+			}
+			case 11: {
+				if (!is_capacity_matrix_exist()) {
+					cout << "Матрица пропускных способностей не сохранена. Сгенерируйте её в пункте 10.\n";
+				} else {
+					int nc; int** C = get_capacity_matrix(nc);
+					print_capacity_matrix(C, nc);
+				}
+				if (!is_cost_matrix_exist()) {
+					cout << "Матрица стоимостей не сохранена. Сгенерируйте её в пункте 10.\n";
+				} else {
+					int nw; int** Wc = get_cost_matrix(nw);
+					print_cost_matrix(Wc, nw);
+				}
+				break;
+			}
+			case 12: {
+				if (!is_capacity_matrix_exist()) {
+					cout << "Нет матрицы пропускных способностей. Сгенерируйте её в пункте 10.\n";
+					break;
+				}
+				int Ncap; int** C = get_capacity_matrix(Ncap);
+				int s = input_int("Источник (s) (или -1 для отмены): ", 0, Ncap - 1, true);
+				if (s == -1) break;
+				int t = input_int("Сток (t) (или -1 для отмены): ", 0, Ncap - 1, true);
+				if (t == -1) break;
+				
+				int maxflow = max_flow_edmonds_karp(C, Ncap, s, t);
+				cout << "Максимальный поток из " << s << " в " << t << " = " << maxflow << "\n";
+				break;
+			}
+			case 13: {
+				if (!is_capacity_matrix_exist() || !is_cost_matrix_exist()) {
+					cout << "Нет матриц пропускных способностей и/или стоимостей. Сгенерируйте их в пункте 10.\n";
+					break;
+				}
+				int Ncap, Ncost;
+				int** C = get_capacity_matrix(Ncap);
+				int** Wc = get_cost_matrix(Ncost);
+				if (Ncap != Ncost) {
+					cout << "Размеры матриц пропускных способностей и стоимостей не совпадают.\n";
+					break;
+				}
+				int s = input_int("Источник (s) (или -1 для отмены): ", 0, Ncap - 1, true);
+				if (s == -1) break;
+				int t = input_int("Сток (t) (или -1 для отмены): ", 0, Ncap - 1, true);
+				if (t == -1) break;
+				
+				int maxflow = max_flow_edmonds_karp(C, Ncap, s, t);
+				cout << "Максимальный поток из " << s << " в " << t << " = " << maxflow << "\n";
+				if (maxflow == 0) {
+					cout << "Максимальный поток равен 0, поток минимальной стоимости не имеет смысла.\n";
+					break;
+				}
+				
+				int required_flow = (2 * maxflow) / 3;
+				if (required_flow <= 0) required_flow = 1;
+				cout << "Требуемый объём потока для минимальной стоимости: " << required_flow << " ( [2/3 * max] )\n";
+				
+				int achieved_flow = 0;
+				int** flow = new int* [Ncap];
+				for (int i = 0; i < Ncap; ++i) {
+					flow[i] = new int[Ncap];
+					for (int j = 0; j < Ncap; ++j) flow[i][j] = 0;
+				}
+				
+				long long cost = min_cost_flow_with_dijkstra(C, Wc, Ncap, s, t, required_flow, achieved_flow, flow);
+				cout << "Достигнутый поток: " << achieved_flow << "\n";
+				cout << "Минимальная стоимость этого потока: " << cost << "\n";
+				
+				vector<vector<int>> paths;
+				vector<int> path_flow;
+				vector<long long> path_cost;
+				decompose_flow_into_paths(flow, Ncap, s, t, paths, path_flow, path_cost, Wc);
+				
+				cout << "\nНайдено маршрутов: " << paths.size() << "\n";
+				int sumFlows = 0;
+				long long sumCosts = 0;
+				for (size_t i = 0; i < paths.size(); ++i) {
+					sumFlows += path_flow[i];
+					sumCosts += path_cost[i];
+				}
+				cout << "Суммарный поток по маршрутам: " << sumFlows << "\n";
+				cout << "Суммарная стоимость по маршрутам: " << sumCosts << "\n";
+				
+				cout << "\nИспользованные маршруты:\n";
+				if (paths.empty()) {
+					cout << "(нет использованных маршрутов)\n";
+				} else {
+					for (size_t i = 0; i < paths.size(); ++i) {
+						for (size_t j = 0; j < paths[i].size(); ++j) {
+							cout << paths[i][j];
+							if (j + 1 < paths[i].size()) cout << " -> ";
+						}
+						long long flow_val = path_flow[i];
+						long long unit_cost = (flow_val == 0 ? 0 : path_cost[i] / flow_val);
+						cout << " : " << flow_val << " * " << unit_cost << " = " << path_cost[i] << "\n";
+					}
+				}
+				
+				for (int i = 0; i < Ncap; ++i) delete[] flow[i];
+				delete[] flow;
+				break;
+			}
+			case 14: {
+				int curN; bool oriented;
+				int** cur = get_current_matrix(curN, oriented);
+				if (!cur) {
+					cout << "Нет текущего графа. Сгенерируйте его в пункте 1.\n";
+					break;
+				}
+				if (oriented) {
+					cout << "Теорема Кирхгофа применяется к неориентированным графам. Сначала преобразуйте (пункт 2).\n";
+					break;
+				}
+				long long trees = count_spanning_trees(cur, curN);
+				if (trees < 0) {
+					cout << "Ошибка при подсчёте\n";
+				} else {
+					cout << "Число остовных деревьев (по теореме Кирхгофа): " << trees << "\n";
+				}
+				break;
+			}
+			case 15: {
+				int curN; bool oriented;
+				int** cur = get_current_matrix(curN, oriented);
+				if (!cur) {
+					cout << "Нет текущего графа\n";
+					break;
+				}
+				if (oriented) {
+					cout << "Для Борувки нужен неориентированный граф. Сначала преобразуйте (пункт 2).\n";
+					break;
+				}
+				if (!is_weight_matrix_exist()) {
+					cout << "Нет весовой матрицы. Сгенерируйте её в пункте 3.\n";
+					break;
+				}
+				int wn; int** W = get_weight_matrix(wn);
+				if (wn != curN) {
+					cout << "Размер весовой матрицы не совпадает с текущим графом\n";
+					break;
+				}
+				
+				int total_weight = 0;
+				int** mst = boruvka_mst(cur, W, curN, total_weight);
+				if (!mst) {
+					cout << "Не удалось построить MST (возможно граф несвязен)\n";
+					break;
+				}
+				
+				cout << "MST (алгоритм Борувки) построено. Суммарный вес = " << total_weight << "\n";
+				cout << "Матрица смежности MST:\n";
+				print_smezhn_matrix(mst, curN);
+				
+				cout << "Весовая матрица MST:\n";
+				for (int i = 0; i < curN; ++i) {
+					for (int j = 0; j < curN; ++j) {
+						if (mst[i][j] == 1)
+						cout << W[i][j] << " ";
+						else
+						cout << "0 ";
+					}
+					cout << "\n";
+				}
+				
+				for (int i = 0; i < curN; ++i) delete[] mst[i];
+				delete[] mst;
+				break;
+			}
+			case 16: {
+				int mstN;
+				int** mst = get_last_mst(mstN);
+				if (!mst) {
+					cout << "Последний MST отсутствует. Сначала постройте MST (пункт 15).\n";
+					break;
+				}
+				if (!is_weight_matrix_exist()) {
+					cout << "Нет весовой матрицы. Сгенерируйте её в пункте 3.\n";
+					break;
+				}
+				int wn;
+				int** W = get_weight_matrix(wn);
+				if (wn != mstN) {
+					cout << "Размер весовой матрицы не совпадает с MST\n";
+					break;
+				}
+				
+				cout << "Кодирование MST в код Прюфера (с сохранением весов)...\n";
+				
+				vector<int> code_nodes;
+				vector<int> code_weights;
+				int last_u = -1, last_v = -1;
+				
+				bool ok = encode_prufer_with_weights(mst, W, mstN, code_nodes, code_weights, last_u, last_v);
+				if (!ok) {
+					cout << "Ошибка при кодировании Прюфера\n";
+					break;
+				}
+				
+				cout << "Код Прюфера (вершины): ";
+				for (size_t i = 0; i < code_nodes.size(); ++i)
+				cout << code_nodes[i] << " ";
+				cout << "\nСоответствующие веса удаляемых рёбер: ";
+				for (size_t i = 0; i < code_weights.size(); ++i)
+				cout << code_weights[i] << " ";
+				cout << "\nПоследнее ребро: " << last_u << " - " << last_v
+				<< " (вес " << code_weights.back() << ")\n";
+				
+				cout << "\nДекодирование кода Прюфера обратно в дерево...\n";
+				
+				int** decoded_weights = nullptr;
+				int** decoded = decode_prufer_with_weights(code_nodes, code_weights, mstN, decoded_weights);
+				if (!decoded) {
+					cout << "Ошибка при декодировании Прюфера\n";
+					break;
+				}
+				
+				cout << "\nВосстановленное дерево (матрица смежности):\n";
+				print_smezhn_matrix(decoded, mstN);
+				
+				cout << "\nВосстановленная весовая матрица:\n";
+				for (int i = 0; i < mstN; ++i) {
+					for (int j = 0; j < mstN; ++j) {
+						cout << decoded_weights[i][j] << " ";
+					}
+					cout << "\n";
+				}
+				
+				for (int i = 0; i < mstN; ++i) {
+					delete[] decoded[i];
+					delete[] decoded_weights[i];
+				}
+				delete[] decoded;
+				delete[] decoded_weights;
+				break;
+			}
+			case 17: {
+				int opt = input_int("Выберите граф для раскраски: 1 - текущий граф, 2 - последний MST (если есть) (или -1 для отмены): ", 1, 2, true);
+				if (opt == -1) break;
+				int** target = nullptr;
+				int TN = 0;
+				if (opt == 1) {
+					int curN; bool oriented;
+					int** cur = get_current_matrix(curN, oriented);
+					if (!cur) {
+						cout << "Нет текущего графа\n";
+						break;
+					}
+					if (oriented) {
+						cout << "Раскраска реализована для неориентированных графов. Сначала преобразуйте (пункт 2).\n";
+						break;
+					}
+					target = cur;
+					TN = curN;
+				} else {
+					int mstN;
+					int** mst = get_last_mst(mstN);
+					if (!mst) {
+						cout << "Последний MST отсутствует. Сначала постройте MST (пункт 15).\n";
+						break;
+					}
+					target = mst;
+					TN = mstN;
+				}
+				
+				int colors_used = 0;
+				int* colors = dsatur_coloring(target, TN, colors_used);
+				if (!colors) {
+					cout << "Ошибка при раскраске\n";
+					break;
+				}
+				
+				cout << "Раскраска выполнена. Количество одноцветных классов: " << colors_used << "\n";
+				for (int i = 0; i < TN; ++i) {
+					cout << "Вершина " << i << " : цвет " << colors[i] << "\n";
+				}
+				delete[] colors;
+				break;
+			}
+			case 18: {
+				int curN; bool oriented;
+				int** cur = get_current_matrix(curN, oriented);
+				if (!cur) { cout << "Нет текущего графа...\n"; break; }
+				if (curN <= 1){
+					cout << "Граф не может быть эйлеровым\n";
+					continue;
+				}
+				
+				if (is_eulerian(cur, curN)) {
+					cout << "Граф уже эйлеров.\n";
+					vector<vector<int>> mult;
+					make_eulerian(cur, curN, mult);
+					vector<int> cycle = find_eulerian_cycle(mult, curN);
+					if (cycle.empty()) cout << "Не удалось построить эйлеров цикл.\n";
+					else {
+						cout << "Эйлеров цикл: ";
+						for (size_t i = 0; i < cycle.size(); ++i) {
+							cout << cycle[i];
+							if (i+1 < cycle.size()) cout << " -> ";
+						}
+						cout << endl;
+					}
+				} else {
+					if (curN == 2){
+						cout << "Нельзя модифицировать данный граф в эйлеров.\n";
+						continue;
+					}
+					cout << "Граф не эйлеров. Модификация...\n";
+					vector<vector<int>> mult;
+					make_eulerian(cur, curN, mult);
+					cout << "Модифицированный граф:\n";
+					for (int i = 0; i < curN; ++i) {
+						for (int j = 0; j < curN; ++j) cout << mult[i][j] << " ";
+						cout << endl;
+					}
+					vector<int> cycle = find_eulerian_cycle(mult, curN);
+					if (cycle.empty()) cout << "Не удалось построить эйлеров цикл.\n";
+					else {
+						cout << "Эйлеров цикл в модифицированном графе: ";
+						for (size_t i = 0; i < cycle.size(); ++i) {
+							cout << cycle[i];
+							if (i+1 < cycle.size()) cout << " -> ";
+						}
+						cout << endl;
+					}
+				}
+				break;
+			}
+			case 19: {
+				int mstN;
+				int** mst = get_last_mst(mstN);
+				if (!mst) {
+					cout << "Последний MST отсутствует. Сначала постройте MST (пункт 15).\n";
+					break;
+				}
+				int curN; bool oriented;
+				int** cur = get_current_matrix(curN, oriented);
+				if (!cur) {
+					cout << "Нет текущего графа. Необходим неориентированный граф для построения разрезов.\n";
+					break;
+				}
+				if (oriented) {
+					cout << "Разрезы строятся для неориентированного графа. Преобразуйте граф (пункт 2).\n";
+					break;
+				}
+				if (curN != mstN) {
+					cout << "Размер текущего графа и MST не совпадают. Сначала постройте MST для текущего графа.\n";
+					break;
+				}
+				
+				vector<Cut> fundamental = get_fundamental_cuts(cur, mst, mstN);
+				if (fundamental.empty()) {
+					cout << "Не удалось получить фундаментальные разрезы (возможно MST пусто).\n";
+					break;
+				}
+				cout << "Фундаментальная система разрезов (всего " << fundamental.size() << " разрезов):\n";
+				for (size_t i = 0; i < fundamental.size(); ++i) {
+					string name = "Разрез " + to_string(i+1);
+					print_cut(fundamental[i], name.c_str());
+				}
+				
+				cout << "\nВведите номера разрезов (через Enter) для получения их симметрической разности.\n";
+				cout << "Для завершения ввода введите -1.\n";
+				vector<int> indices;
+				while (true) {
+					int idx = input_int("Номер разреза (или -1 для завершения): ", 1, (int)fundamental.size(), true);
+					if (idx == -1) break;
+					indices.push_back(idx-1);
+				}
+				if (indices.empty()) {
+					cout << "Не выбрано ни одного разреза.\n";
+					break;
+				}
+				vector<Cut> selected;
+				for (int i : indices) selected.push_back(fundamental[i]);
+				Cut result = symmetric_difference_multiple(selected);
+				
+				// Вывод результата с проверкой на пустоту
+				if (result.empty()) {
+					cout << "Результирующий разрез: Пустой набор рёбер\n";
+				} else {
+					print_cut(result, "Результирующий разрез");
+				}
+				break;
+			}
+			case 0:
+			cout << "Выход\n";
+			break;
+			default:
+			cout << "Неверный выбор\n";
+		}
+	} while (choice != 0);
+	
+	if (current_matrix) {
+		for (int i = 0; i < current_matrix_N; ++i) delete[] current_matrix[i];
+		delete[] current_matrix;
+		current_matrix = nullptr;
+	}
+	clear_weight_matrix();
+	clear_capacity_matrix();
+	clear_cost_matrix();
+	clear_last_mst();
+	return 0;
+}
+\end{lstlisting}

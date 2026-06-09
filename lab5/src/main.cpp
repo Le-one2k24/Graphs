@@ -651,7 +651,7 @@ int main() {
                     break;
                 }
 
-                cout << "Раскраска выполнена. Использовано цветов: " << colors_used << "\n";
+                cout << "Раскраска выполнена. Количество одноцветных классов: " << colors_used << "\n";
                 for (int i = 0; i < TN; ++i) {
                     cout << "Вершина " << i << " : цвет " << colors[i] << "\n";
                 }
@@ -666,7 +666,10 @@ int main() {
                         cout << "Граф не может быть эйлеровым\n";
                         continue;
                     }
-
+                if (oriented){
+                    cout << "Только для неориентированных графов\n";
+                    continue;
+                }
                 if (is_eulerian(cur, curN)) {
                     cout << "Граф уже эйлеров.\n";
                     vector<vector<int>> mult;
@@ -682,6 +685,10 @@ int main() {
                         cout << endl;
                     }
                 } else {
+                    if (curN == 2){
+                        cout << "Нельзя модифицировать данный граф в эйлеров.\n";
+                        continue;
+                    }
                     cout << "Граф не эйлеров. Модификация...\n";
                     vector<vector<int>> mult;
                     make_eulerian(cur, curN, mult);
@@ -730,7 +737,7 @@ int main() {
                     cout << "Не удалось получить фундаментальные разрезы (возможно MST пусто).\n";
                     break;
                 }
-                cout << "Фундаментальная система разрезов (всего " << fundamental.size() << " разрезов):\n";
+                cout << "Фундаментальная система разрезов (коцикломатический ранг графа: "<< fundamental.size() << " ):\n";
                 for (size_t i = 0; i < fundamental.size(); ++i) {
                     string name = "Разрез " + to_string(i+1);
                     print_cut(fundamental[i], name.c_str());
@@ -751,10 +758,10 @@ int main() {
                 vector<Cut> selected;
                 for (int i : indices) selected.push_back(fundamental[i]);
                 Cut result = symmetric_difference_multiple(selected);
-                
+
                 // Вывод результата с проверкой на пустоту
                 if (result.empty()) {
-                    cout << "Результирующий разрез: Пустой набор рёбер\n";
+                    cout << "Результирующий разрез: Пустой набор рёбер (нулевой разрез)\n";
                 } else {
                     print_cut(result, "Результирующий разрез");
                 }

@@ -1,4 +1,3 @@
-;Allergy.clp
 (deffunction ask-question (?question ?yes-node ?no-node)
   (printout t ?question " (yes/no): ")
   (bind ?answer (read))
@@ -21,7 +20,6 @@
   =>
   (ask-question "В анамнезе есть указания на перенесённую тяжёлую системную реакцию (анафилаксию)?" q3_anaph q3_resp))
 
-;; ---- Branch: anaphylaxis (YES) ----
 (defrule q3_anaph
   (next-node q3_anaph)
   =>
@@ -62,7 +60,6 @@
   (printout t "Диагноз: Анафилаксия неясной этиологии" crlf)
   (halt))
 
-;; ---- Branch: respiratory (no anaphylaxis) ----
 (defrule q3_resp
   (next-node q3_resp)
   =>
@@ -107,7 +104,6 @@
   (printout t "Диагноз: Неаллергический ринит" crlf)
   (halt))
 
-;; ---- Branch: skin (no respiratory) ----
 (defrule q4_skin
   (next-node q4_skin)
   =>
@@ -152,7 +148,6 @@
   (printout t "Диагноз: Атопический дерматит (экзема)" crlf)
   (halt))
 
-;; ---- Branch: GI tract (no skin) ----
 (defrule q5_gut
   (next-node q5_gut)
   =>
@@ -214,7 +209,6 @@
   (printout t "Диагноз: Неопределённый тип (требуется обследование у аллерголога)" crlf)
   (halt))
 
-;; ---- Branch: delayed reactions (NO to question 1) ----
 (defrule q2_no
   (next-node q2_no)
   =>
@@ -270,7 +264,6 @@
   (printout t "Диагноз: Неопределённый тип" crlf)
   (halt))
 
-;; ---- Branch: physical urticaria (neither immediate nor delayed) ----
 (defrule q3_physical
   (next-node q3_physical)
   =>

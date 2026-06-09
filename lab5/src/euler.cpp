@@ -15,11 +15,11 @@ bool is_eulerian(int** adj, int N) {
     return true;
 }
 
-void make_eulerian(int** adj, int N, vector<vector<int>>& mult) {
-    mult.assign(N, vector<int>(N, 0));
+void make_eulerian(int** adj, int N, vector<vector<int>>& eul) {
+    eul.assign(N, vector<int>(N, 0));
     for (int i = 0; i < N; ++i)
         for (int j = 0; j < N; ++j)
-            mult[i][j] = adj[i][j];
+            eul[i][j] = adj[i][j];
 
     vector<int> deg(N, 0);
     for (int i = 0; i < N; ++i)
@@ -58,7 +58,7 @@ void make_eulerian(int** adj, int N, vector<vector<int>>& mult) {
             if (used[k]) continue;
             int v = odds[k];
             if (deg[u] == 1 || deg[v] == 1) {
-                if (mult[u][v] == 0) {
+                if (eul[u][v] == 0) {
                     j = k;
                     break;
                 }
@@ -69,13 +69,13 @@ void make_eulerian(int** adj, int N, vector<vector<int>>& mult) {
         }
 
         int v = odds[j];
-        if (mult[u][v] > 0) {
-            mult[u][v]--;
-            mult[v][u]--;
+        if (eul[u][v] > 0) {
+            eul[u][v]--;
+            eul[v][u]--;
             cout << "Удалено ребро " << u << " - " << v << endl;
         } else {
-            mult[u][v]++;
-            mult[v][u]++;
+            eul[u][v]++;
+            eul[v][u]++;
             cout << "Добавлено ребро " << u << " - " << v << endl;
         }
         used[i] = used[j] = true;
@@ -83,8 +83,8 @@ void make_eulerian(int** adj, int N, vector<vector<int>>& mult) {
     }
 }
 
-vector<int> find_eulerian_cycle(const vector<vector<int>>& mult, int N, int start) {
-    vector<vector<int>> m = mult;
+vector<int> find_eulerian_cycle(const vector<vector<int>>& eul, int N, int start) {
+    vector<vector<int>> m = eul;
     vector<int> cycle;
     stack<int> st;
     st.push(start);

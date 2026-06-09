@@ -1,0 +1,33 @@
+\documentclass[a4paper, final]{extarticle}
+
+% Подключение файла конфигурации (пакеты, стили, команды)
+\input{config}
+
+\begin{document}
+	
+	% Титульный лист
+	\include{title_page}
+	
+	% Содержание
+	\tableofcontents
+	\newpage
+	
+	% Введение
+	\include{introduction}
+	
+	% Глава 1: Математическое описание
+	\include{chapter1_math}
+	
+	% Глава 2: Особенности реализации
+	\include{chapter2_impl}
+	
+	% Глава 3: Результаты работы
+	\include{chapter3_results}
+	
+	% Заключение
+	\include{conclusion}
+	
+	% Список литературы
+	\include{references}
+	
+\end{document}

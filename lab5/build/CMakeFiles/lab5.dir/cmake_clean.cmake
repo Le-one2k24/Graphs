@@ -1,4 +1,5 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/lab5.dir/link.d"
   "CMakeFiles/lab5.dir/src/articulation.cpp.o"
   "CMakeFiles/lab5.dir/src/articulation.cpp.o.d"
   "CMakeFiles/lab5.dir/src/boruvka.cpp.o"
